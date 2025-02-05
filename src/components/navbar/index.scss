@@ -1,0 +1,58 @@
+.mega-menu {
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+  
+    .menu-item {
+      font-size: 16px;
+      font-weight: bold;
+      padding: 10px 20px;
+      .menu-link {
+        color: #000000;
+        text-decoration: none !important;
+  
+        &:hover {
+          color: #504f4f;
+          transition: ease-in-out 0.3s;
+        }
+      }
+    }
+  }
+  
+  .mega-menu-card {
+    width: 600px;
+    padding: 15px;
+    background: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  .mega-menu-dropdown {
+    .mega-menu-item {
+      display: flex;
+      align-items: center;
+    }
+  
+    .mega-menu-link {
+      text-decoration: none;
+      color: #ff0000;
+      font-size: 14px;
+      &:hover {
+        color: #ff0000;
+      }
+    }
+  
+    .mega-menu-img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      border-radius: 8px;
+    }
+  }
+  
+  .dropdown-icon {
+    margin-left: 5px;
+  }
+  .mega-menu-dropdown:hover .dropdown-icon {
+    transform: rotateX(180deg); // Xoay icon khi hover
+    transition: transform 0.7s ease-in-out;
+  }
+  

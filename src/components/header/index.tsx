@@ -4,6 +4,7 @@ import './index.scss'
 import { TiUser } from "react-icons/ti";
 import { BiSolidCart } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import MegaMenu from "../navbar";
 const Header = () => {
   const navigate = useNavigate();
   const handleNavigateLoginPage = () => {
@@ -38,15 +39,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <div className="header__bottom">
-        <p>Chăm sóc da mặt</p>
-        <p>Chăm sóc tóc - da dầu</p>
-        <p>Chăm sóc cơ thể</p>
-        <p>Giải pháp làn da</p>
-        <p>Chăm sóc da vùng mắt</p>
-        <p>Sản phẩm từ tự nhiên</p>
-        <p>Mỹ phẩm trang điểm</p>
-      </div>
+      <MegaMenu />
     </>
   )
 }

@@ -1,0 +1,77 @@
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap; /* Đảm bảo không bị tràn */
+    padding: 30px;
+    margin: 0 60px 0 60px;
+    background-color: #fffcfc;
+    color: rgb(7, 7, 7);
+    gap: 5vw;
+    .footer_container {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      min-width: 100px;
+      gap: 50px;
+      box-sizing: border-box;
+    }
+  
+    .footer_column {
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Căn chỉnh tiêu đề ngang hàng */
+      // flex: 1; /* Để các cột có kích thước bằng nhau */
+      padding: 0 10px 0 10px;
+      min-width: 100px;
+    }
+  
+    .footer__contentlink {
+      display: flex;
+      text-align: center;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    h3 {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+  
+    ul {
+      padding: 0;
+      list-style: none;
+    }
+  
+    li {
+      list-style: none;
+      margin-bottom: 5px;
+    }
+  }
+  .footer__contentlink li a {
+    text-decoration: none;
+    list-style: none;
+    display: inline-block;
+    transition: transform 0.3s ease, width 0.3s;
+    color: #007bff;
+    position: relative;
+    &::after {
+      //tạo ra một phần tử con bổ sung bên trong phần tử mà không cần thay đổi cấu trúc HTML.
+      content: "";
+      display: block;
+      width: 0;
+      height: 1px;
+      background-color: #007bff;
+      transition: all 0.3s ease;
+      margin: 0 auto;
+    }
+    &:hover {
+      transform: scale(1.2); /* Hiệu ứng phóng to */
+      &::after {
+        width: 100%;
+      }
+    }
+  }
+  
