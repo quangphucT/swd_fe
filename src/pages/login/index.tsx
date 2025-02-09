@@ -2,82 +2,88 @@ import "./index.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input, Space } from "antd";
 import { toast } from "react-toastify";
-// import { useDispatch } from "react-redux";
-// import { login } from "../../redux/features/counterSlice";
-import { useForm } from "antd/es/form/Form";
-//import { useDispatch } from "react-redux";
-// import api from "../../config/api";
+import { useDispatch } from "react-redux";
 
-// import { auth, googleProvider } from "../../config/firebase";
+import { useForm } from "antd/es/form/Form";
+
+import { signInWithPopup } from "firebase/auth";
+import api from "../../config/api";
+import { login } from "../../redux/features/userSlice";
+import { auth, provider } from "../../config/firebase";
+
 // import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 function LoginPopup() {
   //const dispatch = useDispatch();
   const navigate = useNavigate();
   const [form] = useForm();
-
-    const onFinish = async (values:any ) => {
-      try {
-        const response = await api.post("/login", values);
-        if (response && response.data) {
-          const user = response.data;
-          console.log(user);
-          //dispatch(login(user));
-          localStorage.setItem("token", user.token); // Save token to localStorage
-          localStorage.setItem("role", user.roleEnum); // Save role to localStorage
-          toast.success("Login success");
-          if (user.roleEnum === "STAFF") {
-            navigate("/staff");
-          } else if (user.roleEnum === "MANAGER") {
-            navigate("/manager");
-          } else if (user.roleEnum === "ADMIN") {
-            navigate("/admin");
-          } else {
-            navigate("/");
-          }
+  const dispatch = useDispatch();
+  const onFinish = async (values: any) => {
+    try {
+      const response = await api.post("Accounts/SignIn", values);
+      if (response && response.data) {
+        const user = response.data;
+        console.log("User:", user);
+        console.log(user.token);
+        const token= response.data;
+        console.log("API Response:", response.data);
+        dispatch(login(user));
+        localStorage.setItem("token", token); // Save token to localStorage
+        console.log("Token saved to localStorage:", localStorage.getItem("token"));
+        localStorage.setItem("role", user.roleEnum); // Save role to localStorage
+        toast.success("Login success");
+        if (user.roleEnum === "STAFF") {
+          navigate("/staff");
+        } else if (user.roleEnum === "MANAGER") {
+          navigate("/manager");
+        } else if (user.roleEnum === "ADMIN") {
+          navigate("/admin");
         } else {
-          toast.error("Invalid response from server");
+          navigate("/");
         }
-      } catch (error :any) {
-        if (!navigator.onLine) {
-          toast.error("No internet connection");
-        } else {
-          toast.error("Login failed");
-          console.log(error.response ? error.response.data.error : error.message);
-        }
-        form.resetFields();
+      } else {
+        toast.error("Invalid response from server");
       }
-    };
+    } catch (error: any) {
+      if (!navigator.onLine) {
+        toast.error("No internet connection");
+      } else {
+        toast.error("Login failed");
+        console.log(error.response ? error.response.data.error : error.message);
+      }
+      form.resetFields();
+    }
+  };
 
-  //   const handleLoginGoogle = () => {
-  //     signInWithPopup(auth, googleProvider)
-  //       .then(async (result) => {
-  //         const token = result.user.accessToken;
-  //         try {
-  //           const response = await api.post("/loginGG", { token: token });
-  //           console.log(response.data)
-  //           if (response && response.data) {
-  //             const user = response.data;
-  //             dispatch(login(user));
-  //             localStorage.setItem("token", user.token); // Save token to localStorage
-  //             localStorage.setItem("role", user.role); // Save role to localStorage
-  //             toast.success("Login success");
-  //             navigate("/");
-  //           } else {
-  //             toast.error("Invalid response from server");
-  //           }
-  //         } catch (error) {
-  //           toast.error("Login with Google failed");
-  //           console.log(
-  //             error.response ? error.response.data.error : error.message
-  //           );
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         toast.error("Google login failed");
-  //         console.log(error);
-  //       });
-  //   };
+  const handleLoginGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then(async (result) => {
+        const token = result.user?.getIdToken;
+        try {
+          const response = await api.post("/loginGG", { token: token });
+          console.log(response.data);
+          if (response && response.data) {
+            const user = response.data;
+            dispatch(login(user));
+            localStorage.setItem("token", user.token); // Save token to localStorage
+            localStorage.setItem("role", user.role); // Save role to localStorage
+            toast.success("Login success");
+            navigate("/");
+          } else {
+            toast.error("Invalid response from server");
+          }
+        } catch (error: any) {
+          toast.error("Login with Google failed");
+          console.log(
+            error.response ? error.response.data.error : error.message
+          );
+        }
+      })
+      .catch((error) => {
+        toast.error("Google login failed");
+        console.log(error);
+      });
+  };
 
   return (
     <div className="loginPage">
@@ -107,7 +113,7 @@ function LoginPopup() {
             Đăng Nhập
           </h2>
           <Form.Item
-            name="Username"
+            name="email"
             rules={[
               {
                 required: true,
@@ -115,15 +121,12 @@ function LoginPopup() {
               },
             ]}
           >
-            <Input
-              
-              placeholder="Tên đăng nhập *"
-            />
+            <Input placeholder="Tên đăng nhập *" />
           </Form.Item>
           <div>
             <Form.Item
-              name="Password"
-              style={{ marginBottom: "10px"}}
+              name="password"
+              style={{ marginBottom: "10px" }}
               rules={[
                 {
                   required: true,
@@ -169,7 +172,7 @@ function LoginPopup() {
           <Form.Item>
             <Space>
               <Button
-                //onClick={handleLoginGoogle}
+                onClick={handleLoginGoogle}
                 style={{
                   display: "flex",
                   justifyContent: "center",
