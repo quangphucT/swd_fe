@@ -25,7 +25,7 @@ function LoginPopup() {
         const user = response.data;
         console.log("User:", user);
         console.log(user.token);
-        const token= response.data;
+        const token= response.data.token;
         console.log("API Response:", response.data);
         dispatch(login(user));
         localStorage.setItem("token", token); // Save token to localStorage

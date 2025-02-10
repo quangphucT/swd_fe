@@ -1,0 +1,120 @@
+.card {
+  position: relative;
+  margin-left: 2.8px;
+  width: calc(100% / 5 - 20px);
+  border: 1px solid #ccc;
+  height: 473px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 16px;
+  }
+
+  .image {
+    display: flex;
+    justify-content: center;
+    height: 220px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  .wrapper_namePrice {
+    justify-content: space-between;
+    padding: 20px;
+    font-size: 18px;
+    
+    color: #000;
+    transition: color 0.3s ease;
+    .name {
+      font-weight: 500;
+      font-size: 16px;
+    }
+    .price {
+      font-weight: 600;
+      color: #0a488b;
+    }
+   
+  }
+
+  .description {
+    padding: 0 20px 20px;
+    font-size: 16px;
+    color: #6b6e79;
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .button {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    .btn {
+      font-size: 16px;
+      color: #fff;
+      background-color: #0a488b;
+      border: none;
+      width: 201px;
+      height: 38px;
+      border-radius: 7px;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px,
+        rgba(0, 0, 0, 0.53) 0px 3px 6px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+        background-color: #085082;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px;
+      }
+    }
+  }
+}
+
+/* For responsiveness */
+@media screen and (max-width: 1200px) {
+  .card {
+    width: calc(100% / 3 - 20px);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .card {
+    width: calc(100% / 2 - 20px);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .card {
+    width: 100%;
+    height: auto;
+  }
+  .image {
+    height: 200px;
+  }
+  .description {
+    padding: 0 10px;
+  }
+}
