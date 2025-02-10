@@ -3,54 +3,45 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input, Space } from "antd";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-
 import { useForm } from "antd/es/form/Form";
-
 import { signInWithPopup } from "firebase/auth";
 import api from "../../config/api";
 import { login } from "../../redux/features/userSlice";
 import { auth, provider } from "../../config/firebase";
 
-// import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-
 function LoginPopup() {
-  //const dispatch = useDispatch();
   const navigate = useNavigate();
   const [form] = useForm();
   const dispatch = useDispatch();
+
   const onFinish = async (values: any) => {
     try {
       const response = await api.post("Accounts/SignIn", values);
-      if (response && response.data) {
+      if (response?.data) {
         const user = response.data;
-        console.log("User:", user);
-        console.log(user.token);
-        const token= response.data.token;
-        console.log("API Response:", response.data);
         dispatch(login(user));
-        localStorage.setItem("token", token); // Save token to localStorage
-        console.log("Token saved to localStorage:", localStorage.getItem("token"));
-        localStorage.setItem("role", user.roleEnum); // Save role to localStorage
+        localStorage.setItem("token", user.token);
+        localStorage.setItem("role", user.roleEnum);
         toast.success("Login success");
-        if (user.roleEnum === "STAFF") {
-          navigate("/staff");
-        } else if (user.roleEnum === "MANAGER") {
-          navigate("/manager");
-        } else if (user.roleEnum === "ADMIN") {
-          navigate("/admin");
-        } else {
-          navigate("/");
+
+        switch (user.roleEnum) {
+          case "STAFF":
+            navigate("/staff");
+            break;
+          case "MANAGER":
+            navigate("/manager");
+            break;
+          case "ADMIN":
+            navigate("/admin");
+            break;
+          default:
+            navigate("/");
         }
       } else {
         toast.error("Invalid response from server");
       }
     } catch (error: any) {
-      if (!navigator.onLine) {
-        toast.error("No internet connection");
-      } else {
-        toast.error("Login failed");
-        console.log(error.response ? error.response.data.error : error.message);
-      }
+      toast.error(navigator.onLine ? "Login failed" : "No internet connection");
       form.resetFields();
     }
   };
@@ -58,147 +49,56 @@ function LoginPopup() {
   const handleLoginGoogle = () => {
     signInWithPopup(auth, provider)
       .then(async (result) => {
-        const token = result.user?.getIdToken;
         try {
-          const response = await api.post("/loginGG", { token: token });
-          console.log(response.data);
-          if (response && response.data) {
+          const response = await api.post("/loginGG", {
+            token: await result.user.getIdToken(),
+          });
+
+          if (response?.data) {
             const user = response.data;
             dispatch(login(user));
-            localStorage.setItem("token", user.token); // Save token to localStorage
-            localStorage.setItem("role", user.role); // Save role to localStorage
+            localStorage.setItem("token", user.token);
+            localStorage.setItem("role", user.role);
             toast.success("Login success");
             navigate("/");
           } else {
             toast.error("Invalid response from server");
           }
-        } catch (error: any) {
+        } catch {
           toast.error("Login with Google failed");
-          console.log(
-            error.response ? error.response.data.error : error.message
-          );
         }
       })
-      .catch((error) => {
-        toast.error("Google login failed");
-        console.log(error);
-      });
+      .catch(() => toast.error("Google login failed"));
   };
 
   return (
     <div className="loginPage">
-      <div className="loginPage__left ">
-        <Form
-          labelCol={{
-            span: 8,
-          }}
-          wrapperCol={{
-            span: 16,
-          }}
-          style={{
-            maxWidth: 600,
-            display: "flex",
-            flexDirection: "column",
-            paddingLeft: "100px",
-          }}
-          onFinish={onFinish}
-          form={form}
-          name="validateOnly"
-          layout="vertical"
-          autoComplete="off"
-        >
-          <h2
-            style={{ textAlign: "start", fontSize: "40px", fontWeight: "1000" }}
-          >
-            Đăng Nhập
-          </h2>
-          <Form.Item
-            name="email"
-            rules={[
-              {
-                required: true,
-                message: "Hãy nhập tên người dùng!",
-              },
-            ]}
-          >
+      <div className="loginPage__left">
+        <h2>Đăng Nhập</h2>
+        <Form onFinish={onFinish} form={form} layout="vertical" autoComplete="off">
+          <Form.Item name="email" rules={[{ required: true, message: "Hãy nhập tên người dùng!" }]}>
             <Input placeholder="Tên đăng nhập *" />
           </Form.Item>
-          <div>
-            <Form.Item
-              name="password"
-              style={{ marginBottom: "10px" }}
-              rules={[
-                {
-                  required: true,
-                  message: "Hãy nhập mật khẩu!",
-                },
-              ]}
-            >
-              <Input.Password
-                className="passwordcss"
-                placeholder="Mật khẩu *"
-              />
-            </Form.Item>
-            <div>
-              <span
-                onClick={() => navigate("/forget-password")}
-                style={{ cursor: "pointer" }}
-                className="forget-password"
-              >
-                Quên Mật Khẩu?
-              </span>
-            </div>
-          </div>
-
-          <Form.Item>
-            <Space>
-              <Button
-                htmlType="submit"
-                className="btnStyle"
-                //form={form}
-                onClick={() => form.submit()}
-              >
-                Đăng Nhập
-              </Button>
-            </Space>
+          <Form.Item name="password" rules={[{ required: true, message: "Hãy nhập mật khẩu!" }]}>
+            <Input.Password className="passwordcss" placeholder="Mật khẩu *" />
           </Form.Item>
-
+          <span onClick={() => navigate("/forget-password")} className="forget-password">
+            Quên Mật Khẩu?
+          </span>
           <Form.Item>
-            <div className="or-divider">
-              <span className="or-text">Or</span>
-            </div>
+            <Button htmlType="submit" className="btnStyle">Đăng Nhập</Button>
           </Form.Item>
-
+          <div className="or-divider"><span>Or</span></div>
           <Form.Item>
-            <Space>
-              <Button
-                onClick={handleLoginGoogle}
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: "20px",
-                  cursor: "pointer",
-                  borderRadius: "20px",
-                }}
-                //form={form}
-              >
-                <img
-                  width={30}
-                  src="https://storage.googleapis.com/support-kms-prod/ZAl1gIwyUsvfwxoW9ns47iJFioHXODBbIkrK"
-                  alt=""
-                />
-                Đăng nhập bằng Google
-              </Button>
-            </Space>
+            <Button onClick={handleLoginGoogle} className="google-button">
+              <img src="https://storage.googleapis.com/support-kms-prod/ZAl1gIwyUsvfwxoW9ns47iJFioHXODBbIkrK" alt="Google" />
+              Đăng nhập bằng Google
+            </Button>
           </Form.Item>
         </Form>
         <p className="login-footer">
           Bạn không có tài khoản? <Link to="/register">Đăng kí</Link>
         </p>
-      </div>
-      <div className="loginPage__right">
-        <img src="/img/login.png" alt="" />
       </div>
     </div>
   );
