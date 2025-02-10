@@ -8,6 +8,7 @@ import { signInWithPopup } from "firebase/auth";
 import api from "../../config/api";
 import { login } from "../../redux/features/userSlice";
 import { auth, provider } from "../../config/firebase";
+import { showSuccessToast } from "../../config/configToast";
 
 function LoginPopup() {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ function LoginPopup() {
         dispatch(login(user));
         localStorage.setItem("token", user.token);
         localStorage.setItem("role", user.roleEnum);
-        toast.success("Login success");
+        showSuccessToast("Login success")
 
         switch (user.roleEnum) {
           case "STAFF":

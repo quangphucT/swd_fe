@@ -1,120 +1,119 @@
 .card {
   position: relative;
-  margin-left: 2.8px;
-  width: calc(100% / 5 - 20px);
-  border: 1px solid #ccc;
-  height: 473px;
-  border-radius: 8px;
+  width: calc(25% - 20px);
+  background: #fff;
+  border-radius: 12px;
   overflow: hidden;
-  background-color: #fff;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
 
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 16px;
+      box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
   }
 
   .image {
-    display: flex;
-    justify-content: center;
-    height: 220px;
-    overflow: hidden;
-
-    img {
+    cursor: pointer;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      cursor: pointer;
-      transition: transform 0.3s ease;
+      height: 200px;
+      overflow: hidden;
+      border-radius: 10px;
 
-      &:hover {
-        transform: scale(1.1);
+      img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.3s ease;
+
+          &:hover {
+              transform: scale(1.1);
+          }
       }
-    }
   }
 
-  .wrapper_namePrice {
-    justify-content: space-between;
-    padding: 20px;
-    font-size: 18px;
-    
-    color: #000;
-    transition: color 0.3s ease;
-    .name {
+  .content {
+      text-align: center;
+      padding: 15px;
+      
+      .name {
+          font-size: 18px;
+          font-weight: 600;
+          color: #333;
+          margin-bottom: 5px;
+      }
+
+      .price {
+          font-size: 16px;
+          font-weight: bold;
+          color: #0a488b;
+          margin-bottom: 10px;
+      }
+
+      .description {
+          font-size: 14px;
+          color: #666;
+          line-height: 1.5;
+          max-height: 60px;
+          overflow: hidden;
+      }
+  }
+
+  .btn {
+      background: linear-gradient(45deg, #007bff, #00c6ff);
+      color: white;
+      font-size: 16px;
       font-weight: 500;
-      font-size: 16px;
-    }
-    .price {
-      font-weight: 600;
-      color: #0a488b;
-    }
-   
-  }
-
-  .description {
-    padding: 0 20px 20px;
-    font-size: 16px;
-    color: #6b6e79;
-    line-height: 1.5;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .button {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-
-    .btn {
-      font-size: 16px;
-      color: #fff;
-      background-color: #0a488b;
       border: none;
-      width: 201px;
-      height: 38px;
-      border-radius: 7px;
-      font-weight: 500;
+      padding: 10px 15px;
+      border-radius: 8px;
       cursor: pointer;
-      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px,
-        rgba(0, 0, 0, 0.53) 0px 3px 6px;
-      transition: all 0.3s ease;
-
-      &:hover {
-        transform: scale(1.05);
-        background-color: #085082;
-        box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px;
-      }
-    }
   }
-}
 
-/* For responsiveness */
-@media screen and (max-width: 1200px) {
-  .card {
-    width: calc(100% / 3 - 20px);
   }
-}
-
-@media screen and (max-width: 900px) {
-  .card {
-    width: calc(100% / 2 - 20px);
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .card {
+  .cart-list-name {
     width: 100%;
-    height: auto;
-  }
-  .image {
-    height: 200px;
-  }
-  .description {
-    padding: 0 10px;
-  }
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+    
+    h1 {
+        font-size: 22px;
+        font-weight: 700;
+        color: #0a488b;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin: 0;
+        display: inline-block;
+        background: #0a488b;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+    }
+
+    /* Thêm đường gạch chân cách điệu */
+    h1::after {
+        content: "";
+        display: block;
+        width: 50%;
+        height: 4px;
+        background: #00c6ff;
+        margin: 8px auto 0;
+        border-radius: 2px;
+    }
+}
+
+/* Responsive cho màn hình nhỏ hơn */
+@media (max-width: 1024px) {
+    .cart-list-name h1 {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 768px) {
+    .cart-list-name h1 {
+        font-size: 24px;
+    }
 }
