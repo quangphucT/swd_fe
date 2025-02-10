@@ -17,16 +17,17 @@ const App = () => {
           path: '/',
           element: <Home />
         },
-        {
-          path: '/login',
-          element: <Login />
-        },
+
         {
           path: '/cart',
           element: <Cart />
         },
 
       ]
+    },
+    {
+      path: '/login',
+      element: <Login />
     },
     {
       path: '/admin',
