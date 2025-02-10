@@ -11,13 +11,13 @@ import { PersistGate } from "redux-persist/integration/react";
 
 createRoot(document.getElementById("root")!).render(
   //nay khien cho app render 2 lan ,React sẽ gọi lại useEffect và các hàm để phát hiện lỗi trong chế độ phát triển.
-  <StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        {/* tranh truong hop load cham qua, ma redux nhanh tay lay => sai (dung persistGate) */}
-        <App />
-        <ToastContainer />
-      </PersistGate>
-    </Provider>
-  </StrictMode>
+
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      {/* tranh truong hop load cham qua, ma redux nhanh tay lay => sai (dung persistGate) */}
+      <App />
+      <ToastContainer />
+    </PersistGate>
+  </Provider>
+
 );

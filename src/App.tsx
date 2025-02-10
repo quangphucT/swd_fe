@@ -5,6 +5,8 @@ import Home from "./pages/home";
 import './index.css'
 import Login from "./pages/login";
 import Cart from "./pages/cart";
+import Dashboard from "./pages/dashboard";
+import ManageProduct from "./pages/manage-products";
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -22,9 +24,22 @@ const App = () => {
         {
           path: '/cart',
           element: <Cart />
+        },
+
+      ]
+    },
+    {
+      path: '/admin',
+      element: <Dashboard />,
+
+      children: [
+        {
+          path: 'product',
+          element: <ManageProduct />
         }
       ]
     }
+
   ]);
   return (
     <div>
