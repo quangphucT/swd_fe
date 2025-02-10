@@ -20,18 +20,12 @@ const App = () => {
           path: "/",
           element: <Home />,
         },
-        {
-          path: "/login",
-          element: <Login />,
-        },
+
         {
           path: "/cart",
           element: <Cart />,
         },
-        {
-          path: "/register",
-          element: <Register />,
-        },
+
         {
           path: "*",
           element: <ForgetPassword />,
@@ -42,13 +36,14 @@ const App = () => {
         },
       ],
     },
+
     {
       path: '/login',
       element: <Login />
     },
     {
-      path: '/login',
-      element: <Login />
+      path: "/register",
+      element: <Register />,
     },
     {
       path: "/admin",
