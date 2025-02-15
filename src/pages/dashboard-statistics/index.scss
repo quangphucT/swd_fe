@@ -1,0 +1,62 @@
+.dashboard-statistic {
+    padding: 20px;
+    background: #f5f5f5;
+    min-height: 100vh;
+  
+    .summary-cards {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+  
+      .stat-card {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 20px;
+        border-radius: 10px;
+        background: white;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+  
+        &:hover {
+          transform: translateY(-5px);
+        }
+  
+        .icon {
+          font-size: 36px;
+        }
+  
+        .user-icon {
+          color: #1890ff;
+        }
+  
+        .revenue-icon {
+          color: #52c41a;
+        }
+  
+        .booking-icon {
+          color: #faad14;
+        }
+  
+        h3 {
+          margin: 0;
+          font-size: 18px;
+          font-weight: bold;
+        }
+  
+        p {
+          margin: 5px 0 0;
+          font-size: 22px;
+          font-weight: 600;
+        }
+      }
+    }
+  
+    .charts {
+      .chart-card {
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+  

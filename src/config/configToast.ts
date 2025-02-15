@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css"; // Nhớ import CSS
 // Custom Toast khi thêm sản phẩm thành công
 export const showSuccessToast = (message) => {
     toast.success(message, {
-        icon: "🎉", // Thêm icon
+        autoClose: 500,
         style: {
             background: "#4CAF50",
             color: "#fff",
@@ -20,7 +20,7 @@ export const showSuccessToast = (message) => {
 // Custom Toast khi xóa sản phẩm thành công
 export const showDeleteToast = (message) => {
     toast.success(message, {
-        icon: "🗑️",
+   
         style: {
             background: "#d32f2f",
             color: "#fff",
