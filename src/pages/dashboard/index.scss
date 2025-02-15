@@ -1,0 +1,101 @@
+// Define theme colors
+$menu-bg: #ffffff; // White menu background
+$menu-text: #2968a7; // Dark text color
+$menu-hover: #e0e7ff; // Light blue hover effect
+$menu-active-bg: rgb(226, 234, 248); // Active menu item background
+$menu-active-text: #2968a7; // Active menu text color
+$border-radius: 8px; // Border radius for smooth UI
+
+// Custom styling for Ant Design Menu
+.ant-menu {
+  background: $menu-bg !important;
+  color: $menu-text !important;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: $border-radius;
+
+  .ant-menu-item {
+    border-radius: 6px;
+    margin: 8px;
+    transition: background 0.3s ease, color 0.3s ease;
+
+    &:hover {
+      background: $menu-hover !important;
+    }
+
+    &.ant-menu-item-selected {
+      background: $menu-active-bg !important;
+      color: $menu-active-text !important;
+      font-weight: 500;
+    }
+
+    a {
+      color: inherit !important;
+      text-decoration: none;
+    }
+  }
+}
+
+// Make collapsed menu look better
+.ant-layout-sider-collapsed {
+  .ant-menu {
+    .ant-menu-item {
+      text-align: center;
+
+      .anticon {
+        font-size: 30px;
+      }
+
+      span {
+        display: none;
+      }
+    }
+  }
+}
+.ant-layout {
+  background: #ffffff !important; // Ensure the whole layout has a white background
+}
+
+.ant-layout-content {
+  background: #ffffff !important; // Ensure content area is white
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Optional: Add soft shadow
+}
+
+.ant-layout-header {
+  background: #ffffff !important; // Make header white
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ant-layout-sider {
+  background: #fff !important; // Light gray for sidebar (optional)
+}
+
+.ant-layout-sider-trigger {
+  display: none !important; // Hides the default collapse icon
+}
+
+.ant-layout-sider {
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.admin-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: #2968a7;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.admin-icon {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.ant-layout-sider-collapsed .admin-text {
+  display: none; // Hide text when sidebar is collapsed
+}
