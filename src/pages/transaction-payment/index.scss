@@ -1,0 +1,96 @@
+.walletPage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+  }
+  
+  .your-wallet-head {
+    display: flex;
+    align-items: center;
+    margin: 3em 0 2em 2em;
+    h1 {
+      font-family: "BoldCereal";
+      font-size: 1.5em;
+      margin-left: 2em;
+    }
+  }
+  
+  .wallet-section-wrapper {
+    padding: 2em 12em;
+    .wallet-section {
+      display: flex;
+      width: 100%;
+  
+      &__left {
+        width: 50%;
+        img {
+          width: 100%;
+        }
+      }
+      &__right {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+  
+        &__top {
+          font-family: "MediumCereal";
+          text-align: end;
+          padding-top: 5em;
+          padding-bottom: 2em;
+          h2 {
+            font-size: 1.3em;
+          }
+          h3 {
+            font-size: 2em;
+          }
+        }
+        &__bottom {
+          margin-top: 5em;
+        }
+      }
+    }
+  }
+  
+  .transaction-history {
+    margin-top: 3em;
+    h2 {
+      font-family: "BoldCereal";
+      font-size: 1.5em;
+    }
+  }
+  
+  .deposit-history {
+    margin-top: 3em;
+    h2 {
+      font-family: "BoldCereal";
+      font-size: 1.5em;
+    }
+  }
+  
+  .transaction-history {
+    h1 {
+      font-family: "BoldCereal";
+      font-size: 1.5em;
+      margin-bottom: 1em;
+      color: #3c3c3c;
+    }
+    .ant-table-content {
+      .ant-table-thead {
+        .ant-table-cell {
+          background-color: rgb(46, 46, 46);
+          color: rgb(255, 255, 255);
+          font-family: "BoldCereal" !important;
+        }
+      }
+      .ant-table-tbody {
+        .ant-table-cell {
+          font-family: "MediumCereal" !important;
+        }
+      }
+    }
+  }
+  
+  
+  

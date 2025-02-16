@@ -21,6 +21,11 @@ import ManageManufacturedCountries from "./pages/manage-manufacturedCountries";
 import ManageProductDetails from "./pages/manage-productDetails";
 import ManageImage from "./pages/manage-list-images";
 import ManageUnit from "./pages/manage-unit";
+import Profile from "./pages/profile";
+import ProfileUser from "./pages/change-password";
+import MainLayout from "./components/layoutprofile";
+import WalletPage from "./pages/transaction-payment";
+
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -45,12 +50,30 @@ const App = () => {
           path: "/reset-password",
           element: <ResetPassword />,
         },
+        {
+          path: "/my-account",
+          element: <MainLayout />,
+          children: [
+            {
+              path: "profile",
+              element: <Profile />,
+            },
+            {
+              path: "profileuser",
+              element: <ProfileUser />,
+            },
+            {
+              path: "transaction-payment",
+              element: <WalletPage />,
+            },
+          ],
+        },
       ],
     },
 
     {
-      path: '/login',
-      element: <Login />
+      path: "/login",
+      element: <Login />,
     },
     {
       path: "/register",
@@ -59,7 +82,6 @@ const App = () => {
     {
       path: "/dashboard",
       element: <Dashboard />,
-
       children: [
         {
           path: "brand-management",

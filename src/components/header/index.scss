@@ -69,19 +69,17 @@
         }
     }
 }
-.header__bottom{
-    cursor: pointer;
-    padding: 0 80px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 40px;
-    width: 100%;
-    font-weight: 500;
-    color: #34495e;
-   p:hover{
-  
+.header__bottom {
+  cursor: pointer;
+  padding: 0 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  width: 100%;
+  font-weight: 500;
+  color: #34495e;
+  p:hover {
     text-decoration: underline;
-   }
- 
+  }
 }
