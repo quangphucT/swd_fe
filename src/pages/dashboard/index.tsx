@@ -34,15 +34,23 @@ const Dashboard = () => {
   };
   const items = [
     getItem("Dashboard", "", <PieChartOutlined />),
-    getItem("Manage brand", "brand-management", <DesktopOutlined />),
+    getItem("Manage brand", "brand-management", <DesktopOutlined />, [
+      getItem("Manage images", "manage-images", <TeamOutlined />),
+      getItem("Manage brandOrigin", "manage-brandOrigin", <PieChartOutlined />),
+      getItem("Manage unit", "manage-unit", <TeamOutlined />),
+
+    ]),
     getItem("Manage packaging", "manage-packaging", <UserOutlined />),
     getItem("Manage solution", "manage-solution", <TeamOutlined />),
     getItem("Manage category", "manage-category", <FileOutlined />),
-    getItem("Manage brandOrigin", "manage-brandOrigin", <PieChartOutlined />),
+
     getItem("Manage manufacturer", "manage-manufacturer", <DesktopOutlined />),
     getItem("Manage manufacturedCountry", "manage-manufacturedCountry", <UserOutlined />),
-    getItem("Manage productDetails", "manage-productDetails", <TeamOutlined />),
-    getItem("Manage products", "manage-products", <TeamOutlined />),
+
+    getItem("Manage products", "manage-products", <TeamOutlined />, [
+      getItem("Manage productDetails", "manage-productDetails", <TeamOutlined />),
+    ]),
+
     {
       key: "logout",
       icon: <LogoutOutlined />,

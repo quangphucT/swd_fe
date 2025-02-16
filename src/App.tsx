@@ -19,6 +19,8 @@ import ManageBrandOrigin from "./pages/brand-origin-manage";
 import ManageManufacturer from "./pages/manage-manufacturer";
 import ManageManufacturedCountries from "./pages/manage-manufacturedCountries";
 import ManageProductDetails from "./pages/manage-productDetails";
+import ManageImage from "./pages/manage-list-images";
+import ManageUnit from "./pages/manage-unit";
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -99,7 +101,16 @@ const App = () => {
         {
           path: 'manage-products',
           element: <ManageProduct />
-        }
+        },
+        {
+          path: 'manage-images',
+          element: <ManageImage />
+        },
+        {
+          path: 'manage-unit',
+          element: <ManageUnit />
+        },
+
       ],
     },
   ]);
