@@ -10,6 +10,11 @@ import ManageProduct from "./pages/manage-products";
 import Register from "./pages/register";
 import ForgetPassword from "./pages/forget-password";
 import ResetPassword from "./pages/reset-password";
+import Profile from "./pages/profile";
+import ProfileUser from "./pages/change-password";
+import MainLayout from "./components/layoutprofile";
+import WalletPage from "./pages/transaction-payment";
+
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -34,12 +39,30 @@ const App = () => {
           path: "/reset-password",
           element: <ResetPassword />,
         },
+        {
+          path: "/my-account",
+          element: <MainLayout />,
+          children: [
+            {
+              path: "profile",
+              element: <Profile />,
+            },
+            {
+              path: "profileuser",
+              element: <ProfileUser />,
+            },
+            {
+              path: "transaction-payment",
+              element: <WalletPage />,
+            },
+          ],
+        },
       ],
     },
 
     {
-      path: '/login',
-      element: <Login />
+      path: "/login",
+      element: <Login />,
     },
     {
       path: "/register",
@@ -48,7 +71,6 @@ const App = () => {
     {
       path: "/admin",
       element: <Dashboard />,
-
       children: [
         {
           path: "product",
