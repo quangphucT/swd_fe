@@ -9,6 +9,7 @@ const ManageProduct = () => {
     const [brandData, setBrandData] = useState([])
     const [packagingData, setPackagingData] = useState([])
     const [dataCategories, setDataCategories] = useState([])
+    const [unitData, setUnitData] = useState([])
     const [dataBrandOrigin, setDataBrandOrigin] = useState([])
     const [dataManufacturer, setDataManufacturer] = useState([])
     const [dataProductDetails, setDataProductDetails] = useState([])
@@ -29,7 +30,16 @@ const ManageProduct = () => {
             toast.error("Error while fetching data")
         }
     }
-    const fetchCategoryData = async () => {
+    const fetchUnitData = async () => {
+        try {
+            const response = await api.get("Units")
+            setUnitData(response.data.items)
+
+        } catch (error) {
+            toast.error(error.response.data)
+        }
+    }
+    const fetchDataCategories = async () => {
         try {
             const response = await api.get("Categories")
             setDataCategories(response.data.items)
@@ -78,7 +88,8 @@ const ManageProduct = () => {
         fetchBrandOrigin()
         fetchDataBrand()
         fetchPackagingData()
-        fetchCategoryData()
+        fetchUnitData()
+        fetchDataCategories()
             ;
     }, [])
 
@@ -102,6 +113,11 @@ const ManageProduct = () => {
             title: 'Price',
             dataIndex: 'price',
             key: 'price'
+        },
+        {
+            title: 'UnitId',
+            dataIndex: 'unitId',
+            key: 'unitId'
         },
         {
             title: 'Quantity',
@@ -143,7 +159,7 @@ const ManageProduct = () => {
             dataIndex: 'productDetailId',
             key: 'productDetailId'
         },
-        
+
 
     ]
     const formItem = <>
@@ -170,6 +186,23 @@ const ManageProduct = () => {
             message: 'Price must not be blank!!'
         }]}>
             <Input placeholder="Enter product price" />
+        </Form.Item>
+
+        {/* unitId */}
+        <Form.Item
+            label="Choose unitId"
+            name="unitId"
+            rules={[{ required: true, message: "UnitId must not be blank!!" }]}
+        >
+            <Select>
+                {unitData.map((item) => {
+                    return (
+                        <Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>
+                    )
+                })}
+
+
+            </Select>
         </Form.Item>
 
         {/* quantity */}
