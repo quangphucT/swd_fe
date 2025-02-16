@@ -77,7 +77,7 @@ function LoginPopup() {
       <div className="loginPage__left">
         <h2>Đăng Nhập</h2>
         <Form onFinish={onFinish} form={form} layout="vertical" autoComplete="off">
-          <Form.Item name="email" rules={[{ required: true, message: "Hãy nhập tên người dùng!" }]}>
+          <Form.Item name="username" rules={[{ required: true, message: "Hãy nhập tên người dùng!" }]}>
             <Input placeholder="Tên đăng nhập *" />
           </Form.Item>
           <Form.Item name="password" rules={[{ required: true, message: "Hãy nhập mật khẩu!" }]}>

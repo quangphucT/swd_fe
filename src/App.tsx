@@ -21,6 +21,10 @@ import ManageManufacturedCountries from "./pages/manage-manufacturedCountries";
 import ManageProductDetails from "./pages/manage-productDetails";
 import ManageImage from "./pages/manage-list-images";
 import ManageUnit from "./pages/manage-unit";
+import MainLayout from "./components/layoutprofile";
+import Profile from "./pages/profile";
+import WalletPage from "./pages/transaction-payment";
+import ChangePassword from "./pages/change-password";
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -45,12 +49,30 @@ const App = () => {
           path: "/reset-password",
           element: <ResetPassword />,
         },
+        {
+          path: "/my-account",
+          element: <MainLayout />,
+          children: [
+            {
+              path: "profile",
+              element: <Profile />,
+            },
+            {
+              path: "change-password",
+              element: <ChangePassword />,
+            },
+            {
+              path: "transaction-payment",
+              element: <WalletPage />,
+            },
+          ],
+        },
       ],
     },
 
     {
-      path: '/login',
-      element: <Login />
+      path: "/login",
+      element: <Login />,
     },
     {
       path: "/register",
@@ -59,7 +81,6 @@ const App = () => {
     {
       path: "/dashboard",
       element: <Dashboard />,
-
       children: [
         {
           path: "brand-management",
@@ -86,31 +107,29 @@ const App = () => {
           element: <ManageBrandOrigin />,
         },
         {
-          path: 'manage-manufacturer',
-          element: <ManageManufacturer />
-        }
-        ,
-        {
-          path: 'manage-manufacturedCountry',
-          element: <ManageManufacturedCountries />
+          path: "manage-manufacturer",
+          element: <ManageManufacturer />,
         },
         {
-          path: 'manage-productDetails',
-          element: <ManageProductDetails />
+          path: "manage-manufacturedCountry",
+          element: <ManageManufacturedCountries />,
         },
         {
-          path: 'manage-products',
-          element: <ManageProduct />
+          path: "manage-productDetails",
+          element: <ManageProductDetails />,
         },
         {
-          path: 'manage-images',
-          element: <ManageImage />
+          path: "manage-products",
+          element: <ManageProduct />,
         },
         {
-          path: 'manage-unit',
-          element: <ManageUnit />
+          path: "manage-images",
+          element: <ManageImage />,
         },
-
+        {
+          path: "manage-unit",
+          element: <ManageUnit />,
+        },
       ],
     },
   ]);

@@ -9,6 +9,7 @@ const userSlice = createSlice({
   reducers: {
     // nhận vào state hien tai va update bang payload
     login: (state, action) => {
+      console.log("Redux received login action:", action.payload);
       return action.payload; // action.payload === user
     },
     logout: () => initialState, // null
