@@ -1,0 +1,19 @@
+.productdetail {
+  padding: 0 10% 0 10%;
+  margin: 0 10% 0 20%;
+  background-color: #f5f5f5;
+  .productdetail-info {
+    display: flex;
+    gap: 15vw;
+
+    justify-content: space-between;
+    align-items: center;
+    &__title {
+      color: #333;
+      font-size: 20px;
+      width: 15vw;
+      display: flex;
+      align-self: start;
+    }
+  }
+}

@@ -3,6 +3,10 @@
   box-sizing: border-box;
   margin: 0 auto;
   padding: 40px;
+  .custom-upload{
+    width: 200px;
+    padding:10px ;
+  }
   .image-upload {
     .custom-upload .ant-upload {
       width: 180px !important;

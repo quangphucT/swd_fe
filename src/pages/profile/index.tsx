@@ -115,7 +115,8 @@ const Profile: React.FC = () => {
         style={{ display: "flex", justifyContent: "center", marginBottom: 20 }}
       >
         <Upload
-        customRequest={({ file }) => handleFileUpload({ file: file as File })} // Sử dụng hàm upload
+          className="custom-upload"
+          customRequest={({ file }) => handleFileUpload({ file: file as File })} // Sử dụng hàm upload
           //action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
           listType="picture-circle"
           fileList={fileList}
@@ -128,6 +129,7 @@ const Profile: React.FC = () => {
         </Upload>
         {previewImage && (
           <Image
+            className="custom-imaage"
             wrapperStyle={{ display: "none" }}
             preview={{
               visible: previewOpen,
