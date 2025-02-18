@@ -28,9 +28,9 @@ const Sidebar: React.FC = () => {
         Account
       </Menu.Item>
       <Menu.Item
-        key="/profileuser"
+        key="/change_password"
         icon={<LockOutlined />}
-        onClick={() => navigate("/my-account/profileuser")}
+        onClick={() => navigate("/my-account/change-password")}
         style={{marginLeft:6}}
       >
         Change Password
