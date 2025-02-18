@@ -46,7 +46,7 @@ const Header = () => {
           {isLoggedIn ? (
             <>
               <div className="profile-user" onClick={handleNavigateProfilePage}>
-                <TiUser className="user_icon" />
+                <TiUser className="user_icon" size={47} />
               </div>
               <div
                 className="logout"

@@ -10,7 +10,7 @@ const ListProducts = () => {
     const [products, setProducts] = useState([])
     const [spinning, setSpinning] = useState(true)
     const [images, setImages] = useState({})
-   const [pageNumber, setPageNumber] = useState(1)
+    const [pageNumber, setPageNumber] = useState(1)
     const [hasMore, setHasMore] = useState(true) // Kiểm tra còn sản phẩm không
 
     const fetchingData = async () => {
@@ -50,7 +50,7 @@ const ListProducts = () => {
     }, [pageNumber])
 
     const loadMoreProducts = () => {
-        setPageNumber(pageNumber+1)
+        setPageNumber(pageNumber + 1)
 
     }
 

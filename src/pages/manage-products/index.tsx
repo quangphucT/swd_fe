@@ -3,6 +3,7 @@ import DashboardTemplate, { Column } from "../../components/dashboard-template"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import api from "../../config/api"
+import { formatMoneyToVND } from "../../currency/currency"
 
 
 const ManageProduct = () => {
@@ -112,12 +113,14 @@ const ManageProduct = () => {
         {
             title: 'Price',
             dataIndex: 'price',
-            key: 'price'
+            key: 'price',
+            render: (value) => <div>{formatMoneyToVND(value)}</div> 
         },
         {
             title: 'UnitId',
             dataIndex: 'unitId',
-            key: 'unitId'
+            key: 'unitId',
+
         },
         {
             title: 'Quantity',
