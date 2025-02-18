@@ -25,6 +25,7 @@ import MainLayout from "./components/layoutprofile";
 import Profile from "./pages/profile";
 import WalletPage from "./pages/transaction-payment";
 import ChangePassword from "./pages/change-password";
+import ProductDetail from "./pages/product-detail";
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -48,6 +49,10 @@ const App = () => {
         {
           path: "/reset-password",
           element: <ResetPassword />,
+        },
+        {
+          path: "/product/:id",
+          element: <ProductDetail />,
         },
         {
           path: "/my-account",
