@@ -56,7 +56,7 @@ const DashboardTemplate = ({ columns, apiURI, titleModal, formItem, titleTable, 
   const handleOpenModal = () => {
     setOpen(true)
   }
-
+  
 
   //close modal
 
@@ -128,11 +128,11 @@ const DashboardTemplate = ({ columns, apiURI, titleModal, formItem, titleTable, 
             ...col,
             width: col.width || 150, // Đặt width mặc định cho cột
             ellipsis: true, // Rút gọn text
-            render: (value: any) => (
-              <Tooltip title={value}>
-                <div className="truncate-text">{value}</div>
-              </Tooltip>
-            ),
+            // render: (value: any) => (
+            //   <Tooltip title={value}>
+            //     <div className="truncate-text">{value}</div>
+            //   </Tooltip>
+            // ),
           })),
           {
             title: "Action",
