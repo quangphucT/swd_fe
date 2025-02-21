@@ -1,7 +1,7 @@
 .header {
   width: 100%;
   height: 110px;
-  background-color: #0a488b;
+  background-color:  #2672c3;
   display: flex;
   padding: 0 30px;
   align-items: center;
@@ -20,6 +20,7 @@
   }
   &__middle {
     display: flex;
+    padding: 0 30px;
     align-items: center;
     .input {
       font-size: 17px;
@@ -49,7 +50,7 @@
       align-items: center;
       gap: 10px;
       .user_icon {
-        font-size: 30px !important;
+        font-size: 50px !important;
       }
     }
     .cart {

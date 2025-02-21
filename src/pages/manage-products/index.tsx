@@ -47,7 +47,9 @@ const ManageProduct = () => {
   const [unitData, setUnitData] = useState<Entity[]>([]);
   const [dataBrandOrigin, setDataBrandOrigin] = useState<Entity[]>([]);
   const [dataManufacturer, setDataManufacturer] = useState<Entity[]>([]);
-  const [dataProductDetails, setDataProductDetails] = useState<ProductDetail[]>([]);
+  const [dataProductDetails, setDataProductDetails] = useState<ProductDetail[]>(
+    []
+  );
   const [dataManufacturerCountries, setDataManufacturerCountries] = useState<
     Entity[]
   >([]);
@@ -385,10 +387,7 @@ const ManageProduct = () => {
       >
         <Select>
           {dataManufacturerCountries.map((item) => (
-            <Select.Option
-              key={item?.id}
-              value={item?.id}
-            >
+            <Select.Option key={item?.id} value={item?.id}>
               {item?.name}
             </Select.Option>
           ))}

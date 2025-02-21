@@ -42,14 +42,13 @@ const CardProduct = ({ product, imageUrl }: CardProp) => {
         <img src={imageUrl} alt={"image"} />
       </div>
 
-      <div className="content">
-        <h3 className="name">{product.name}</h3>
-        <p className="price">{formatMoneyToVND(product.price)}</p>
-        <p className="description">
-          {product.description.substring(0, 100)}
-          {product.description.length > 100 && "..."}
-        </p>
-      </div>
+            <div className="content">
+                <h3 className="name">{product.name.substring(0,20)}{product.name.length > 20 && "..."}</h3>
+                <p className="price">{formatMoneyToVND(product.price)}</p>
+                <p className="description">
+                    {product.description.substring(0, 50)}{product.description.length > 50 && "..."}
+                </p>
+            </div>
 
       <motion.button
         onClick={handleAddFoodToCart}

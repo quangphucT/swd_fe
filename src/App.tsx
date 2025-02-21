@@ -4,7 +4,7 @@ import Home from "./pages/home";
 
 import "./index.css";
 import Login from "./pages/login";
-import Cart from "./pages/cart";
+
 import Dashboard from "./pages/dashboard";
 import ManageProduct from "./pages/manage-products";
 import Register from "./pages/register";
@@ -25,7 +25,10 @@ import MainLayout from "./components/layoutprofile";
 import Profile from "./pages/profile";
 import WalletPage from "./pages/transaction-payment";
 import ChangePassword from "./pages/change-password";
+
+import Cart from "./pages/cart";
 import ProductDetail from "./pages/product-detail";
+
 const App = () => {
   const router = createBrowserRouter([
     {
