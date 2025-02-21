@@ -41,7 +41,6 @@ const CardProduct = ({ product, imageUrl }: CardProp) => {
       <div className="image">
         <img src={imageUrl} alt={"image"} />
       </div>
-
             <div className="content">
                 <h3 className="name">{product.name.substring(0,20)}{product.name.length > 20 && "..."}</h3>
                 <p className="price">{formatMoneyToVND(product.price)}</p>
@@ -50,15 +49,18 @@ const CardProduct = ({ product, imageUrl }: CardProp) => {
                 </p>
             </div>
 
-      <motion.button
-        onClick={handleAddFoodToCart}
-        className="btn"
-        whileTap={{ scale: 0.95 }}
-      >
-        Thêm vào giỏ hàng
-      </motion.button>
-    </motion.div>
-  );
-};
+
+            <motion.button
+                onClick={handleAddFoodToCart}
+                className="btn"
+                whileTap={{ scale: 0.95 }}
+            >
+                Thêm vào giỏ hàng
+            </motion.button>
+        </motion.div>
+    );
+}
+
+
 
 export default CardProduct;

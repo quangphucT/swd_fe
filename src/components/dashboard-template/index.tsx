@@ -63,7 +63,6 @@ const DashboardTemplate = ({
   const handleOpenModal = () => {
     setOpen(true);
   };
-
   //close modal
 
   const handleCloseModal = () => {
@@ -201,6 +200,10 @@ const DashboardTemplate = ({
                     </Tooltip>
                   );
                 },
+<<<<<<< HEAD
+=======
+
+>>>>>>> ca467fb9d2054f05842446ed5760ad4007bffbb7
           })),
           {
             title: "Action",
