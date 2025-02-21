@@ -3,19 +3,54 @@ import DashboardTemplate, { Column } from "../../components/dashboard-template";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import api from "../../config/api";
+interface Entity {
+  id: number;
+  name: string;
+}
 
+interface ProductDetail {
+  id: number;
+  productDescription: string;
+  ingredient: string;
+  effect: string;
+  howToUse: string;
+  sideEffect: string;
+  note: string;
+  preserve: string;
+}
+interface Category {
+  id: number;
+  name: string;
+  image: string;
+  solutionId: number;
+}
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  quantity: number;
+  price: number;
+  brandOrigin: Entity;
+  unit: Entity;
+  manufacturer: Entity;
+  packaging: Entity;
+  manufacturedCountry: Entity;
+  brand: Entity;
+  productDetail: ProductDetail;
+  category: Category;
+}
 const ManageProduct = () => {
-  const [brandData, setBrandData] = useState([]);
-  const [packagingData, setPackagingData] = useState([]);
-  const [dataCategories, setDataCategories] = useState([]);
-  const [unitData, setUnitData] = useState([]);
-  const [dataBrandOrigin, setDataBrandOrigin] = useState([]);
-  const [dataManufacturer, setDataManufacturer] = useState([]);
-  const [dataProductDetails, setDataProductDetails] = useState([]); 
-  const [dataManufacturerCountries, setDataManufacturerCountries] = useState([]);
-
-  const [dataProduct, setDataProduct] = useState([]);
-  
+  const [dataProduct, setDataProduct] = useState<Product[]>([]);
+  const [brandData, setBrandData] = useState<Entity[]>([]);
+  const [packagingData, setPackagingData] = useState<Entity[]>([]);
+  const [dataCategories, setDataCategories] = useState<Entity[]>([]);
+  const [unitData, setUnitData] = useState<Entity[]>([]);
+  const [dataBrandOrigin, setDataBrandOrigin] = useState<Entity[]>([]);
+  const [dataManufacturer, setDataManufacturer] = useState<Entity[]>([]);
+  const [dataProductDetails, setDataProductDetails] = useState<ProductDetail[]>([]);
+  const [dataManufacturerCountries, setDataManufacturerCountries] = useState<
+    Entity[]
+  >([]);
   const fetchDataBrand = async () => {
     try {
       const response = await api.get("Brands");
@@ -56,7 +91,6 @@ const ManageProduct = () => {
       toast.error("Error while fetching data");
     }
   };
-
   const fetchManufacturer = async () => {
     try {
       const response = await api.get("Manufacturers");
@@ -81,11 +115,27 @@ const ManageProduct = () => {
       toast.error("Error while fetching data");
     }
   };
+  useEffect(() => {
+    fetchProductDetails();
+    fetchManufacturerCountries();
+    fetchManufacturer();
+    fetchBrandOrigin();
+    fetchDataBrand();
+    fetchPackagingData();
+    fetchUnitData();
+    fetchDataCategories();
+  }, []);
+  //product
   const fetchProduct = async () => {
     try {
-      const response = await api.get("Product");
+      const response = await api.get("Products");
+      console.log(response.data);
+      console.log(response.data.items);
+      // const res = response.data.items ;
+      // console.log(res.unit.id);
       setDataProduct(response.data.items);
     } catch (error) {
+      console.log(error);
       toast.error("Error while fetching data");
     }
   };
@@ -115,9 +165,10 @@ const ManageProduct = () => {
       key: "price",
     },
     {
-      title: "UnitId",
-      dataIndex: "unitId",
-      key: "unitId",
+      title: "Unit",
+      dataIndex: "unit",
+      key: "unit",
+      render: (unit) => unit?.name || "N/A",
     },
     {
       title: "Quantity",
@@ -125,39 +176,46 @@ const ManageProduct = () => {
       key: "quantity",
     },
     {
-      title: "BrandId",
-      dataIndex: "brandId",
-      key: "brandId",
+      title: "Brand",
+      dataIndex: "brand",
+      key: "brand",
+      render: (brand) => brand?.name || "N/A",
     },
     {
-      title: "PackagingId",
-      dataIndex: "packagingId",
-      key: "packagingId",
+      title: "Packaging",
+      dataIndex: "packaging",
+      key: "packaging",
+      render: (packaging) => packaging?.name || "N/A",
     },
     {
-      title: "CategoryId",
-      dataIndex: "categoryId",
-      key: "categoryId",
+      title: "Category",
+      dataIndex: "category",
+      key: "category",
+      render: (category) => category?.name || "N/A",
     },
     {
-      title: "BrandOriginId",
-      dataIndex: "brandOriginId",
-      key: "brandOriginId",
+      title: "BrandOrigin",
+      dataIndex: "brandOrigin",
+      key: "brandOrigin",
+      render: (brandOrigin) => brandOrigin?.name || "N/A",
     },
     {
-      title: "ManufacturerId",
-      dataIndex: "manufacturerId",
-      key: "manufacturerId",
+      title: "Manufacturer",
+      dataIndex: "manufacturer",
+      key: "manufacturer",
+      render: (manufacturer) => manufacturer?.name || "N/A",
     },
     {
-      title: "ManufacturedCountryId",
-      dataIndex: "manufacturedCountryId",
-      key: "manufacturedCountryId",
+      title: "ManufacturedCountry",
+      dataIndex: "manufacturedCountry",
+      key: "manufacturedCountry",
+      render: (manufacturedCountry) => manufacturedCountry?.name || "N/A",
     },
     {
-      title: "ProductDetailId",
-      dataIndex: "productDetailId",
-      key: "productDetailId",
+      title: "ProductDetail",
+      dataIndex: "productDetail",
+      key: "productDetail",
+      render: (productDetail) => productDetail?.productDescription || "N/A",
     },
   ];
   const formItem = (
@@ -204,23 +262,6 @@ const ManageProduct = () => {
         <Input placeholder="Enter product price" />
       </Form.Item>
 
-      {/* unitId */}
-      <Form.Item
-        label="Choose unitId"
-        name="unitId"
-        rules={[{ required: true, message: "UnitId must not be blank!!" }]}
-      >
-        <Select>
-          {unitData.map((item) => {
-            return (
-              <Select.Option key={item.id} value={item.id}>
-                {item.name}
-              </Select.Option>
-            );
-          })}
-        </Select>
-      </Form.Item>
-
       {/* quantity */}
       <Form.Item
         name={"quantity"}
@@ -235,6 +276,21 @@ const ManageProduct = () => {
         <Input placeholder="Enter product quantity" />
       </Form.Item>
 
+      {/* unitId */}
+      <Form.Item
+        label="Choose unit"
+        name="unitId"
+        rules={[{ required: true, message: "Unit must not be blank!!" }]}
+      >
+        <Select>
+          {unitData.map((unit) => (
+            <Select.Option key={unit?.id} value={unit?.id}>
+              {unit?.name}
+            </Select.Option>
+          ))}
+        </Select>
+      </Form.Item>
+
       {/* brand */}
 
       <Form.Item
@@ -243,13 +299,11 @@ const ManageProduct = () => {
         rules={[{ required: true, message: "Brand must not be blank!!" }]}
       >
         <Select>
-          {brandData.map((item) => {
-            return (
-              <Select.Option key={item.id} value={item.id}>
-                {item.name}
-              </Select.Option>
-            );
-          })}
+          {brandData.map((brand) => (
+            <Select.Option key={brand?.id} value={brand?.id}>
+              {brand?.name}
+            </Select.Option>
+          ))}
         </Select>
       </Form.Item>
 
@@ -260,13 +314,11 @@ const ManageProduct = () => {
         rules={[{ required: true, message: "Packaging must not be blank!!" }]}
       >
         <Select>
-          {packagingData.map((item) => {
-            return (
-              <Select.Option key={item.id} value={item.id}>
-                {item.name}
-              </Select.Option>
-            );
-          })}
+          {packagingData.map((packaging) => (
+            <Select.Option key={packaging?.id} value={packaging?.id}>
+              {packaging?.name}
+            </Select.Option>
+          ))}
         </Select>
       </Form.Item>
 
@@ -278,13 +330,11 @@ const ManageProduct = () => {
         rules={[{ required: true, message: "Category must not be blank!!" }]}
       >
         <Select>
-          {dataCategories.map((item) => {
-            return (
-              <Select.Option key={item.id} value={item.id}>
-                {item.name}
-              </Select.Option>
-            );
-          })}
+          {dataCategories.map((item) => (
+            <Select.Option key={item?.id} value={item?.id}>
+              {item?.name}
+            </Select.Option>
+          ))}
         </Select>
       </Form.Item>
 
@@ -296,13 +346,11 @@ const ManageProduct = () => {
         rules={[{ required: true, message: "BrandOrigin must not be blank!!" }]}
       >
         <Select>
-          {dataBrandOrigin.map((item) => {
-            return (
-              <Select.Option key={item.id} value={item.id}>
-                {item.name}
-              </Select.Option>
-            );
-          })}
+          {dataBrandOrigin.map((item) => (
+            <Select.Option key={item?.id} value={item?.id}>
+              {item?.name}
+            </Select.Option>
+          ))}
         </Select>
       </Form.Item>
 
@@ -315,13 +363,11 @@ const ManageProduct = () => {
         ]}
       >
         <Select>
-          {dataManufacturer.map((item) => {
-            return (
-              <Select.Option key={item.id} value={item.id}>
-                {item.name}
-              </Select.Option>
-            );
-          })}
+          {dataManufacturer.map((item) => (
+            <Select.Option key={item?.id} value={item?.id}>
+              {item?.name}
+            </Select.Option>
+          ))}
         </Select>
       </Form.Item>
 
@@ -338,32 +384,31 @@ const ManageProduct = () => {
         ]}
       >
         <Select>
-          {dataManufacturerCountries.map((item) => {
-            return (
-              <Select.Option key={item.id} value={item.id}>
-                {item.name}
-              </Select.Option>
-            );
-          })}
+          {dataManufacturerCountries.map((item) => (
+            <Select.Option
+              key={item?.id}
+              value={item?.id}
+            >
+              {item?.name}
+            </Select.Option>
+          ))}
         </Select>
       </Form.Item>
 
       {/* productdetails */}
       <Form.Item
-        label="Choose ProductDetails ID"
+        label="Choose ProductDetails "
         name="productDetailId"
         rules={[
-          { required: true, message: "ProductDetails ID must not be blank!!" },
+          { required: true, message: "ProductDetails must not be blank!!" },
         ]}
       >
         <Select>
-          {dataProductDetails.map((item) => {
-            return (
-              <Select.Option key={item.id} value={item.id}>
-                {item.name}
-              </Select.Option>
-            );
-          })}
+          {dataProductDetails.map((item) => (
+            <Select.Option key={item?.id} value={item?.id}>
+              {item?.productDescription}
+            </Select.Option>
+          ))}
         </Select>
       </Form.Item>
     </>
