@@ -1,4 +1,4 @@
-import { Form, Input, Select } from "antd"
+import { Form, Image, Input, Select } from "antd"
 import DashboardTemplate, { Column } from "../../components/dashboard-template"
 import { useEffect, useState } from "react"
 
@@ -16,8 +16,8 @@ const ManageImage = () => {
     }
   };
   useEffect(() => {
-  
-  
+
+
     fetchData();
   }, []);
   const columns: Column[] = [
@@ -29,7 +29,8 @@ const ManageImage = () => {
     {
       title: 'ImageUrl',
       dataIndex: 'imageUrl',
-      key: 'imageUrl'
+      key: 'imageUrl',
+      render: (value) => <Image src={value} style={{borderRadius: '10px'}} width={200} height={160}/>
     },
     {
       title: 'ProductId',
@@ -54,11 +55,11 @@ const ManageImage = () => {
       <Select>
         {data.map((item) => {
           return (
-            <Select.Option key={item.id}  value={item.id}>{item.name}</Select.Option>
+            <Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>
           )
         })}
-       
-       
+
+
       </Select>
     </Form.Item>
   </>

@@ -1,5 +1,5 @@
 
-import { Form, Input, Select } from "antd"
+import { Form, Image, Input, Select } from "antd"
 import DashboardTemplate, { Column } from "../../components/dashboard-template"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
@@ -37,7 +37,8 @@ const ManageCategory = () => {
     {
       title: 'Image',
       dataIndex: 'image',
-      key: 'image'
+      key: 'image',
+      render: (value) => <Image src={value} width={100} height={100} style={{borderRadius: '10px'}}/>
     },
     {
       title: 'SolutionId',

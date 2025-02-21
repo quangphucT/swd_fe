@@ -1,3 +1,4 @@
+
 import { Form, Input, Select } from "antd";
 import DashboardTemplate, { Column } from "../../components/dashboard-template";
 import { useEffect, useState } from "react";
@@ -7,6 +8,7 @@ interface Entity {
   id: number;
   name: string;
 }
+
 
 interface ProductDetail {
   id: number;
@@ -226,6 +228,7 @@ const ManageProduct = () => {
         label="Product name"
         rules={[
           {
+
             required: true,
             message: "Name must not be blank!!",
           },
