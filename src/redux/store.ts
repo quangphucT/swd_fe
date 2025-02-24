@@ -21,9 +21,10 @@ import { persistReducer, persistStore } from "redux-persist";
 // Cấu hình redux-persist
 const persistConfig = {
   key: "user",
-  version: 1,  // 🔹 Đảm bảo version >= 1
+  version: 1, // 🔹 Đảm bảo version >= 1
   storage, // luu tru trong localStorage
   whitelist: ["user"], // Chỉ lưu trạng thái `user`
+  //serialize: false, // Thêm dòng này nếu bạn chắc chắn dữ liệu không cần serializable
 };
 
 // Tạo reducer có khả năng lưu trữ(bao quanh rootReducer de redux store luu tru) )
@@ -34,6 +35,10 @@ export const store = configureStore({
   reducer: {
     user: persistedReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false, // Vô hiệu hóa kiểm tra serializable
+    }),
 });
 
 // Tạo persistor để quản lý state đã lưu

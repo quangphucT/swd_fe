@@ -25,8 +25,12 @@ import MainLayout from "./components/layoutprofile";
 import Profile from "./pages/profile";
 import WalletPage from "./pages/transaction-payment";
 import ChangePassword from "./pages/change-password";
-import ProductDetail from "./pages/product-detail";
+
+
 import Cart from "./pages/cart";
+import ProductDetail from "./pages/product-detail";
+
+
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -40,7 +44,7 @@ const App = () => {
 
         {
           path: "/cart",
-          element: <Cart/>,
+          element: <Cart />,
         },
 
         {
