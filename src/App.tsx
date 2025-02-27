@@ -29,6 +29,13 @@ import ChangePassword from "./pages/change-password";
 
 import Cart from "./pages/cart";
 import ProductDetail from "./pages/product-detail";
+import DepositePage from "./pages/deposite-page";
+import ManageAccount from "./pages/manage-account";
+import HistoryDeposite from "./pages/history-deposite";
+
+
+
+
 
 
 const App = () => {
@@ -41,11 +48,16 @@ const App = () => {
           path: "/",
           element: <Home />,
         },
+        {
+          path: '/deposite',
+          element: <DepositePage />
+        },
 
         {
           path: "/cart",
           element: <Cart />,
         },
+       
 
         {
           path: "*",
@@ -72,6 +84,10 @@ const App = () => {
               element: <ChangePassword />,
             },
             {
+              path: "history-deposite",
+              element: <HistoryDeposite />,
+            },
+            {
               path: "transaction-payment",
               element: <WalletPage />,
             },
@@ -95,6 +111,10 @@ const App = () => {
         {
           path: "brand-management",
           element: <ManageBrand />,
+        },
+        {
+          path: "manage-account",
+          element: <ManageAccount />,
         },
         {
           path: "",

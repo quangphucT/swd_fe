@@ -19,11 +19,11 @@ export type Column = {
 type DashboardTemplateProps = {
   columns: Column[];
   apiURI: string;
-  titleModal: string;
-  formItem: React.ReactElement;
+  titleModal?: string;
+  formItem?: React.ReactElement;
   titleTable: string;
-  createName: string;
-  titleModalUpdate: string;
+  createName?: string;
+  titleModalUpdate?: string;
 };
 
 const DashboardTemplate = ({
@@ -200,10 +200,6 @@ const DashboardTemplate = ({
                     </Tooltip>
                   );
                 },
-<<<<<<< HEAD
-=======
-
->>>>>>> ca467fb9d2054f05842446ed5760ad4007bffbb7
           })),
           {
             title: "Action",

@@ -1,0 +1,189 @@
+.deposit-container {
+    font-family: Arial, sans-serif;
+    max-width: 70%;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #cedff1;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    text-align: center;
+    color: #333;
+  }
+  .denominations {
+    margin-top: 20px;
+    text-align: center;
+
+    h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 12px;
+    }
+
+    .denomination-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+
+        .denomination-btn {
+            width: 120px;
+            height: 45px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            background: #f5f5f5;
+            border: 2px solid #ddd;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+
+            &:hover {
+                background: #e6f7ff;
+                border-color: #1890ff;
+                color: #1890ff;
+                transform: translateY(-2px);
+            }
+
+            &:active {
+                background: #1890ff;
+                color: #fff;
+                transform: translateY(1px);
+            }
+        }
+    }
+}
+
+
+
+
+  .deposit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .input-group {
+
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+   
+  }
+  .wrapper__input{
+      display: flex;
+      width: 400px;
+      gap: 10px;
+      padding: 20px 0;
+      margin: 0 auto;
+      .input-amount{
+        font-size: 20px;
+        height: 45px;
+      }
+       .deposit-btn{
+        font-size: 17px;
+        font-weight: bold;
+        height: 45px;
+       }
+  }
+  
+  
+  
+  .submit-btn {
+    font-weight: 700;
+    padding: 10px 100px;
+    background-color: #2672c3;
+    color: white;
+    font-size: 16px;
+  
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+  
+  .submit-btn:hover {
+    transition: all 0.3s;
+    transform: scale(1.03);
+  }
+  
+  .denominations {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .denom-buttons {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .denom-btn {
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .denom-btn:hover {
+    background-color: #d9d9d9;
+  }
+  
+  .message {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e7f7e7;
+    color: #4caf50;
+    border-radius: 6px;
+    text-align: center;
+  }
+  .success-modal {
+    text-align: center;
+
+    .modal-icon {
+        font-size: 50px;
+        color: #52c41a; // Màu xanh thành công của Ant Design
+        margin-bottom: 16px;
+    }
+
+    .modal-title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .modal-message {
+        font-size: 16px;
+        color: #555;
+    }
+
+    .ant-modal-footer {
+        display: flex;
+        justify-content: center;
+    }
+
+    .ant-btn-primary {
+        background-color: #52c41a;
+        border-color: #52c41a;
+        font-size: 16px;
+        padding: 6px 20px;
+    }
+}

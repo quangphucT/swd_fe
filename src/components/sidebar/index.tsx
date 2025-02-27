@@ -53,6 +53,15 @@ const Sidebar: React.FC = () => {
           <span style={{ marginLeft: "6px" }}>History Order</span>
         </div>
       </Menu.Item>
+      <Menu.Item
+        key="/history-deposite"
+        onClick={() => navigate("/my-account/history-deposite")}
+      >
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <IconHistory />
+          <span style={{ marginLeft: "6px" }}>Lịch sử nạp tiền</span>
+        </div>
+      </Menu.Item>
     </Menu>
   );
 };
