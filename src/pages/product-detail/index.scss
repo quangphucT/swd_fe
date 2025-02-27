@@ -1,0 +1,30 @@
+.productdetail {
+  padding: 0 10% 0 10%;
+  // margin: 0 20% 0 20%;
+  //background-color: #eeeff8;
+  .productdetail-info {
+    display: flex;
+
+    justify-content: start;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    &__title {
+      color: #000000;
+      font-size: 20px;
+      width: 15vw;
+      display: flex;
+      align-self: flex-start;
+    }
+    p {
+      color: #000;
+      font-size: 20px;
+    }
+    .productdetail-info__name {
+      font-size: 16px;
+      color: #000;
+    }
+  }
+}
+.ant-breadcrumb-link > a {
+  color: #2c54e6 !important;
+}

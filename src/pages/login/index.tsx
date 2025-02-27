@@ -20,20 +20,22 @@ function LoginPopup() {
       const response = await api.post("Accounts/SignIn", values);
       if (response?.data) {
         const user = response.data;
+        const userRole = user.user.roles?.[1] || "USER";
         dispatch(login(user));
         localStorage.setItem("token", user.token);
-        localStorage.setItem("role", user.roleEnum);
+        localStorage.setItem("role", userRole);
+
         showSuccessToast("Login success")
 
-        switch (user.roleEnum) {
+        switch (userRole) {
           case "STAFF":
             navigate("/staff");
             break;
           case "MANAGER":
             navigate("/manager");
             break;
-          case "ADMIN":
-            navigate("/admin");
+          case "Administrator":
+            navigate("/dashboard");
             break;
           default:
             navigate("/");

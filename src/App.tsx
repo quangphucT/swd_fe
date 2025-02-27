@@ -25,7 +25,19 @@ import MainLayout from "./components/layoutprofile";
 import Profile from "./pages/profile";
 import WalletPage from "./pages/transaction-payment";
 import ChangePassword from "./pages/change-password";
+
+
 import Cart from "./pages/cart";
+import ProductDetail from "./pages/product-detail";
+import DepositePage from "./pages/deposite-page";
+import ManageAccount from "./pages/manage-account";
+import HistoryDeposite from "./pages/history-deposite";
+
+
+
+
+
+
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -36,11 +48,16 @@ const App = () => {
           path: "/",
           element: <Home />,
         },
+        {
+          path: '/deposite',
+          element: <DepositePage />
+        },
 
         {
           path: "/cart",
-          element: <Cart/>,
+          element: <Cart />,
         },
+       
 
         {
           path: "*",
@@ -49,6 +66,10 @@ const App = () => {
         {
           path: "/reset-password",
           element: <ResetPassword />,
+        },
+        {
+          path: "/product/:id",
+          element: <ProductDetail />,
         },
         {
           path: "/my-account",
@@ -61,6 +82,10 @@ const App = () => {
             {
               path: "change-password",
               element: <ChangePassword />,
+            },
+            {
+              path: "history-deposite",
+              element: <HistoryDeposite />,
             },
             {
               path: "transaction-payment",
@@ -86,6 +111,10 @@ const App = () => {
         {
           path: "brand-management",
           element: <ManageBrand />,
+        },
+        {
+          path: "manage-account",
+          element: <ManageAccount />,
         },
         {
           path: "",
