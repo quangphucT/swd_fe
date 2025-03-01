@@ -1,0 +1,32 @@
+.blog-detail-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+    background-color: rgb(233, 243, 248);
+    .main-title{
+        color: #2672c3;
+        text-decoration: underline;
+        margin-bottom: 30px;
+    }
+    .blog-card {
+      max-width: 1200px;
+      width: 100%;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+  
+      img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+      }
+  
+      .blog-date {
+        color: gray;
+        font-style: italic;
+      }
+    }
+  }
+  

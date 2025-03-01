@@ -24,7 +24,7 @@ function LoginPopup() {
         dispatch(login(user));
         localStorage.setItem("token", user.token);
         localStorage.setItem("role", userRole);
-
+         
         showSuccessToast("Login success")
 
         switch (userRole) {
@@ -48,7 +48,7 @@ function LoginPopup() {
       form.resetFields();
     }
   };
-
+  console.log("DataLogin:", )
   const handleLoginGoogle = () => {
     signInWithPopup(auth, provider)
       .then(async (result) => {
