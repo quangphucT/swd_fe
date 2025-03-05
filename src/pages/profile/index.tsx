@@ -17,10 +17,11 @@ import { LogoutOutlined, PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
-import { logout, selectUser } from "../../redux/features/userSlice";
+
 import api from "../../config/api";
 import { uploadImageToCloudinary } from "../../utils/upload";
 import { showSuccessToast } from "../../config/configToast";
+import { removeInformation } from "../../redux/feature/userSlice";
 
 const Profile: React.FC = () => {
   // Kiểu cho File
@@ -37,7 +38,7 @@ const Profile: React.FC = () => {
   // Thêm state để lưu URL ảnh (avatar)
   const [avatarUrl, setAvatarUrl] = useState<string>("");
   // Lấy user từ Redux
-  const userInformation = useSelector(selectUser);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -120,9 +121,10 @@ const Profile: React.FC = () => {
 
   // Hàm logout
   const handleLogout = () => {
-    dispatch(logout());
+
     localStorage.removeItem("token");
     localStorage.removeItem("role");
+    dispatch(removeInformation())
     message.success("Bạn đã đăng xuất!");
     navigate("/login");
   };
@@ -222,7 +224,7 @@ const Profile: React.FC = () => {
         {/* Trường ẩn để giữ URL avatar, nếu cần */}
         <Form.Item name="avatar" style={{ display: "none" }}>
           <Input type="hidden" />
-        </Form.Item>  
+        </Form.Item>
         <Form.Item>
           <div className="button-left">
             {/* Khi bấm "Lưu thay đổi", form sẽ gọi onFinish */}

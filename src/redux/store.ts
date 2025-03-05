@@ -1,48 +1,39 @@
-// import { configureStore } from '@reduxjs/toolkit'
-// import userSlice from "./features/userSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import userSlice from '../redux/feature/userSlice';
+import balanceSlice from '../redux/feature/balanceSlice';
+import cartSlice from '../redux/feature/cartSlice';
+import storage from 'redux-persist/lib/storage';
+import { persistReducer, persistStore } from 'redux-persist';
+import { combineReducers } from 'redux';
 
-// export const store = configureStore({
-//   reducer: {
-//     user:userSlice
-//   },
-// })
-
-// // Infer the `RootState` and `AppDispatch` types from the store itself
-// export type RootState = ReturnType<typeof store.getState>
-// // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-// export type AppDispatch = typeof store.dispatch
-import { configureStore } from "@reduxjs/toolkit";
-
-import userReducer from "./features/userSlice";
-import storage from "redux-persist/lib/storage";
-import { persistReducer, persistStore } from "redux-persist";
-
-// luu tru state vo localStorage (ko mat data khi refresh trang)
-// Cấu hình redux-persist
+// ✅ Cấu hình redux-persist cho từng slice
 const persistConfig = {
-  key: "user",
-  version: 1, // 🔹 Đảm bảo version >= 1
-  storage, // luu tru trong localStorage
-  whitelist: ["user"], // Chỉ lưu trạng thái `user`
-  //serialize: false, // Thêm dòng này nếu bạn chắc chắn dữ liệu không cần serializable
+  key: 'root',
+  storage, 
+  whitelist: ['user', 'balance', 'cart'], // ✅ Lưu cả user và balance
 };
 
-// Tạo reducer có khả năng lưu trữ(bao quanh rootReducer de redux store luu tru) )
-const persistedReducer = persistReducer(persistConfig, userReducer);
+// ✅ Kết hợp reducers
+const rootReducer = combineReducers({
+  user: userSlice,
+  balance: balanceSlice,
+  cart: cartSlice
+});
 
-// Tạo store với persistedReducer // luu tru trang thai
+// ✅ Bọc rootReducer bằng persistReducer
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 export const store = configureStore({
-  reducer: {
-    user: persistedReducer,
-  },
+  reducer: persistedReducer, 
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false, // Vô hiệu hóa kiểm tra serializable
+      serializableCheck: false, // ✅ Tắt cảnh báo serialize của redux-persist
     }),
 });
 
-// Tạo persistor để quản lý state đã lưu
+// ✅ Khởi tạo persistor để quản lý state đã lưu
 export const persistor = persistStore(store);
 
-//
+// ✅ Export types cho Redux hooks
 export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

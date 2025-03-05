@@ -1,0 +1,83 @@
+.booking-container {
+    max-width: 700px;
+    margin: auto;
+    text-align: center;
+    padding: 30px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+    h2 {
+        color: #1e88e5;
+        font-size: 24px;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    .doctor-selection {
+        margin: 20px 0;
+
+        .ant-select {
+            width: 100%;
+            max-width: 400px;
+        }
+    }
+
+    .slots-container {
+        margin-top: 20px;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+        h3 {
+            color: #444;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .slots {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+
+            .slot-card {
+                cursor: pointer;
+                border: 1px solid #ddd;
+                padding: 12px 15px;
+                width: 130px;
+                text-align: center;
+                border-radius: 6px;
+                transition: all 0.3s ease-in-out;
+                font-weight: 500;
+                background: #fff;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+                &:hover,
+                &.selected {
+                    background-color: #1e88e5;
+                    color: white;
+                    border-color: #1e88e5;
+                    transform: scale(1.05);
+                }
+            }
+        }
+    }
+
+    .confirm-button {
+        margin-top: 25px;
+        background-color: #1e88e5;
+        border: none;
+        padding: 12px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 6px;
+        transition: background 0.3s ease-in-out;
+
+        &:hover {
+            background-color: #1565c0;
+        }
+    }
+}

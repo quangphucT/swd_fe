@@ -37,6 +37,7 @@ const Dashboard = () => {
   const items = [
     getItem("Dashboard", "", <PieChartOutlined />),
     getItem("Manage Account", "manage-account", <PieChartOutlined />),
+    getItem("Manage Order", "manage-order", <PieChartOutlined />),
     getItem("Manage Discount", "manage-discount", <PieChartOutlined />),
     getItem("Manage DiscountCategory", "manage-discount-category", <PieChartOutlined />),
     getItem("Manage Blog", "blog-management", <PieChartOutlined />),

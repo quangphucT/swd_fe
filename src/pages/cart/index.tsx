@@ -6,6 +6,10 @@ import './index.scss';
 import { toast } from 'react-toastify';
 import { showSuccessToast } from '../../config/configToast';
 import { formatMoneyToVND } from '../../currency/currency';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteProductInRedux, resetCart } from '../../redux/feature/cartSlice';
+import { deposit } from '../../redux/feature/balanceSlice';
+import { RootState } from '../../redux/store';
 
 const { Title, Text } = Typography;
 const { confirm } = Modal;
@@ -13,13 +17,15 @@ const { Option } = Select;
 
 const Cart = () => {
     const [dataCart, setDataCart] = useState([]);
+
     const [listDiscount, setListDiscount] = useState([]);
     const [count, setCount] = useState(1)
     const [seletedDiscount, setSeletectedDiscount] = useState(null)
-    const [selectedDiscountPercentage,setSelectedDiscountPercentage] = useState(0)
+    const [selectedDiscountPercentage, setSelectedDiscountPercentage] = useState(0)
+    const cartId = useSelector((store: RootState) => store.user.user?.cartId)
     const fetchingDataCart = async () => {
         try {
-            const response = await api.get(`cart/1`);
+            const response = await api.get(`cart/${cartId}`);
             setDataCart(response.data);
         } catch (error) {
             toast.error(error.response.data.message)
@@ -63,7 +69,21 @@ const Cart = () => {
 
 
 
+    const fetchingBalanceAccount = async () => {
+        try {
+            const response = await api.get("Wallet")
 
+
+
+            dispatch(deposit(response.data.amountofMoney))
+
+        } catch (error) {
+            toast.error("error")
+        }
+    }
+    useEffect(() => {
+        fetchingBalanceAccount();
+    }, [])
     const totalAmount = dataCart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
     const discountedTotal = totalAmount * (1 - selectedDiscountPercentage / 100);
     const handleOrder = async () => {
@@ -72,6 +92,8 @@ const Cart = () => {
                 discountId: seletedDiscount,
             });
             showSuccessToast(response.data.message);
+            dispatch(resetCart())
+            fetchingBalanceAccount()
             setDataCart([]);
         } catch (error) {
             toast.error("Lỗi khi thanh toán");
@@ -152,14 +174,14 @@ const Cart = () => {
             )
         }
     ];
-
+    const dispatch = useDispatch()
     const handleConfirmDelelete = async (id) => {
         try {
             await api.delete(`CartProducts/${id}`)
             setCount(count + 1)
             showSuccessToast("Sản phẩm này đã bị xóa khỏi giỏ hàng của bạn!!")
 
-
+            dispatch(deleteProductInRedux(id))
         } catch (error) {
             toast.error("Error")
         }

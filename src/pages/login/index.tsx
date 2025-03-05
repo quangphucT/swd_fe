@@ -1,30 +1,32 @@
 import "./index.scss";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Form, Input, Space } from "antd";
+import { Button, Form, Input } from "antd";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+
 import { useForm } from "antd/es/form/Form";
 import { signInWithPopup } from "firebase/auth";
 import api from "../../config/api";
-import { login } from "../../redux/features/userSlice";
+
 import { auth, provider } from "../../config/firebase";
 import { showSuccessToast } from "../../config/configToast";
+import { useDispatch } from "react-redux";
+import { saveInformation } from "../../redux/feature/userSlice";
 
 function LoginPopup() {
   const navigate = useNavigate();
   const [form] = useForm();
   const dispatch = useDispatch();
-
+  
   const onFinish = async (values: any) => {
     try {
       const response = await api.post("Accounts/SignIn", values);
       if (response?.data) {
         const user = response.data;
-        const userRole = user.user.roles?.[1] || "USER";
-        dispatch(login(user));
+        const userRole = user.user.roles?.[0] || "USER";
+        dispatch(saveInformation(user))
         localStorage.setItem("token", user.token);
         localStorage.setItem("role", userRole);
-         
+
         showSuccessToast("Login success")
 
         switch (userRole) {
@@ -34,7 +36,7 @@ function LoginPopup() {
           case "MANAGER":
             navigate("/manager");
             break;
-          case "Administrator":
+          case "Admin":
             navigate("/dashboard");
             break;
           default:
@@ -48,7 +50,7 @@ function LoginPopup() {
       form.resetFields();
     }
   };
-  console.log("DataLogin:", )
+  console.log("DataLogin:",)
   const handleLoginGoogle = () => {
     signInWithPopup(auth, provider)
       .then(async (result) => {
@@ -59,7 +61,7 @@ function LoginPopup() {
 
           if (response?.data) {
             const user = response.data;
-            dispatch(login(user));
+
             localStorage.setItem("token", user.token);
             localStorage.setItem("role", user.role);
             toast.success("Login success");

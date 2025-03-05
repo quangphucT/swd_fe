@@ -65,7 +65,7 @@ const ManageDiscountCategory = () => {
     }
     const handleDelete = async () => {
         try {
-            await api.delete(`Blogs/${id}`)
+            await api.delete(`DiscountCategory/${id}`)
             showSuccessToast("Delete success!!")
             fetchingData();
             setOpenDeleteModal(false)
@@ -77,13 +77,17 @@ const ManageDiscountCategory = () => {
     const handleSubmit = async (values) => {
         try {
             if (values.id) {
-                await api.put(`Blogs/${values.id}`, values)
+                await api.put(`DiscountCategory/${values.id}`, values)
                 showSuccessToast("Update success!!")
                 form.resetFields();
                 setOpen(false)
                 fetchingData();
             } else {
-                await api.post("Discount", values)
+                await api.post("Discount", {
+                        id: 0,
+                        name: values.name
+                  
+                })
                 showSuccessToast("Thêm thành công!!")
                 form.resetFields();
                 setOpen(false)
@@ -129,43 +133,13 @@ const ManageDiscountCategory = () => {
                 <Form.Item name={"id"} hidden>
                     <Input />
                 </Form.Item>
-                <Form.Item name={"code"} label="Enter code" rules={[{
+                <Form.Item name={"name"} label="Enter name" rules={[{
                     required: true,
-                    message: 'Please enter code'
+                    message: 'Please enter name'
                 }]}>
-                    <Input placeholder="Enter code" />
+                    <Input placeholder="Enter name" />
                 </Form.Item>
-                <Form.Item name={"percentage"} label="percentage" rules={[{
-                    required: true,
-                    message: 'Please enter percentage'
-                }]}>
-                    <Input placeholder="Enter percentage" />
-                </Form.Item>
-                <Form.Item name={"startDate"} label="startDate" rules={[{
-                    required: true,
-                    message: 'Please enter startDate'
-                }]}>
-                    <Input placeholder="Enter startDate" />
-                </Form.Item>
-
-                <Form.Item name={"endDate"} label="endDate" rules={[{
-                    required: true,
-                    message: 'Please provide endDate'
-                }]}>
-                    <Input placeholder="Provide endDate" />
-                </Form.Item>
-                <Form.Item name={"description"} label="description" rules={[{
-                    required: true,
-                    message: 'Please enter description'
-                }]}>
-                    <Input placeholder="Enter description" />
-                </Form.Item>
-                <Form.Item name={"max_usage"} label="max_usage" rules={[{
-                    required: true,
-                    message: 'Please enter max_usage'
-                }]}>
-                    <Input placeholder="Enter max_usage" />
-                </Form.Item>
+              
 
             </Form>
         </Modal>

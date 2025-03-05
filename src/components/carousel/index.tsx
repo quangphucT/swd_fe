@@ -34,14 +34,14 @@ export default function Carousel() {
                 
                     <SwiperSlide >
                         <div className="image-wrapper">
-                            <img className="image" src='https://gsccos.vn/wp-content/uploads/2023/11/420146731_870120911788759_7943947962580113002_n.jpg.webp' alt='image1' />
+                            <img className="image" src='https://bizweb.dktcdn.net/100/309/697/themes/657044/assets/slider_3_image.png?1734410994573' alt='image1' />
                             
                             
                         </div>
                     </SwiperSlide>
                     <SwiperSlide >
                         <div className="image-wrapper">
-                            <img className="image" src='https://gsccos.vn/wp-content/uploads/2023/11/415731117_858825129585004_7615498318648979137_n.jpg.webp' alt='image1' />
+                            <img className="image" src='https://bizweb.dktcdn.net/100/309/697/themes/657044/assets/slider_2_image.png?1734410994573' alt='image1' />
                            
                             
                         </div>

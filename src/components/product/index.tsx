@@ -6,6 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../config/api";
 import { showSuccessToast } from "../../config/configToast";
+import { useDispatch } from "react-redux";
+import { addProductToCart } from "../../redux/feature/cartSlice";
+
 
 type CardProp = {
   product: Product;
@@ -13,18 +16,8 @@ type CardProp = {
 };
 
 const CardProduct = ({ product, imageUrl }: CardProp) => {
-  //  const [mainImage, setMainImage] = useState("")
-  // const fetchDataCategory = async () => {
-  //     try {
-  //         const response = await api.get(`Categories/${product}`)
-  //         setMainImage(response.data)
-  //     } catch (error) {
-  //         toast.error("Error")
-  //     }
-  // }
-  // useEffect(() => {
-  //     fetchDataCategory();
-  // }, [])
+
+  const dispatch = useDispatch()
   const handleAddFoodToCart = async () => {
     try {
       const response = await api.post("CartProducts", {
@@ -32,6 +25,7 @@ const CardProduct = ({ product, imageUrl }: CardProp) => {
         productId: product.id
       })
       showSuccessToast("Thêm sản phẩm vào giỏ hàng thành công!!")
+      dispatch(addProductToCart(response.data))
     } catch (error) {
       toast.error("Error while resolving!!")
     }

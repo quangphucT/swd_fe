@@ -3,6 +3,9 @@ import { Input, Button, message, Modal, Typography, Space, Card } from 'antd';
 import { CheckCircleOutlined } from '@ant-design/icons';
 import api from '../../config/api';
 import './index.scss';
+import { useDispatch } from 'react-redux';
+import { addBalance } from '../../redux/feature/balanceSlice';
+import { useNavigate } from 'react-router-dom';
 
 const { Title, Text } = Typography;
 
@@ -12,13 +15,23 @@ const DepositePage: React.FC = () => {
     const [amount, setAmount] = useState<number | null>(null);
     const [loading, setLoading] = useState(false);
     const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        if (localStorage.getItem("depositSuccess")) {
+        const queryParams = new URLSearchParams(location.search);
+        const vnp_ResponseCode = queryParams.get("vnp_ResponseCode");
+        const vnpAmount = queryParams.get("vnp_Amount");
+
+        // 🔥 Kiểm tra nếu giao dịch thành công và chưa được xử lý
+        if (vnp_ResponseCode === "00" && !localStorage.getItem("Deposite")) {
             setIsSuccessModalVisible(true);
-            localStorage.removeItem("depositSuccess");
+            dispatch(addBalance(Number(vnpAmount) / 100));
+            localStorage.setItem("Deposite", 'true')
+
+
         }
-    }, []);
+    }, [location.search, dispatch]);
+
 
     const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setAmount(Number(e.target.value));
@@ -29,6 +42,7 @@ const DepositePage: React.FC = () => {
     };
 
     const handleDeposit = async () => {
+
         if (!amount || amount <= 0) {
             message.error('Vui lòng nhập số tiền hợp lệ!');
             return;
@@ -37,18 +51,26 @@ const DepositePage: React.FC = () => {
         setLoading(true);
         try {
             const response = await api.post("Wallet/CreateVNPayPayment", { amount });
-
             if (response.data?.paymentUrl) {
-                localStorage.setItem("depositSuccess", 'true');
                 window.location.href = response.data.paymentUrl;
+
             }
+
         } catch (error) {
             message.error('Có lỗi xảy ra, vui lòng thử lại sau!');
         } finally {
             setLoading(false);
+
         }
     };
 
+    const navigate = useNavigate();
+    const handleCloseModal = () => {
+
+        setIsSuccessModalVisible(false);
+        localStorage.removeItem("Deposite");
+        navigate("/")
+    };
     return (
         <div className="deposit-container">
             <Card bordered={false} className="deposit-card">
@@ -71,9 +93,9 @@ const DepositePage: React.FC = () => {
                     <Title level={3} className="denomination-title">Chọn mệnh giá có sẵn:</Title>
                     <div className="denomination-buttons">
                         {availableDenominations.map((denom) => (
-                            <Button 
-                                key={denom} 
-                                className="denomination-btn" 
+                            <Button
+                                key={denom}
+                                className="denomination-btn"
                                 onClick={() => handleQuickDeposit(denom)}
                             >
                                 {denom.toLocaleString()} VND
@@ -86,8 +108,8 @@ const DepositePage: React.FC = () => {
             {/* Modal thông báo thành công */}
             <Modal
                 open={isSuccessModalVisible}
-                onOk={() => setIsSuccessModalVisible(false)}
-                onCancel={() => setIsSuccessModalVisible(false)}
+                onOk={handleCloseModal}
+                onCancel={handleCloseModal}
                 okText="Đóng"
                 centered
                 className="success-modal"

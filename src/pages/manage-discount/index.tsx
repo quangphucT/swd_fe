@@ -100,7 +100,7 @@ const ManageDiscount = () => {
     }
     const handleDelete = async () => {
         try {
-            await api.delete(`Blogs/${id}`)
+            await api.delete(`Discount/${id}`)
             showSuccessToast("Delete success!!")
             fetchingData();
             setOpenDeleteModal(false)
@@ -112,7 +112,7 @@ const ManageDiscount = () => {
     const handleSubmit = async (values) => {
         try {
             if (values.id) {
-                await api.put(`Blogs/${values.id}`, values)
+                await api.put(`Discount/${values.id}`, values)
                 showSuccessToast("Update success!!")
                 form.resetFields();
                 setOpen(false)
@@ -131,11 +131,11 @@ const ManageDiscount = () => {
     return <div className="manage-account">
         <div className="table-container">
             <Button onClick={() => { setOpen(true) }}>Tạo mới mã giảm giá</Button>
-            <Table title={() => "Manage Blogs"} columns={columns} dataSource={data} scroll={{ x: "max-content" }} />
+            <Table title={() => "Manage Discounts"} columns={columns} dataSource={data} scroll={{ x: "max-content" }} />
         </div>
         <Modal
             title={
-                "Tạo discount mới"
+                "Thông tin mã giảm giá"
             }
             footer={[
                 <Button
@@ -164,45 +164,90 @@ const ManageDiscount = () => {
                 <Form.Item name={"id"} hidden>
                     <Input />
                 </Form.Item>
-                <Form.Item name={"code"} label="Enter code" rules={[{
-                    required: true,
-                    message: 'Please enter code'
-                }]}>
+
+                {/* Code không được chứa ký tự đặc biệt */}
+                <Form.Item
+                    name={"code"}
+                    label="Enter code"
+                    rules={[
+                        { required: true, message: "Please enter code" },
+                        { pattern: /^[A-Za-z0-9]+$/, message: "Code chỉ chứa chữ cái và số" },
+                    ]}
+                >
                     <Input placeholder="Enter code" />
                 </Form.Item>
-                <Form.Item name={"percentage"} label="percentage" rules={[{
-                    required: true,
-                    message: 'Please enter percentage'
-                }]}>
-                    <Input placeholder="Enter percentage" />
-                </Form.Item>
-                <Form.Item name={"startDate"} label="startDate" rules={[{
-                    required: true,
-                    message: 'Please enter startDate'
-                }]}>
-                    <Input  placeholder="Enter startDate" />
+
+                {/* Percentage phải trong khoảng 1 - 100 */}
+                <Form.Item
+                    name={"percentage"}
+                    label="Percentage"
+                    rules={[
+                        { required: true, message: "Please enter percentage" },
+
+                    ]}
+                >
+                    <Input type="number" placeholder="Enter percentage" />
                 </Form.Item>
 
-                <Form.Item name={"endDate"} label="endDate" rules={[{
-                    required: true,
-                    message: 'Please provide endDate'
-                }]}>
-                    <Input placeholder="Provide endDate" />
-                </Form.Item>
-                <Form.Item name={"description"} label="description" rules={[{
-                    required: true,
-                    message: 'Please enter description'
-                }]}>
-                    <Input  placeholder="Enter description" />
-                </Form.Item>
-                <Form.Item name={"max_usage"} label="max_usage" rules={[{
-                    required: true,
-                    message: 'Please enter max_usage'
-                }]}>
-                    <Input  placeholder="Enter max_usage" />
+                {/* StartDate không được là ngày trong quá khứ */}
+                <Form.Item
+                    name={"startDate"}
+                    label="Start Date"
+                    rules={[
+                        { required: true, message: "Please enter startDate" },
+                        {
+                            validator: (_, value) =>
+                                value && dayjs(value).isBefore(dayjs(), "day")
+                                    ? Promise.reject(new Error("StartDate không được ở quá khứ"))
+                                    : Promise.resolve(),
+                        },
+                    ]}
+                >
+                    <Input type="date" placeholder="Enter startDate" />
                 </Form.Item>
 
+                {/* EndDate phải sau StartDate */}
+                <Form.Item
+                    name={"endDate"}
+                    label="End Date"
+                    dependencies={["startDate"]}
+                    rules={[
+                        { required: true, message: "Please provide endDate" },
+                        ({ getFieldValue }) => ({
+                            validator(_, value) {
+                                if (!value || dayjs(value).isAfter(getFieldValue("startDate"), "day")) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject(new Error("EndDate phải sau StartDate"));
+                            },
+                        }),
+                    ]}
+                >
+                    <Input type="date" placeholder="Provide endDate" />
+                </Form.Item>
+
+                {/* Description bắt buộc */}
+                <Form.Item
+                    name={"description"}
+                    label="Description"
+                    rules={[{ required: true, message: "Please enter description" }]}
+                >
+                    <Input placeholder="Enter description" />
+                </Form.Item>
+
+                {/* Max_usage phải là số nguyên dương */}
+                <Form.Item
+                    name={"max_usage"}
+                    label="Max Usage"
+                    rules={[
+                        { required: true, message: "Please enter max_usage" },
+                        { pattern: /^[1-9]\d*$/, message: "Max usage phải là số nguyên dương" },
+                    ]}
+                >
+                    <Input type="number" placeholder="Enter max_usage" />
+                </Form.Item>
             </Form>
+
         </Modal>
         <Modal
             onOk={handleDelete}
@@ -216,7 +261,7 @@ const ManageDiscount = () => {
             okButtonProps={{ danger: true }}
         >
             <p style={{ textAlign: "center", fontSize: "15.5px" }}>
-                Are you sure you want to delete this blog?
+                Are you sure you want to delete this discount?
             </p>
         </Modal>
     </div>;
