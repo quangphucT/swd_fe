@@ -1,97 +1,146 @@
-import { CiSearch } from "react-icons/ci";
-import { Button, Input } from "antd";
-import "./index.scss";
+
+import { Button, Badge, Dropdown, Menu, Image } from "antd";
 import { TiUser } from "react-icons/ti";
 import { BiSolidCart } from "react-icons/bi";
+import { LogoutOutlined, WalletOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import MegaMenu from "../navbar";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { logout } from "../../redux/features/userSlice";
-import { LogoutOutlined } from "@ant-design/icons";
+
+
 import { formatMoneyToVND } from "../../currency/currency";
 import { toast } from "react-toastify";
 import api from "../../config/api";
+import MegaMenu from "../navbar";
+import "./index.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { removeInformation } from "../../redux/feature/userSlice";
+import { AppDispatch, RootState } from "../../redux/store";
+import { resetBalance } from "../../redux/feature/balanceSlice";
+import { addCartData } from "../../redux/feature/cartSlice";
+
+
+
+
+
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Trạng thái đăng nhập
-  const [balance, setBalance] = useState(null)
-  const dispatch = useDispatch();
-  useEffect(() => {
-    // Kiểm tra xem có token hay không (hoặc gọi API xác thực)
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token); // Nếu có token => đã đăng nhập
-  }, []);
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const cartId = useSelector((store: RootState) => store.user?.user?.cartId)
+  const balanceAccountFromRedux = useSelector((store: RootState) => store.balance)
+  const [image, setImage] = useState("")
   const navigate = useNavigate();
-  const handleNavigateLoginPage = () => {
-    navigate("/login");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
+
+
+
+
+
+  const fetchCart = async () => {
+    try {
+      const response = await api.get(`/cart/${cartId}`);
+      dispatch(addCartData(response.data))
+    } catch (error) {
+      toast.error("Lỗi khi lấy giỏ hàng!");
+    }
   };
-  const handleNavigateHomePage = () => {
+
+  useEffect(() => {
+    if (isLoggedIn) {
+
+      fetchCart();
+    }
+  }, [isLoggedIn]);
+
+  const handleLogout = () => {
+
+    localStorage.removeItem("token");
+    dispatch(removeInformation())
+    dispatch(resetBalance())
+    setIsLoggedIn(false);
     navigate("/");
   };
-  const handleNavigateCartPage = () => {
-    navigate("/cart");
-  };
-  const handleNavigateProfilePage = () => {
-    navigate("/my-account/profile");
-  };
-  const fetchWallet = async() => {
+  const cartFromRedux = useSelector((store: RootState) => store.cart)
+  // getcurrent account
+  const userId = useSelector((store: RootState) => store.user?.user?.id)
+  const fetchCurrentAccount = async () => {
     try {
-      const response = await api.get("Wallet")
-      setBalance(response.data.amountofMoney)
+      if (userId) {
+        const response = await api.get("Accounts/GetCurrentAccount")
+        setImage(response.data.avatar)
+      }
+
     } catch (error) {
-      toast.error("Error while fetching")
+      toast.error("error")
     }
   }
   useEffect(() => {
-    fetchWallet();
-  },[])
+    fetchCurrentAccount()
+  }, [])
+  const menu = (
+    <Menu>
+      <Menu.Item key="profile" onClick={() => navigate("/my-account/profile")}>
+        <TiUser size={20} style={{ marginRight: 8 }} />
+        Trang cá nhân
+      </Menu.Item>
+      <Menu.Item key="logout" onClick={handleLogout}>
+        <LogoutOutlined style={{ marginRight: 8 }} />
+        Đăng xuất
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <>
       <div className="header">
+        {/* Logo & Blog */}
         <div className="header__left">
-          <div className="logo" onClick={handleNavigateHomePage}>
-            Cosmeceuticals
-          </div>
+          <div className="logo" onClick={() => navigate("/")}>CosmeCare</div>
+          <div className="blog" onClick={() => navigate("/blog")}>Bài viết làm đẹp</div>
+
+          <div className="blog" onClick={() => navigate("/booking-page")}>Đặt lịch chuyên viên</div>
         </div>
-        {/* <div className="header__middle"> */}
-          {/* <Input placeholder="Tìm kiếm sản phẩm..." className="input" />
-          <CiSearch className="search_icon" /> */}
-          {/* <Button>Nạp tiền vào v</Button>
+
+        {/* Thanh Tìm Kiếm */}
+        {/* <div className="header__middle">
+          <Input placeholder="Tìm kiếm sản phẩm..." className="input-search" />
+          <CiSearch className="search-icon" />
         </div> */}
+
+        {/* Phần bên phải */}
         <div className="header__right">
           {isLoggedIn ? (
             <>
-              <div className="profile-user" onClick={handleNavigateProfilePage}>
-                <TiUser className="user_icon" size={47} />
+              {/* Số dư ví */}
+              <div className="wallet">
+                <WalletOutlined style={{ fontSize: 20, marginRight: 5 }} />
+                <span>{formatMoneyToVND(balanceAccountFromRedux)}</span>
+                <Button type="link" onClick={() => navigate("/deposite")}>Nạp tiền</Button>
               </div>
-              <div className="current-balance">
-                <p style={{fontWeight: 'bold'}}>Your balance: {formatMoneyToVND(balance)}</p>
-              </div>
-              <div
-                className="logout"
-                onClick={() => {
-                  dispatch(logout());
-                  localStorage.removeItem("token"); // Xóa token khi đăng xuất
-                  setIsLoggedIn(false);
-                  navigate("/login");
-                }}
-              >
-                <LogoutOutlined className="logout-icon " />
-                <p>Đăng xuất</p>
-              </div>
+
+              {/* Hồ sơ người dùng */}
+              <Dropdown overlay={menu} placement="bottomRight">
+                <div className="profile-user">
+                  {userId ? <Image src={image} preview={false} style={{ width: '45px', height: '45px', objectFit: 'cover', borderRadius: '50%' }} /> : <TiUser className="user-icon" size={45} />}
+
+                </div>
+              </Dropdown>
             </>
           ) : (
-            <div className="login" onClick={handleNavigateLoginPage}>
-              <TiUser className="user_icon" />
+            <div className="login" onClick={() => navigate("/login")}>
+              <TiUser size={40} className="user-icon" />
               <p>Đăng nhập / Đăng ký</p>
             </div>
           )}
-          <div className="cart" >
-            <BiSolidCart  onClick={handleNavigateCartPage} className="cart_icon" />
-            <p onClick={handleNavigateCartPage}>Giỏ hàng</p>
-            <Button onClick={() => {navigate("/deposite")}} className="wallet-button">Nạp tiền vào ví</Button>
-          </div>
-         
+
+          {/* Giỏ hàng */}
+          <Badge count={cartFromRedux.length} showZero>
+            <BiSolidCart onClick={() => navigate("/cart")} className="cart-icon" />
+          </Badge>
         </div>
       </div>
       <MegaMenu />

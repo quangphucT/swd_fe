@@ -23,7 +23,7 @@ const Sidebar: React.FC = () => {
         key="/profile"
         icon={<UserOutlined />}
         onClick={() => navigate("/my-account/profile")}
-        style={{marginLeft:6}}
+        style={{ marginLeft: 6 }}
       >
         Account
       </Menu.Item>
@@ -31,7 +31,7 @@ const Sidebar: React.FC = () => {
         key="/change_password"
         icon={<LockOutlined />}
         onClick={() => navigate("/my-account/change-password")}
-        style={{marginLeft:6}}
+        style={{ marginLeft: 6 }}
       >
         Change Password
       </Menu.Item>
@@ -40,17 +40,17 @@ const Sidebar: React.FC = () => {
         onClick={() => navigate("/my-account/transaction-payment")}
       >
         <div style={{ display: "flex", alignItems: "center" }}>
-          <IconTransaction  />
+          <IconTransaction />
           <span style={{ marginLeft: "6px" }}>Transaction Payment</span>
         </div>
       </Menu.Item>
       <Menu.Item
-        key="/history-order"
-        onClick={() => navigate("/my-account/history-order")}
+        key="/your-order"
+        onClick={() => navigate("/my-account/your-order")}
       >
         <div style={{ display: "flex", alignItems: "center" }}>
           <IconHistory />
-          <span style={{ marginLeft: "6px" }}>History Order</span>
+          <span style={{ marginLeft: "6px" }}>Đơn hàng của bạn</span>
         </div>
       </Menu.Item>
       <Menu.Item

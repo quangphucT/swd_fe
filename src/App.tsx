@@ -32,6 +32,15 @@ import ProductDetail from "./pages/product-detail";
 import DepositePage from "./pages/deposite-page";
 import ManageAccount from "./pages/manage-account";
 import HistoryDeposite from "./pages/history-deposite";
+import BlogPage from "./pages/blog-page";
+import ManageBlog from "./pages/mange-blog";
+import BlogDetails from "./pages/blog-details";
+import ManageDiscount from "./pages/manage-discount";
+import ManageDiscountCategory from "./pages/manage-discountCategory";
+import { CartProvider } from "./pages/CartContext/CartContext";
+import YourOrderList from "./pages/history-order";
+import ManageOrder from "./pages/manage-order";
+import BookingPage from "./pages/booking-page";
 
 
 
@@ -57,7 +66,20 @@ const App = () => {
           path: "/cart",
           element: <Cart />,
         },
-       
+        {
+          path: "/booking-page",
+          element: <BookingPage />,
+        },
+        {
+          path: "/blog",
+          element: <BlogPage />,
+        },
+
+        {
+          path: "/blog-details/:id",
+          element: <BlogDetails />,
+        },
+
 
         {
           path: "*",
@@ -82,6 +104,10 @@ const App = () => {
             {
               path: "change-password",
               element: <ChangePassword />,
+            },
+            {
+              path: "your-order",
+              element: <YourOrderList />,
             },
             {
               path: "history-deposite",
@@ -113,8 +139,24 @@ const App = () => {
           element: <ManageBrand />,
         },
         {
+          path: "blog-management",
+          element: <ManageBlog />,
+        },
+        {
           path: "manage-account",
           element: <ManageAccount />,
+        },
+        {
+          path: "manage-discount",
+          element: <ManageDiscount />,
+        },
+        {
+          path: "manage-order",
+          element: <ManageOrder />,
+        },
+        {
+          path: "manage-discount-category",
+          element: <ManageDiscountCategory />,
         },
         {
           path: "",
@@ -165,7 +207,10 @@ const App = () => {
   ]);
   return (
     <div>
-      <RouterProvider router={router} />
+    
+        <RouterProvider router={router} />
+     
+
     </div>
   );
 };

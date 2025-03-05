@@ -30,11 +30,17 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
   const handleLogout = () => {
+    localStorage.clear();
     navigate("/login");
+
   };
   const items = [
     getItem("Dashboard", "", <PieChartOutlined />),
     getItem("Manage Account", "manage-account", <PieChartOutlined />),
+    getItem("Manage Order", "manage-order", <PieChartOutlined />),
+    getItem("Manage Discount", "manage-discount", <PieChartOutlined />),
+    getItem("Manage DiscountCategory", "manage-discount-category", <PieChartOutlined />),
+    getItem("Manage Blog", "blog-management", <PieChartOutlined />),
     getItem("Manage brand", "brand-management", <DesktopOutlined />, [
       getItem("Manage images", "manage-images", <TeamOutlined />),
       getItem("Manage brandOrigin", "manage-brandOrigin", <PieChartOutlined />),
