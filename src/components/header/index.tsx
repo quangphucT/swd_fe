@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeInformation } from "../../redux/feature/userSlice";
 import { AppDispatch, RootState } from "../../redux/store";
 import { resetBalance } from "../../redux/feature/balanceSlice";
-import { addCartData } from "../../redux/feature/cartSlice";
+import { addCartData, resetCart } from "../../redux/feature/cartSlice";
 
 
 
@@ -61,6 +61,7 @@ const Header = () => {
     localStorage.removeItem("token");
     dispatch(removeInformation())
     dispatch(resetBalance())
+    dispatch(resetCart())
     setIsLoggedIn(false);
     navigate("/");
   };
