@@ -11,6 +11,7 @@ import api from '../../config/api'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../redux/store'
 import { deposit } from '../../redux/feature/balanceSlice'
+import { Col, Row } from 'antd'
 
 
 const Home = () => {
@@ -30,13 +31,17 @@ const Home = () => {
     fetchingBalanceAccount();
   }, [])
   const balance = useSelector((store: RootState) => store.balance);
+  const role = useSelector((store: RootState) => store.user?.user.roles[0])
   console.log("Current Balance in Redux:", balance);
+
   return (
     <div className='home'>
       <Carousel />
-
-
-      <ListProducts />
+   
+      {role !== 'Doctor' && (
+        <ListProducts />
+      )}
+    
       <BlogHomePage />
     </div>
   )

@@ -1,63 +1,135 @@
-import { useState } from 'react';
-import { Select, Card, Button } from 'antd';
+import { useEffect, useState } from 'react';
+import { Select, Card, Button, Modal, notification, Col, Row, Avatar } from 'antd';
+import { toast } from 'react-toastify';
+import api from '../../config/api';
+import dayjs from 'dayjs';
 import './index.scss';
-
-const doctors = [
-    { id: 1, name: 'Dr. Nguyễn Văn A' },
-    { id: 2, name: 'Dr. Trần Thị B' },
-    { id: 3, name: 'Dr. Lê Văn C' },
-];
-
-const availableSlots = {
-    1: ['09:00 - 09:30', '10:00 - 10:30', '14:00 - 14:30'],
-    2: ['08:30 - 09:00', '11:00 - 11:30', '15:00 - 15:30'],
-    3: ['09:30 - 10:00', '13:00 - 13:30', '16:00 - 16:30'],
-};
 
 const BookingPage = () => {
     const [selectedDoctor, setSelectedDoctor] = useState(null);
     const [selectedSlot, setSelectedSlot] = useState(null);
+    const [dataDoctor, setDataDoctor] = useState([]);
+    const [slotList, setSlotList] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const fetchingDataDoctor = async () => {
+        try {
+            const response = await api.get("Booking/GetAllDoctors");
+            setDataDoctor(response.data);
+        } catch (error) {
+            toast.error(error.response.data);
+        }
+    };
+
+    const fetchSlotfromDoctorId = async () => {
+        if (!selectedDoctor) return;
+        try {
+            const response = await api.get(`Booking/GetAvailableBookings/${selectedDoctor}`);
+            setSlotList(response.data);
+        } catch (error) {
+            toast.error("Không thể tải danh sách lịch trống.");
+        }
+    };
+
+    const handleOk = async () => {
+        try {
+            await api.post("Booking/RequestAppointment", { bookingId: selectedSlot });
+            notification.success({
+                message: "Thành công!",
+                description: "Bạn đã đặt lịch hẹn thành công.",
+                duration: 5,
+            });
+            setIsModalOpen(false);
+            setSelectedSlot(null);
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Đặt lịch thất bại!");
+        }
+    };
+
+    useEffect(() => {
+        fetchingDataDoctor();
+    }, []);
+
+    useEffect(() => {
+        fetchSlotfromDoctorId();
+    }, [selectedDoctor]);
 
     return (
         <div className="booking-container">
-            <h2>Đặt lịch khám</h2>
-            <div className="doctor-selection">
-                <Select
-                    placeholder="Chọn bác sĩ"
-                    style={{ width: 300 }}
-                    onChange={value => {
-                        setSelectedDoctor(value);
-                        setSelectedSlot(null);
-                    }}
-                >
-                    {doctors.map(doctor => (
-                        <Select.Option key={doctor.id} value={doctor.id}>
-                            {doctor.name}
-                        </Select.Option>
-                    ))}
-                </Select>
-            </div>
-            {selectedDoctor && (
-                <div className="slots-container">
-                    <h3>Lịch trống:</h3>
-                    <div className="slots">
-                        {availableSlots[selectedDoctor].map(slot => (
+            <Row gutter={24}>
+                {/* DANH SÁCH BÁC SĨ */}
+                <Col span={6}>
+                    <h3>Chọn bác sĩ</h3>
+                    <div className="doctor-list">
+                        {dataDoctor.map((doctor) => (
                             <Card
-                                key={slot}
-                                className={`slot-card ${selectedSlot === slot ? 'selected' : ''}`}
-                                onClick={() => setSelectedSlot(slot)}
+                                key={doctor.id}
+                                className={`doctor-card ${selectedDoctor === doctor.id ? 'selected' : ''}`}
+                                onClick={() => {
+                                    setSelectedDoctor(doctor.id);
+                                    setSelectedSlot(null);
+                                }}
                             >
-                                {slot}
+                                <Avatar
+                                    size={64}
+                                    src={doctor.avatar || "https://via.placeholder.com/64"}
+                                    alt={`Dr. ${doctor.firstName} ${doctor.lastName}`}
+                                />
+                                <p>{`Dr. ${doctor.firstName} ${doctor.lastName}`}</p>
                             </Card>
                         ))}
                     </div>
-                </div>
-            )}
-            {selectedSlot && (
-                <Button type="primary" className="confirm-button">
-                    Xác nhận lịch hẹn
-                </Button>
-            )}
+                </Col>
+
+                {/* DANH SÁCH LỊCH TRỐNG */}
+                <Col span={18}>
+                  <div >
+                  <h2>Đặt lịch khám</h2>
+                      {/* NÚT XÁC NHẬN */}
+                      {selectedSlot && (
+                        <Button onClick={() => setIsModalOpen(true)} type="primary" className="confirm-button">
+                            Xác nhận lịch hẹn
+                        </Button>
+                    )}
+                  </div>
+                    {selectedDoctor ? (
+                        <div className="slots-container">
+                            <h3>Danh sách lịch trống</h3>
+                            <div className="slots">
+                                {slotList.length > 0 ? (
+                                    slotList.map((slot) => (
+                                        <Card
+                                            key={slot.bookingId}
+                                            className={`slot-card ${selectedSlot === slot.bookingId ? 'selected' : ''}`}
+                                            onClick={() => setSelectedSlot(slot.bookingId)}
+                                        >
+                                            {dayjs(slot.timeSlot).format("DD-MM-YYYY HH:mm")}
+                                        </Card>
+                                    ))
+                                ) : (
+                                    <p>Không có lịch trống.</p>
+                                )}
+                            </div>
+                        </div>
+                    ) : (
+                        <p>Vui lòng chọn bác sĩ để xem lịch trống.</p>
+                    )}
+
+                  
+
+                    {/* MODAL XÁC NHẬN */}
+                    <Modal
+                        title="Xác nhận đặt lịch"
+                        open={isModalOpen}
+                        onOk={handleOk}
+                        onCancel={() => setIsModalOpen(false)}
+                        okText="Xác nhận đặt lịch"
+                        cancelText="Hủy"
+                    >
+                        <p style={{ fontSize: '16px' }}>Bạn có chắc chắn muốn đặt lịch hẹn với khung giờ này không?</p>
+                    </Modal>
+                </Col>
+            </Row>
         </div>
     );
 };

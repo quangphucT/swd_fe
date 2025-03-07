@@ -27,6 +27,13 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const cartId = useSelector((store: RootState) => store.user?.user?.cartId)
+
+
+  // lấy ra role của user
+
+  const role = useSelector((store: RootState) => store.user?.user.roles[0])
+  const user = useSelector((store: RootState) => store.user)
+  console.log("Role:", role)
   const balanceAccountFromRedux = useSelector((store: RootState) => store.balance)
   const [image, setImage] = useState("")
   const navigate = useNavigate();
@@ -102,8 +109,17 @@ const Header = () => {
         <div className="header__left">
           <div className="logo" onClick={() => navigate("/")}>CosmeCare</div>
           <div className="blog" onClick={() => navigate("/blog")}>Bài viết làm đẹp</div>
-
-          <div className="blog" onClick={() => navigate("/booking-page")}>Đặt lịch chuyên viên</div>
+          {user && (
+            <>
+              {role !== "Doctor" && (<>
+                <div className="blog" onClick={() => navigate("/booking-page")}>Đặt lịch khám</div>
+                <div className="blog" onClick={() => navigate("/booking-schedule-customer")}>Lịch hẹn của bạn</div>
+              </>)}
+              {role !== "Customer" && (
+                <div className="blog" onClick={() => navigate("/schedule-doctor")}>Lịch khám của bác sĩ</div>
+              )}
+            </>
+          )}
         </div>
 
         {/* Thanh Tìm Kiếm */}
@@ -117,11 +133,11 @@ const Header = () => {
           {isLoggedIn ? (
             <>
               {/* Số dư ví */}
-              <div className="wallet">
+              {role !== 'Doctor' && <div className="wallet">
                 <WalletOutlined style={{ fontSize: 20, marginRight: 5 }} />
                 <span>{formatMoneyToVND(balanceAccountFromRedux)}</span>
                 <Button type="link" onClick={() => navigate("/deposite")}>Nạp tiền</Button>
-              </div>
+              </div>}
 
               {/* Hồ sơ người dùng */}
               <Dropdown overlay={menu} placement="bottomRight">
@@ -139,9 +155,15 @@ const Header = () => {
           )}
 
           {/* Giỏ hàng */}
-          <Badge count={cartFromRedux.length} showZero>
-            <BiSolidCart onClick={() => navigate("/cart")} className="cart-icon" />
-          </Badge>
+          {user && (
+            <>
+              {
+                role !== "Doctor" && (<Badge count={cartFromRedux.length} showZero>
+                  <BiSolidCart onClick={() => navigate("/cart")} className="cart-icon" />
+                </Badge>)
+              }
+            </>
+          )}
         </div>
       </div>
       <MegaMenu />

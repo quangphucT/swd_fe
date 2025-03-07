@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import Layout from "./components/layout";
 import Home from "./pages/home";
 
@@ -30,17 +30,25 @@ import ChangePassword from "./pages/change-password";
 import Cart from "./pages/cart";
 import ProductDetail from "./pages/product-detail";
 import DepositePage from "./pages/deposite-page";
-import ManageAccount from "./pages/manage-account";
 import HistoryDeposite from "./pages/history-deposite";
 import BlogPage from "./pages/blog-page";
 import ManageBlog from "./pages/mange-blog";
 import BlogDetails from "./pages/blog-details";
 import ManageDiscount from "./pages/manage-discount";
 import ManageDiscountCategory from "./pages/manage-discountCategory";
-import { CartProvider } from "./pages/CartContext/CartContext";
 import YourOrderList from "./pages/history-order";
 import ManageOrder from "./pages/manage-order";
 import BookingPage from "./pages/booking-page";
+import ManageDoctor from "./pages/manage-doctor";
+import ManageStaff from "./pages/manage-staff";
+import ManageCustomer from "./pages/manage-account";
+import ScheduleCustomerBooking from "./pages/booking-customer-schedule";
+
+import ManagePendingAppointments from "./pages/manage-pending-appointments";
+import ManageConfirmedAppointments from "./pages/manage-confirmed-appointment";
+import ScheduleOfDoctor from "./pages/schedule-doctor-page";
+import { useSelector } from "react-redux";
+import { RootState } from "./redux/store";
 
 
 
@@ -48,10 +56,11 @@ import BookingPage from "./pages/booking-page";
 
 
 const App = () => {
+  const role = useSelector((store: RootState) => store.user?.user.roles[0])
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Layout />,
+      element: role === "Staff" ? <Navigate to={"/dashboard"} replace /> : <Layout />,
       children: [
         {
           path: "/",
@@ -73,6 +82,14 @@ const App = () => {
         {
           path: "/blog",
           element: <BlogPage />,
+        },
+        {
+          path: "/schedule-doctor",
+          element: <ScheduleOfDoctor />,
+        },
+        {
+          path: "/booking-schedule-customer",
+          element: <ScheduleCustomerBooking />,
         },
 
         {
@@ -132,7 +149,7 @@ const App = () => {
     },
     {
       path: "/dashboard",
-      element: <Dashboard />,
+      element: role === "Customer" || role==="Doctor" ? <Navigate to={"/"} replace /> : <Dashboard />,
       children: [
         {
           path: "brand-management",
@@ -143,8 +160,24 @@ const App = () => {
           element: <ManageBlog />,
         },
         {
-          path: "manage-account",
-          element: <ManageAccount />,
+          path: "manage-customer",
+          element: <ManageCustomer />,
+        },
+        {
+          path: "manage-pending-appointment",
+          element: <ManagePendingAppointments />,
+        },
+        {
+          path: "manage-confirmed-appointment",
+          element: <ManageConfirmedAppointments />,
+        },
+        {
+          path: "manage-doctor",
+          element: <ManageDoctor />,
+        },
+        {
+          path: "manage-staff",
+          element: <ManageStaff />,
         },
         {
           path: "manage-discount",
@@ -207,9 +240,9 @@ const App = () => {
   ]);
   return (
     <div>
-    
-        <RouterProvider router={router} />
-     
+
+      <RouterProvider router={router} />
+
 
     </div>
   );

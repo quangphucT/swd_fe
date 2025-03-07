@@ -1,6 +1,6 @@
 .product-detail-container {
   padding: 40px 10vw;
-  background-color: #e4e8e4;
+  background: rgba(46, 125, 50, 0.1);
 }
 
 .breadcrumb {
@@ -65,4 +65,22 @@
   margin-top: 50px;
   font-weight: bold;
   color: #1e88e5;
+}
+.feedback-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.feedback-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.feedback-username {
+  font-size: 16px;
+  font-weight: bold;
 }

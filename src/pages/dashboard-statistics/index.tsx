@@ -29,29 +29,44 @@ const DashboardStatistic = () => {
           <Card className="stat-card">
             <UserOutlined className="icon user-icon" />
             <div>
-              <h3>Total Users</h3>
+              <h3>Total Customer</h3>
               <p>12,345</p>
             </div>
           </Card>
+          
         </Col>
         <Col span={8}>
           <Card className="stat-card">
-            <DollarOutlined className="icon revenue-icon" />
+          <UserOutlined className="icon user-icon" />
             <div>
-              <h3>Monthly Revenue</h3>
+              <h3>Total doctor</h3>
               <p>$45,678</p>
             </div>
           </Card>
         </Col>
         <Col span={8}>
           <Card className="stat-card">
-            <CalendarOutlined className="icon booking-icon" />
+          <UserOutlined className="icon user-icon" />
             <div>
-              <h3>Total Bookings</h3>
+              <h3>Total staff</h3>
               <p>2,345</p>
             </div>
           </Card>
         </Col>
+      </Row>
+      <Row gutter={16} className="summary-cards">
+        <Col span={8}>
+          <Card className="stat-card">
+            <UserOutlined className="icon user-icon" />
+            <div>
+              <h3>Total manager</h3>
+              <p>12,345</p>
+            </div>
+          </Card>
+          
+        </Col>
+        
+      
       </Row>
 
       {/* Biểu đồ */}

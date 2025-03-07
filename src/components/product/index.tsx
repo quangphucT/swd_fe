@@ -6,8 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../config/api";
 import { showSuccessToast } from "../../config/configToast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addProductToCart } from "../../redux/feature/cartSlice";
+import { RootState } from "../../redux/store";
+import { notification } from "antd";
 
 
 type CardProp = {
@@ -16,19 +18,28 @@ type CardProp = {
 };
 
 const CardProduct = ({ product, imageUrl }: CardProp) => {
-
+  const user = useSelector((store: RootState) => store.user)
   const dispatch = useDispatch()
   const handleAddFoodToCart = async () => {
-    try {
-      const response = await api.post("CartProducts", {
-        quantity: 1,
-        productId: product.id
-      })
-      showSuccessToast("Thêm sản phẩm vào giỏ hàng thành công!!")
-      dispatch(addProductToCart(response.data))
-    } catch (error) {
-      toast.error("Error while resolving!!")
+    if (user) {
+      try {
+        const response = await api.post("CartProducts", {
+          quantity: 1,
+          productId: product.id
+        })
+        showSuccessToast("Thêm sản phẩm vào giỏ hàng thành công!!")
+        dispatch(addProductToCart(response.data))
+      } catch (error) {
+        toast.error("Error while resolving!!")
+      }
+    } else {
+      notification.error({
+        message: "Thêm vào giỏ hàng thất bại!",
+        description: "Bạn cần đăng nhập tài khoản.",
+        duration: 5,
+      });
     }
+
   };
   const navigate = useNavigate();
   const handleNavigateProductDetail = () => {
