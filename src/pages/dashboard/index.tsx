@@ -36,8 +36,18 @@ const Dashboard = () => {
   };
   const items = [
     getItem("Dashboard", "", <PieChartOutlined />),
-    getItem("Manage Account", "manage-account", <PieChartOutlined />),
+    getItem("Manage Customer", "manage-customer", <PieChartOutlined />,
+      [
+        getItem("Manage Doctor", "manage-doctor", <PieChartOutlined />),
+        getItem("Manage Staff", "manage-staff", <PieChartOutlined />)
+      ]
+    ),
     getItem("Manage Order", "manage-order", <PieChartOutlined />),
+    getItem("Manage pending appointments", "manage-pending-appointment", <PieChartOutlined />,
+      [
+        getItem("Manage confirmed appointments", "manage-confirmed-appointment", <PieChartOutlined />)
+      ]
+    ),
     getItem("Manage Discount", "manage-discount", <PieChartOutlined />),
     getItem("Manage DiscountCategory", "manage-discount-category", <PieChartOutlined />),
     getItem("Manage Blog", "blog-management", <PieChartOutlined />),
@@ -75,13 +85,13 @@ const Dashboard = () => {
       }}
     >
       <Sider
-        width={290} // Set the sidebar width correctly
+        width={320} // Set the sidebar width correctly
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
       >
         <div className="demo-logo-vertical" />
-        <div className="admin-section">
+        <div style={{background: '#2968a7', color: '#fff'}} className="admin-section">
           <UserOutlined className="admin-icon" />
 
           <span className="admin-text">{collapsed ? "" : "Admin"}</span>

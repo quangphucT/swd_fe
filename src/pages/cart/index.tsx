@@ -17,7 +17,6 @@ const { Option } = Select;
 
 const Cart = () => {
     const [dataCart, setDataCart] = useState([]);
-
     const [listDiscount, setListDiscount] = useState([]);
     const [count, setCount] = useState(1)
     const [seletedDiscount, setSeletectedDiscount] = useState(null)

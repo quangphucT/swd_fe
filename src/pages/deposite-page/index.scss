@@ -2,17 +2,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #f4f6f9;
-  margin-top: -50px;
+  height: 100%;
+  background-color: #ebf1e8;
+  padding: 20px 0;
 }
-
+.deposit-content{
+  display: flex;
+  gap: 20px;
+}
 .deposit-card {
   width: 950px;
   padding: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
   background: #fff;
-  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
   text-align: center;
 }
 
@@ -22,11 +25,33 @@
   text-align: center;
 }
 
+// Logo VNPAY
+.vnpay-logo {
+  width: 200px;
+  margin: 10px auto;
+  display: block;
+}
+
+// Icon thanh toán
+.payment-icons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 15px 0;
+
+  img {
+    width: 50px;
+    height: auto;
+  }
+}
+
+// Input nhập số tiền
 .input-amount {
   height: 45px;
   font-size: 16px;
 }
 
+// Nút nạp tiền
 .deposit-btn {
   width: 100%;
   font-size: 18px;
@@ -34,17 +59,20 @@
   background: #1890ff;
   border-radius: 8px;
   font-weight: bold;
+  transition: background 0.3s;
+
+  &:hover {
+    background: #40a9ff;
+  }
 }
 
-.deposit-btn:hover {
-  background: #40a9ff;
-}
-
+// Tiêu đề danh sách mệnh giá
 .denomination-title {
   margin-top: 20px;
   font-size: 18px;
 }
 
+// Danh sách các mệnh giá
 .denomination-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -53,22 +81,26 @@
   margin-top: 10px;
 }
 
+// Nút chọn mệnh giá
 .denomination-btn {
   font-size: 16px;
   height: 40px;
   border-radius: 6px;
   background: #f0f2f5;
+  transition: background 0.3s;
+
+  &:hover {
+    background: #d9d9d9;
+  }
 }
 
-.denomination-btn:hover {
-  background: #d9d9d9;
-}
-
-/* Modal Styles */
-.success-modal .ant-modal-content {
-  text-align: center;
-  padding: 24px;
-  border-radius: 10px;
+/* Modal thông báo thành công */
+.success-modal {
+  .ant-modal-content {
+    text-align: center;
+    padding: 24px;
+    border-radius: 10px;
+  }
 }
 
 .modal-icon {

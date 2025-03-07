@@ -2,6 +2,8 @@ import React from "react";
 import { Menu, Avatar } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 const IconTransaction = () => (
   <Avatar
     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABuUlEQVR4nN3VOYgWQRAF4E9XF29QBEEUwUC8MiMDA0W8EkXUxETT9dbERNbUI9LUUAwUNRRjFcTEYFcUVpBlNTHyQvH8paEGmqFn/n823AfDNF2vqnpev+5hpmMYR3EP7/AD3/AGd3AkONPCbkyh1+d5i4NdCs/CFfyLAhM4iy1YioXYhDMYyxpdw+y2wpfjPRoJv3GhT9IQTuBn5Fxta5AID2LlqfiuAmcvHhXmd2RNDrQ1qJ6LhfgxTMYmXy982clM0uF+DSq5KmzDX7zHy+CkfanLNR6xwwrotTS5FHMjWB/jJ4Ua5yJ2W0eMZIlzwlEbC7zNwUvnpBOW40MkP41CJSwOzpdS8GsEE6mElfEFyWXfsbVrg7HYyKRxHauwNpxzPIo87CpR0nVZw+qfReI6rI7xi+lu8vawXI7RzDmPY3yzxkk5ryJ2qKn43QaPz8etOK1/cB+LapzT2UGb29RgDz5hX0P8FG4U5nfiVzTYrw9WxHtDrKouV46h4FTF0y08EOaFE3rhmoQ1WBLSJLeczzSvirde16Wb8zkWxD/iY8MPZ2IQWQaRbRyf40C+DismtzRu6MzAf985ijCHSEmoAAAAAElFTkSuQmCC"
@@ -16,7 +18,7 @@ const IconHistory = () => (
 );
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
-
+  const role = useSelector((store: RootState) => store.user?.user.roles[0])
   return (
     <Menu mode="vertical" defaultSelectedKeys={["/profile"]}>
       <Menu.Item
@@ -35,33 +37,38 @@ const Sidebar: React.FC = () => {
       >
         Change Password
       </Menu.Item>
-      <Menu.Item
-        key="/transaction-payment"
-        onClick={() => navigate("/my-account/transaction-payment")}
-      >
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <IconTransaction />
-          <span style={{ marginLeft: "6px" }}>Transaction Payment</span>
-        </div>
-      </Menu.Item>
-      <Menu.Item
-        key="/your-order"
-        onClick={() => navigate("/my-account/your-order")}
-      >
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <IconHistory />
-          <span style={{ marginLeft: "6px" }}>Đơn hàng của bạn</span>
-        </div>
-      </Menu.Item>
-      <Menu.Item
-        key="/history-deposite"
-        onClick={() => navigate("/my-account/history-deposite")}
-      >
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <IconHistory />
-          <span style={{ marginLeft: "6px" }}>Lịch sử nạp tiền</span>
-        </div>
-      </Menu.Item>
+      {role !== 'Doctor' && (
+        <>
+          <Menu.Item
+            key="/transaction-payment"
+            onClick={() => navigate("/my-account/transaction-payment")}
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <IconTransaction />
+              <span style={{ marginLeft: "6px" }}>Transaction Payment</span>
+            </div>
+          </Menu.Item>
+          <Menu.Item
+            key="/your-order"
+            onClick={() => navigate("/my-account/your-order")}
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <IconHistory />
+              <span style={{ marginLeft: "6px" }}>Đơn hàng của bạn</span>
+            </div>
+          </Menu.Item>
+          <Menu.Item
+            key="/history-deposite"
+            onClick={() => navigate("/my-account/history-deposite")}
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <IconHistory />
+              <span style={{ marginLeft: "6px" }}>Lịch sử nạp tiền</span>
+            </div>
+          </Menu.Item>
+        </>
+      )}
+
     </Menu>
   );
 };

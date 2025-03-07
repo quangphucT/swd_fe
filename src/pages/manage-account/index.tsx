@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import api from "../../config/api";
 import "./index.scss";
 
-const ManageAccount = () => {
+const ManageCustomer = () => {
     const [data, setData] = useState([]);
 
     const fetchingDataAccount = async () => {
@@ -102,9 +102,9 @@ const ManageAccount = () => {
 
     return <div className="manage-account">
         <div className="table-container">
-            <Table title={() => "Manage Accounts"} columns={columns} dataSource={data}  scroll={{ x: "max-content" }}/>
+            <Table title={() => "Manage Customer"} columns={columns} dataSource={data}  scroll={{ x: "max-content" }}/>
         </div>
     </div>;
 };
 
-export default ManageAccount;
+export default ManageCustomer;

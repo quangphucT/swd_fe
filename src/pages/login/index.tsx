@@ -16,7 +16,7 @@ function LoginPopup() {
   const navigate = useNavigate();
   const [form] = useForm();
   const dispatch = useDispatch();
-  
+
   const onFinish = async (values: any) => {
     try {
       const response = await api.post("Accounts/SignIn", values);
@@ -30,11 +30,11 @@ function LoginPopup() {
         showSuccessToast("Login success")
 
         switch (userRole) {
-          case "STAFF":
-            navigate("/staff");
+          case "Staff":
+            navigate("/dashboard");
             break;
-          case "MANAGER":
-            navigate("/manager");
+          case "Manager":
+            navigate("/dashboard");
             break;
           case "Admin":
             navigate("/dashboard");
