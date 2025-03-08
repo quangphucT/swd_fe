@@ -41,6 +41,7 @@ const BookingPage = () => {
             });
             setIsModalOpen(false);
             setSelectedSlot(null);
+            fetchSlotfromDoctorId()
         } catch (error) {
             toast.error(error.response?.data?.message || "Đặt lịch thất bại!");
         }
@@ -83,15 +84,15 @@ const BookingPage = () => {
 
                 {/* DANH SÁCH LỊCH TRỐNG */}
                 <Col span={18}>
-                  <div >
-                  <h2>Đặt lịch khám</h2>
-                      {/* NÚT XÁC NHẬN */}
-                      {selectedSlot && (
-                        <Button onClick={() => setIsModalOpen(true)} type="primary" className="confirm-button">
-                            Xác nhận lịch hẹn
-                        </Button>
-                    )}
-                  </div>
+                    <div >
+                        <h2>Đặt lịch khám</h2>
+                        {/* NÚT XÁC NHẬN */}
+                        {selectedSlot && (
+                            <Button onClick={() => setIsModalOpen(true)} type="primary" className="confirm-button">
+                                Xác nhận lịch hẹn
+                            </Button>
+                        )}
+                    </div>
                     {selectedDoctor ? (
                         <div className="slots-container">
                             <h3>Danh sách lịch trống</h3>
@@ -115,7 +116,7 @@ const BookingPage = () => {
                         <p>Vui lòng chọn bác sĩ để xem lịch trống.</p>
                     )}
 
-                  
+
 
                     {/* MODAL XÁC NHẬN */}
                     <Modal

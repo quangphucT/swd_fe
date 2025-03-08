@@ -41,7 +41,7 @@ import ManageOrder from "./pages/manage-order";
 import BookingPage from "./pages/booking-page";
 import ManageDoctor from "./pages/manage-doctor";
 import ManageStaff from "./pages/manage-staff";
-import ManageCustomer from "./pages/manage-account";
+import ManageCustomer from "./pages/manage-customer";
 import ScheduleCustomerBooking from "./pages/booking-customer-schedule";
 
 import ManagePendingAppointments from "./pages/manage-pending-appointments";
