@@ -2,8 +2,14 @@ import { Card, Row, Col } from "antd";
 import { UserOutlined, DollarOutlined, CalendarOutlined } from "@ant-design/icons";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import "./index.scss";
+import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import api from "../../config/api";
 
 const DashboardStatistic = () => {
+  const [totalCustomer, setTotalCustomer] = useState(0)
+  const [totalDoctor, setTotalDoctor] = useState(0)
+  const [totalStaff, setTotalStaff] = useState(0)
   // Fake data
   const revenueData = [
     { month: "Jan", revenue: 10000 },
@@ -20,7 +26,35 @@ const DashboardStatistic = () => {
     { date: "4/2", booking: 35 },
     { date: "5/2", booking: 50 },
   ];
-
+  const fetchAllCustomer = async () => {
+    try {
+      const response = await api.get("Accounts/getAllCustomer")
+      setTotalCustomer(response.data.total)
+    } catch (error) {
+      toast.error("error")
+    }
+  }
+  const fetchAllDoctor = async () => {
+    try {
+      const response = await api.get("Accounts/getAllDoctor")
+      setTotalDoctor(response.data.total)
+    } catch (error) {
+      toast.error("error")
+    }
+  }
+  const fetchAllStaff = async () => {
+    try {
+      const response = await api.get("Accounts/getAllStaff")
+      setTotalStaff(response.data.total)
+    } catch (error) {
+      toast.error("error")
+    }
+  }
+  useEffect(() => {
+    fetchAllStaff();
+    fetchAllDoctor();
+    fetchAllCustomer();
+  }, [])
   return (
     <div className="dashboard-statistic">
       {/* Tổng quan */}
@@ -30,44 +64,31 @@ const DashboardStatistic = () => {
             <UserOutlined className="icon user-icon" />
             <div>
               <h3>Total Customer</h3>
-              <p>12,345</p>
+              <p>{totalCustomer}</p>
             </div>
           </Card>
-          
+
         </Col>
-        <Col span={8}>
-          <Card className="stat-card">
-          <UserOutlined className="icon user-icon" />
-            <div>
-              <h3>Total doctor</h3>
-              <p>$45,678</p>
-            </div>
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card className="stat-card">
-          <UserOutlined className="icon user-icon" />
-            <div>
-              <h3>Total staff</h3>
-              <p>2,345</p>
-            </div>
-          </Card>
-        </Col>
-      </Row>
-      <Row gutter={16} className="summary-cards">
         <Col span={8}>
           <Card className="stat-card">
             <UserOutlined className="icon user-icon" />
             <div>
-              <h3>Total manager</h3>
-              <p>12,345</p>
+              <h3>Total doctor</h3>
+              <p>{totalDoctor}</p>
             </div>
           </Card>
-          
         </Col>
-        
-      
+        <Col span={8}>
+          <Card className="stat-card">
+            <UserOutlined className="icon user-icon" />
+            <div>
+              <h3>Total staff</h3>
+              <p>{totalStaff}</p>
+            </div>
+          </Card>
+        </Col>
       </Row>
+    
 
       {/* Biểu đồ */}
       <Row gutter={16} className="charts">

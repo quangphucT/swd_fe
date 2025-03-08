@@ -1,18 +1,18 @@
-import { Button, Image, Table } from "antd";
+import {  Image, Table } from "antd";
 import { Column } from "../../components/dashboard-template";
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import api from "../../config/api";
 import "./index.scss";
-
+// admin
 const ManageCustomer = () => {
     const [data, setData] = useState([]);
 
     const fetchingDataAccount = async () => {
         try {
-            const response = await api.get("Accounts/GetAllAccount");
-            setData(response.data);
+            const response = await api.get("Accounts/getAllCustomer");
+            setData(response.data.customers);
         } catch (error) {
             toast.error("Error while fetching data");
         }
@@ -50,6 +50,11 @@ const ManageCustomer = () => {
             title: "Address",
             dataIndex: "address",
             key: "address",
+        },
+        {
+            title: "Status",
+            dataIndex: "status",
+            key: "status",
         },
         {
             title: "Phone Number",
@@ -102,7 +107,7 @@ const ManageCustomer = () => {
 
     return <div className="manage-account">
         <div className="table-container">
-            <Table title={() => "Manage Customer"} columns={columns} dataSource={data}  scroll={{ x: "max-content" }}/>
+            <Table title={() => "Manage Customer"} columns={columns} dataSource={data} scroll={{ x: "max-content" }} />
         </div>
     </div>;
 };

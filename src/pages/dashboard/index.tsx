@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  DashboardOutlined,
   DesktopOutlined,
   FileOutlined,
   LogoutOutlined,
@@ -8,8 +9,23 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import "./index.scss";
+
+
+
+// icon
+import { MdManageAccounts } from "react-icons/md";
+import { MdOutlineProductionQuantityLimits } from "react-icons/md";
+import { TbBrandBooking } from "react-icons/tb";
+import { MdDiscount } from "react-icons/md";
+import { MdOutlineDiscount } from "react-icons/md";
+import { FaBlog } from "react-icons/fa";
+
+
+
+
 import { Layout, Menu, theme } from "antd";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+
 const { Content, Sider } = Layout;
 function getItem(label, key, icon, children, onClick) {
   return {
@@ -35,22 +51,24 @@ const Dashboard = () => {
 
   };
   const items = [
-    getItem("Dashboard", "", <PieChartOutlined />),
-    getItem("Manage Customer", "manage-customer", <PieChartOutlined />,
+    getItem("Dashboard", "", <DashboardOutlined style={{ fontSize: '30px' }} />),
+    getItem("Manage Customer", "manage-customer", <MdManageAccounts size={33} />,
       [
-        getItem("Manage Doctor", "manage-doctor", <PieChartOutlined />),
-        getItem("Manage Staff", "manage-staff", <PieChartOutlined />)
+        getItem("Manage Doctor", "manage-doctor", <MdManageAccounts size={33}/>),
+        getItem("Manage Staff", "manage-staff", <MdManageAccounts size={33}/>)
       ]
     ),
-    getItem("Manage Order", "manage-order", <PieChartOutlined />),
-    getItem("Manage pending appointments", "manage-pending-appointment", <PieChartOutlined />,
+    getItem("Manage Order", "manage-order", <MdOutlineProductionQuantityLimits size={30} />),
+    getItem("Manage pending appointments", "manage-pending-appointment", <TbBrandBooking size={30} />,
       [
-        getItem("Manage confirmed appointments", "manage-confirmed-appointment", <PieChartOutlined />)
+        getItem("Manage confirmed appointments", "manage-confirmed-appointment", <TbBrandBooking size={30} />)
       ]
     ),
-    getItem("Manage Discount", "manage-discount", <PieChartOutlined />),
-    getItem("Manage DiscountCategory", "manage-discount-category", <PieChartOutlined />),
-    getItem("Manage Blog", "blog-management", <PieChartOutlined />),
+    getItem("Manage Discount", "manage-discount", <MdDiscount size={30} />, [
+      getItem("Manage DiscountCategory", "manage-discount-category", <MdOutlineDiscount size={30} />),
+
+    ]),
+    getItem("Manage Blog", "blog-management", <FaBlog size={30} />),
     getItem("Manage brand", "brand-management", <DesktopOutlined />, [
       getItem("Manage images", "manage-images", <TeamOutlined />),
       getItem("Manage brandOrigin", "manage-brandOrigin", <PieChartOutlined />),
@@ -91,7 +109,7 @@ const Dashboard = () => {
         onCollapse={(value) => setCollapsed(value)}
       >
         <div className="demo-logo-vertical" />
-        <div style={{background: '#2968a7', color: '#fff'}} className="admin-section">
+        <div style={{ background: '#2968a7', color: '#fff' }} className="admin-section">
           <UserOutlined className="admin-icon" />
 
           <span className="admin-text">{collapsed ? "" : "Admin"}</span>
