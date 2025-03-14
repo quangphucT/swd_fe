@@ -26,7 +26,7 @@ function LoginPopup() {
         dispatch(saveInformation(user))
         localStorage.setItem("token", user.token);
         localStorage.setItem("role", userRole);
-
+        console.log(response);
         showSuccessToast("Login success")
 
         switch (userRole) {
