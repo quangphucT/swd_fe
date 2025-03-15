@@ -1,4 +1,4 @@
-import {  Image, Table } from "antd";
+import {  Button, Image, notification, Popconfirm, Table } from "antd";
 import { Column } from "../../components/dashboard-template";
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
@@ -22,13 +22,13 @@ const ManageCustomer = () => {
         fetchingDataAccount();
     }, []);
 
-    const toggleBlockStatus = (id) => {
-        setData((prevData) =>
-            prevData.map((item) =>
-                item.id === id ? { ...item, isBlocked: !item.isBlocked } : item
-            )
-        );
-    };
+    // const toggleBlockStatus = (id) => {
+    //     setData((prevData) =>
+    //         prevData.map((item) =>
+    //             item.id === id ? { ...item, isBlocked: !item.isBlocked } : item
+    //         )
+    //     );
+    // };
 
     const columns: Column[] = [
         {
@@ -90,21 +90,31 @@ const ManageCustomer = () => {
             render: (id, record) => {
                 return (
                     <div>
-                        {record.isBlocked ? (
-                            <button className="unblock-btn" onClick={() => toggleBlockStatus(id)}>
-                                Unblock
-                            </button>
-                        ) : (
-                            <button className="block-btn" onClick={() => toggleBlockStatus(id)}>
-                                Block Account
-                            </button>
-                        )}
+                        {record.status === "Active" ?  <Popconfirm onConfirm={() => { handleDeleteStaff(id) }} title="Bạn có chắc muốn Block tài khoản này không?">
+                            <Button style={{ height: '45px', fontSize: '15px', fontWeight: '500' }} type="primary">Block Staff</Button>
+                        </Popconfirm> :  <Popconfirm onConfirm={() => { handleDeleteStaff(id) }} title="Bạn có chắc muốn UnBlock tài khoản này không?">
+                            <Button style={{ height: '45px', fontSize: '15px', fontWeight: '500' }} type="primary" danger>UnBlock Staff</Button>
+                        </Popconfirm>}
+                       
                     </div>
-                );
+
+                )
             },
         },
     ];
-
+    const handleDeleteStaff = async (id) => {
+        try {
+           const response = await api.put(`Manager/ToggleUserStatus/${id}`)
+            notification.success({
+                message: "Thành công!",
+                description: response.data.message,
+                duration: 5,
+            });
+            fetchingDataAccount();
+        } catch (error) {
+            toast.error("error")
+        }
+    }
     return <div className="manage-account">
         <div className="table-container">
             <Table title={() => "Manage Customer"} columns={columns} dataSource={data} scroll={{ x: "max-content" }} />

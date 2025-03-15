@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Button, DatePicker, Card, Typography, Row, Col, Table, Popconfirm, Image } from "antd";
+import { Form, Input, Button, DatePicker, Card, Typography, Row, Col, Table, Popconfirm, Image, notification } from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
 import api from "../../config/api";
 import { toast } from "react-toastify";
@@ -11,6 +11,7 @@ const { Title } = Typography;
 const ManageStaff = () => {
     const [loading, setLoading] = useState(false);
     const [dataStaff, setDataStaff] = useState([])
+
     const [form] = useForm();
     const fetchDataStaff = async () => {
         try {
@@ -70,6 +71,12 @@ const ManageStaff = () => {
             dataIndex: 'email',
             key: 'email'
         },
+
+        {
+            title: 'Status',
+            dataIndex: 'status',
+            key: 'status',
+        },
         {
             title: 'Avatar',
             dataIndex: 'avatar',
@@ -80,18 +87,35 @@ const ManageStaff = () => {
             title: 'Action',
             dataIndex: 'id',
             key: 'id',
-            render: (id) => {
+            render: (id, record) => {
                 return (
-                    <Popconfirm onConfirm={() => { handleDeleteStaff(id) }} title="Bạn có chắc muốn xóa tài khoản này không?">
-                        <Button style={{ height: '45px', fontSize: '15px', fontWeight: '500' }} type="primary">Block Staff</Button>
-                    </Popconfirm>
+                    <div>
+                        {record.status === "Active" ? <Popconfirm onConfirm={() => { handleDeleteStaff(id) }} title="Bạn có chắc muốn Block tài khoản này không?">
+                            <Button style={{ height: '45px', fontSize: '15px', fontWeight: '500' }} type="primary">Block Staff</Button>
+                        </Popconfirm> : <Popconfirm onConfirm={() => { handleDeleteStaff(id) }} title="Bạn có chắc muốn UnBlock tài khoản này không?">
+                            <Button style={{ height: '45px', fontSize: '15px', fontWeight: '500' }} type="primary" danger>UnBlock Staff</Button>
+                        </Popconfirm>}
+
+                    </div>
+
                 )
             }
         },
 
     ]
-    const handleDeleteStaff = () => {
+    const handleDeleteStaff = async (id) => {
+        try {
+            const response = await api.put(`Manager/ToggleUserStatus/${id}`)
+            notification.success({
+                message: "Thành công!",
+                description: response.data.message,
+                duration: 5,
+            });
 
+            fetchDataStaff();
+        } catch (error) {
+            toast.error("error")
+        }
     }
     return (
         <div>
