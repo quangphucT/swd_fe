@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Card, Button, Modal } from "antd";
-import { RightOutlined } from "@ant-design/icons";
+import { Card, Button } from "antd";
 import "./index.scss";
 import QuizModal from "../QuizQuestion";
-
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { toast } from "react-toastify";
 
 const quizData = [
   {
@@ -78,7 +79,15 @@ const quizData = [
 const HealthCheckBanner = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-;
+  const user = useSelector((store: RootState) => store.user)
+  const handleQuizModalOpen = () => {
+    if(!user){
+      toast.error('Vui lòng đăng nhập để sử dụng dịch vụ này!')
+      return
+    }else{
+      setIsModalOpen(true); 
+    }
+  };
 
   return (
     <div className="health-banner">
@@ -90,7 +99,7 @@ const HealthCheckBanner = () => {
           <Card className="quiz-card">
             <p>Bài kiểm tra tình trạng da của bạn </p>
             {/* Modal Quiz */}
-            <Button type="primary" onClick={() => setIsModalOpen(true)}>
+            <Button type="primary" onClick={handleQuizModalOpen}>
               Làm bài Quiz
             </Button>
             <QuizModal

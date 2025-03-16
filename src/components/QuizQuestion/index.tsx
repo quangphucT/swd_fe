@@ -3,6 +3,9 @@ import { Card, Radio, Button, Space, Typography, message, Modal } from "antd";
 import api from "../../config/api";
 import "./index.scss";
 import RoutineSteps from "../RoutineDisplay";
+import { useDispatch } from "react-redux";
+import { saveResultQuizId } from "../../redux/feature/resultquizSlice";
+
 const { Text } = Typography;
 
 const QuizModal = ({ questions, visible, onClose }) => {
@@ -15,7 +18,7 @@ const QuizModal = ({ questions, visible, onClose }) => {
   const [showRoutineSteps, setShowRoutineSteps] = useState(false); // Điều khiển hiển thị routine steps
   const [stepsData, setStepsData] = useState([]);
   const currentQuestion = questions[currentIndex];
-
+  const dispatch = useDispatch();
   // Xử lý thay đổi đáp án
   const handleAnswerChange = (e) => {
     setUserAnswers({
@@ -51,6 +54,8 @@ const QuizModal = ({ questions, visible, onClose }) => {
     try {
       const response = await api.post("/ResultQuiz", userAnswers);
       setResultQuiz(response.data.data.resultQuizId);
+      console.log(response.data.data.resultQuizId);
+      dispatch(saveResultQuizId(response.data.data.resultQuizId)); 
       if (response.status === 200 && response.data?.data) {
         const { skinStatus, anceStatus } = response.data.data;
         let skinMessage = skinStatus === 0 ? "Da khô" : skinStatus === 1 ? "Da dầu" : skinStatus === 2 ? "Da hỗn hợp" : "Da nhạy cảm";

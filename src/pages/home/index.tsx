@@ -23,8 +23,8 @@ const Home = () => {
   const dispatch = useDispatch<AppDispatch>()
   const userId = useSelector((store: RootState) => store.user?.token)
   //console.log(userId);
-  const resultQuizID = useSelector((store: RootState) => store.user?.user?.resultQuizID);
-  //console.log(resultQuizID);
+  const resultQuizID = useSelector((store: RootState) => store.resultquiz);
+  console.log(resultQuizID +"123");
   const [productList, setProductList] = useState<ProductType[]>([]); // State để lưu productList
   //console.log("Product List:", productList);
   const fetchRecommendProducts = async () => {
@@ -57,7 +57,7 @@ const Home = () => {
     fetchingBalanceAccount();
   }, [])
   const balance = useSelector((store: RootState) => store.balance);
-  const role = useSelector((store: RootState) => store.user?.user.roles[0])
+  const role = useSelector((store: RootState) => store.user?.user?.roles[0] || null)
   console.log("Current Balance in Redux:", balance);
 
   return (
@@ -67,7 +67,7 @@ const Home = () => {
       {resultQuizID && productList.length > 0 && (
         <RecommendProduct products={productList} />
       )}
-      {role !== 'Doctor' && (
+      {role !== 'Doctor' && role !== null &&  (
         <ListProducts />
       )}
 
