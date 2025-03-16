@@ -25,7 +25,7 @@ const Home = () => {
   //console.log(userId);
   const resultQuizID = useSelector((store: RootState) => store.resultquiz);
   const resultQuizIdUser = useSelector((store: RootState) => store.user?.user.resultQuizID);
-  const resultQuizIdFinal = resultQuizIdUser !== 0 && resultQuizIdUser !== null ? resultQuizIdUser : resultQuizID;
+  const resultQuizIdFinal =  resultQuizID ? resultQuizID : (resultQuizIdUser !== 0 ? resultQuizIdUser : null);
 
   console.log(resultQuizIdFinal);
   const [productList, setProductList] = useState<ProductType[]>([]); // State để lưu productList
@@ -35,6 +35,7 @@ const Home = () => {
       if (resultQuizIdFinal) {
         const response = await api.get(`Products/GetProductsByResultQuizId/${resultQuizIdFinal}`);
         setProductList(response.data);
+        console.log("Recommend Products:", response.data);
       }
     } catch (error) {
       toast.error("Không thể tải sản phẩm gợi ý");
