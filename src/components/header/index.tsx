@@ -17,6 +17,7 @@ import { removeInformation } from "../../redux/feature/userSlice";
 import { AppDispatch, RootState } from "../../redux/store";
 import { resetBalance } from "../../redux/feature/balanceSlice";
 import { addCartData, resetCart } from "../../redux/feature/cartSlice";
+import { removeResultQuizId } from "../../redux/feature/resultquizSlice";
 
 
 
@@ -69,6 +70,7 @@ const Header = () => {
     dispatch(removeInformation())
     dispatch(resetBalance())
     dispatch(resetCart())
+    dispatch(removeResultQuizId())
     setIsLoggedIn(false);
     navigate("/");
   };

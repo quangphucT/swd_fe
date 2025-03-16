@@ -5,9 +5,9 @@
     name: "resultquiz",
     initialState,
     reducers: {
-      saveResultQuizId: (state, action) =>  action.payload // lưu resultQuizId
-    
+      saveResultQuizId: (state, action) =>  action.payload ,// lưu resultQuizId
+      removeResultQuizId:() => initialState
     },
   });
-  export const { saveResultQuizId } = resultquizSlice.actions;
+  export const { saveResultQuizId,removeResultQuizId } = resultquizSlice.actions;
   export default resultquizSlice.reducer;

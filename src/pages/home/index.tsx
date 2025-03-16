@@ -24,13 +24,16 @@ const Home = () => {
   const userId = useSelector((store: RootState) => store.user?.token)
   //console.log(userId);
   const resultQuizID = useSelector((store: RootState) => store.resultquiz);
-  console.log(resultQuizID +"123");
+  const resultQuizIdUser = useSelector((store: RootState) => store.user?.user.resultQuizID);
+  const resultQuizIdFinal = resultQuizIdUser !== 0 && resultQuizIdUser !== null ? resultQuizIdUser : resultQuizID;
+
+  console.log(resultQuizIdFinal);
   const [productList, setProductList] = useState<ProductType[]>([]); // State để lưu productList
   //console.log("Product List:", productList);
   const fetchRecommendProducts = async () => {
     try {
-      if (resultQuizID) {
-        const response = await api.get(`Products/GetProductsByResultQuizId/${resultQuizID}`);
+      if (resultQuizIdFinal) {
+        const response = await api.get(`Products/GetProductsByResultQuizId/${resultQuizIdFinal}`);
         setProductList(response.data);
       }
     } catch (error) {
@@ -38,10 +41,10 @@ const Home = () => {
     }
   };
   useEffect(() => {
-    if (resultQuizID) {
+    if (resultQuizIdFinal) {
       fetchRecommendProducts();
     }
-  }, [resultQuizID]);
+  }, [resultQuizIdFinal]);
   
   const fetchingBalanceAccount = async () => {
     try {
@@ -64,7 +67,7 @@ const Home = () => {
     <div className='home'>
       <Carousel />
       <HealthCheckBanner/>
-      {resultQuizID && productList.length > 0 && (
+      {resultQuizIdFinal && productList.length > 0 && (
         <RecommendProduct products={productList} />
       )}
       {role !== 'Doctor' && role !== null &&  (
