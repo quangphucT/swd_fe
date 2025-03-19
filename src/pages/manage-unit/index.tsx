@@ -25,7 +25,7 @@ const ManageUnit = () => {
     </>
   return (
     <div>
-      <DashboardTemplate columns={columns} apiURI="Units" titleTable="Unit Management" createName="Add new unit" titleModal="New unit information" titleModalUpdate="Update information" formItem={formItem}/>
+      <DashboardTemplate columns={columns} apiURI="Units" titleTable="Quản lý đơn vị ( STAFF )" createName="Tạo mới unit" titleModal="Thông tin đơn vị" titleModalUpdate="Cập nhật" formItem={formItem}/>
     </div>
   )
 }

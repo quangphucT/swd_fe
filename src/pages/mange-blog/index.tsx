@@ -68,11 +68,7 @@ const ManageBlog = () => {
             key: "image",
             render: (value) => <Image src={value} width={200} />,
         },
-        {
-            title: "UserId",
-            dataIndex: "userId",
-            key: "userId",
-        },
+       
         {
             title: "Action",
             dataIndex: "id",
@@ -128,12 +124,12 @@ const ManageBlog = () => {
     }
     return <div className="manage-account">
         <div className="table-container">
-            <Button onClick={() => { setOpen(true) }}>Create Blog</Button>
-            <Table title={() => "Manage Blogs"} columns={columns} dataSource={data} scroll={{ x: "max-content" }} />
+            <Button onClick={() => { setOpen(true) }}>Tạo Blog</Button>
+            <Table title={() => "Quản lý blogs ( STAFF )"} columns={columns} dataSource={data} scroll={{ x: "max-content" }} />
         </div>
         <Modal
             title={
-                "Create New Blog"
+                "Tạo mới blog"
             }
             footer={[
                 <Button

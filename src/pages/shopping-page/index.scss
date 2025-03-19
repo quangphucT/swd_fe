@@ -1,0 +1,64 @@
+.shopping-page-container {
+    padding: 40px;
+     background-color: #e5e8eb;
+    .shopping-filter-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+  
+      .shopping-filter-button {
+        display: flex;
+        height: 45px;
+        font-size: 16px;
+        font-weight: 500;
+        border-radius: 30px;
+        background: #1e88e5;
+        color: white;
+        &:hover {
+          background: #1565c0;
+        }
+      }
+  
+      .shopping-price-filter {
+        width: 80%;
+        border-radius: 10px;
+        height: 48px;
+        font-weight: 500;
+        font-size: 16px;
+        background:#ffffff;
+      }
+
+    }
+  .shopping-price-filter.active {
+  background-color: #1e88e5;
+  color: white;
+}
+    .shopping-product-section {
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+    }
+  
+    .shopping-loading-container {
+      height: 50vh;
+      width: 100%;
+    }
+  
+    .shopping-load-more-container {
+      margin-top: 20px;
+    }
+  
+    .shopping-load-more-btn {
+      height: 45px;
+      border-radius: 20px;
+      font-size: 16px;
+      background-color: #1e88e5;
+      color: white;
+      &:hover {
+        background-color: #1565c0;
+      }
+    }
+  }
+  

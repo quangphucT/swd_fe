@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteProductInRedux, resetCart } from '../../redux/feature/cartSlice';
 import { deposit } from '../../redux/feature/balanceSlice';
 import { RootState } from '../../redux/store';
+import { useNavigate } from 'react-router-dom';
 
 const { Title, Text } = Typography;
 const { confirm } = Modal;
@@ -22,6 +23,8 @@ const Cart = () => {
     const [seletedDiscount, setSeletectedDiscount] = useState(null)
     const [selectedDiscountPercentage, setSelectedDiscountPercentage] = useState(0)
     const cartId = useSelector((store: RootState) => store.user.user?.cartId)
+    const balanceAccount = useSelector((store: RootState) => store.balance)
+    const navigate = useNavigate();
     const fetchingDataCart = async () => {
         try {
             const response = await api.get(`cart/${cartId}`);
@@ -65,9 +68,6 @@ const Cart = () => {
             toast.error("Lỗi khi cập nhật số lượng!");
         }
     };
-
-
-
     const fetchingBalanceAccount = async () => {
         try {
             const response = await api.get("Wallet")
@@ -86,17 +86,23 @@ const Cart = () => {
     const totalAmount = dataCart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
     const discountedTotal = totalAmount * (1 - selectedDiscountPercentage / 100);
     const handleOrder = async () => {
-        try {
-            const response = await api.post("Order", {
-                discountId: seletedDiscount,
-            });
-            showSuccessToast(response.data.message);
-            dispatch(resetCart())
-            fetchingBalanceAccount()
-            setDataCart([]);
-        } catch (error) {
-            toast.error("Lỗi khi thanh toán");
+        if (balanceAccount < discountedTotal) {
+            toast.error("Số dư không đủ");
+            navigate("/deposite")
+        } else {
+            try {
+                const response = await api.post("Order", {
+                    discountId: seletedDiscount  || 1,
+                });
+                showSuccessToast(response.data.message);
+                dispatch(resetCart())
+                fetchingBalanceAccount()
+                setDataCart([]);
+            } catch (error) {
+                toast.error("Lỗi khi thanh toán");
+            }
         }
+
     };
 
     const confirmOrder = () => {

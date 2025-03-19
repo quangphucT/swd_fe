@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Select, Card, Button, Modal, notification, Col, Row, Avatar } from 'antd';
+import { Select, Card, Button, Modal, notification, Col, Row, Avatar, Carousel, Image } from 'antd';
 import { toast } from 'react-toastify';
 import api from '../../config/api';
 import dayjs from 'dayjs';
@@ -25,11 +25,18 @@ const BookingPage = () => {
         if (!selectedDoctor) return;
         try {
             const response = await api.get(`Booking/GetAvailableBookings/${selectedDoctor}`);
-            setSlotList(response.data);
+            
+            // Lọc các slot có thời gian không ở quá khứ
+            const validSlots = response.data.filter(slot => 
+                dayjs(slot.timeSlot).isAfter(dayjs()) // Kiểm tra nếu thời gian slot > hiện tại
+            );
+    
+            setSlotList(validSlots);
         } catch (error) {
             toast.error("Không thể tải danh sách lịch trống.");
         }
     };
+    
 
     const handleOk = async () => {
         try {
@@ -57,10 +64,12 @@ const BookingPage = () => {
 
     return (
         <div className="booking-container">
+        
             <Row gutter={24}>
                 {/* DANH SÁCH BÁC SĨ */}
                 <Col span={6}>
                     <h3>Chọn bác sĩ</h3>
+
                     <div className="doctor-list">
                         {dataDoctor.map((doctor) => (
                             <Card
@@ -87,6 +96,7 @@ const BookingPage = () => {
                     <div >
                         <h2>Đặt lịch khám</h2>
                         {/* NÚT XÁC NHẬN */}
+                    
                         {selectedSlot && (
                             <Button onClick={() => setIsModalOpen(true)} type="primary" className="confirm-button">
                                 Xác nhận lịch hẹn
