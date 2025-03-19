@@ -49,6 +49,7 @@ import ManageConfirmedAppointments from "./pages/manage-confirmed-appointment";
 import ScheduleOfDoctor from "./pages/schedule-doctor-page";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
+import ShoppingPage from "./pages/shopping-page";
 
 
 
@@ -65,6 +66,10 @@ const App = () => {
         {
           path: "/",
           element: <Home />,
+        },
+        {
+          path: "/shopping",
+          element: <ShoppingPage />,
         },
         {
           path: '/deposite',

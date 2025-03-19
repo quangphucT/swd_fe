@@ -14,7 +14,7 @@ const ManageOrder = () => {
     const fetchingData = async () => {
         try {
             const response = await api.get("Order");
-            setData(response.data);
+            setData(response.data.items);
         } catch (error) {
             toast.error("Error while fetching data");
         }

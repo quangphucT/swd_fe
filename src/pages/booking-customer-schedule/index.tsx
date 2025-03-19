@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Table, Tag, Modal, Image, notification } from "antd";
+import { Button, Table, Tag, Modal, Image, notification, Carousel } from "antd";
 import { toast } from "react-toastify";
 import api from "../../config/api";
 import dayjs from "dayjs";
@@ -132,6 +132,8 @@ const ScheduleCustomerBooking = () => {
     return (
         <div className="schedule-container">
             <h2>Lịch Đặt Khám Của Bạn</h2>
+           
+          
             <Table
                 dataSource={dataSchedule}
                 columns={columns}

@@ -72,10 +72,10 @@ const YourOrderList = () => {
             },
         },
         {
-            title: 'Discount Code',
-            dataIndex: 'discount',
-            key: 'discount',
-            render: (discount) => (discount ? discount.code : 'N/A'),
+            title: 'Discount ID',
+            dataIndex: 'discountId',
+            key: 'discountId',
+            render: (discountId) => (discountId ? discountId : 'N/A'),
         },
         {
             title: 'Action',

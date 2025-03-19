@@ -32,6 +32,7 @@ const Header = () => {
   // lấy ra role của user
 
   const role = useSelector((store: RootState) => store.user?.user.roles[0])
+  const token = localStorage.getItem("token")
   const user = useSelector((store: RootState) => store.user)
   console.log("Role:", role)
   const balanceAccountFromRedux = useSelector((store: RootState) => store.balance)
@@ -109,6 +110,8 @@ const Header = () => {
         <div className="header__left">
           <div className="logo" onClick={() => navigate("/")}>CosmeCare</div>
           <div className="blog" onClick={() => navigate("/blog")}>Bài viết làm đẹp</div>
+          {token ? <div className="blog" onClick={() => navigate("/shopping")}>Shopping</div> : <div className="blog" onClick={() => navigate("/login")}>Shopping</div>}
+
           {user && (
             <>
               {role !== "Doctor" && (<>
