@@ -10,20 +10,8 @@ const { Title } = Typography;
 
 const ManageStaff = () => {
     const [loading, setLoading] = useState(false);
-    const [dataStaff, setDataStaff] = useState([])
-
     const [form] = useForm();
-    const fetchDataStaff = async () => {
-        try {
-            const response = await api.get("Accounts/getAllStaff")
-            setDataStaff(response.data.staff)
-        } catch (error) {
-            toast.error("error")
-        }
-    }
-    useEffect(() => {
-        fetchDataStaff();
-    }, [])
+   
     const onFinish = async (values) => {
         setLoading(true);
         try {
@@ -31,7 +19,7 @@ const ManageStaff = () => {
                 ...values,
                 birthday: values.birthday.format("YYYY-MM-DD"),
             };
-            await api.post("Accounts/SignUpDoctor", formattedValues);
+            await api.post("Accounts/SignUpStaff", formattedValues);
             toast.success("Tạo tài khoản nhân viên thành công!");
             form.resetFields();
         } catch (error) {
@@ -40,89 +28,13 @@ const ManageStaff = () => {
             setLoading(false);
         }
     };
-    const columns = [
-        {
-            title: 'Id',
-            dataIndex: 'id',
-            key: 'id'
-        },
-        {
-            title: 'FirstName',
-            dataIndex: 'firstName',
-            key: 'firstName'
-        },
-        {
-            title: 'LastName',
-            dataIndex: 'lastName',
-            key: 'lastName'
-        },
-        {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email'
-        },
-        {
-            title: 'PhoneNumber',
-            dataIndex: 'phoneNumber',
-            key: 'phoneNumber'
-        },
-        {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email'
-        },
-
-        {
-            title: 'Status',
-            dataIndex: 'status',
-            key: 'status',
-        },
-        {
-            title: 'Avatar',
-            dataIndex: 'avatar',
-            key: 'avatar',
-            render: (value) => <Image src={value} width={120} />
-        },
-        {
-            title: 'Action',
-            dataIndex: 'id',
-            key: 'id',
-            render: (id, record) => {
-                return (
-                    <div>
-                        {record.status === "Active" ? <Popconfirm onConfirm={() => { handleDeleteStaff(id) }} title="Bạn có chắc muốn Block tài khoản này không?">
-                            <Button style={{ height: '45px', fontSize: '15px', fontWeight: '500' }} type="primary">Block Staff</Button>
-                        </Popconfirm> : <Popconfirm onConfirm={() => { handleDeleteStaff(id) }} title="Bạn có chắc muốn UnBlock tài khoản này không?">
-                            <Button style={{ height: '45px', fontSize: '15px', fontWeight: '500' }} type="primary" danger>UnBlock Staff</Button>
-                        </Popconfirm>}
-
-                    </div>
-
-                )
-            }
-        },
-
-    ]
-    const handleDeleteStaff = async (id) => {
-        try {
-            const response = await api.put(`Manager/ToggleUserStatus/${id}`)
-            notification.success({
-                message: "Thành công!",
-                description: response.data.message,
-                duration: 5,
-            });
-
-            fetchDataStaff();
-        } catch (error) {
-            toast.error("error")
-        }
-    }
+   
     return (
         <div>
             <div className="manage-doctor-container">
                 <Card className="manage-doctor-card">
                     <Title level={2} className="title">
-                        <UserAddOutlined /> Tạo Tài Khoản Nhân viên
+                        <UserAddOutlined /> Tạo Tài Khoản Nhân viên ( MANAGER )
                     </Title>
                     <Form form={form} layout="vertical" onFinish={onFinish}>
                         <Row gutter={16}>
@@ -194,7 +106,7 @@ const ManageStaff = () => {
                 </Card>
 
             </div>
-            <Table title={() => "Manage staff"} columns={columns} dataSource={dataStaff} />
+          
         </div>
     );
 };

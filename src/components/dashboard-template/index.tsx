@@ -1,4 +1,4 @@
-import { Button, Table, Typography, Tooltip, Modal, Form, Input } from "antd";
+import { Button, Table, Typography, Tooltip, Modal, Form, Input, Pagination } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import api from "../../config/api";
@@ -32,8 +32,7 @@ const DashboardTemplate = ({
   titleModal,
   formItem,
   titleTable,
-  createName,
-  titleModalUpdate,
+  createName
 }: DashboardTemplateProps) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
@@ -43,11 +42,15 @@ const DashboardTemplate = ({
   const [id, setId] = useState("");
   const [showCorrectheadingTextInModal, setshowCorrectheadingTextInModal] =
     useState(false);
-  const fetchingData = async () => {
+    const [number, setNumber] = useState(1)
+    const [totalPage, setTotalPage] = useState(0);
+  const fetchingData = async (pageNumber = 1, pageSize = 5) => {
     setLoading(true);
     try {
-      const response = await api.get(apiURI);
-      console.log("Response:", response.data.items);
+      const response = await api.get(`${apiURI}?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+      setTotalPage(response.data.totalCount);
+
+    
       setData(response.data.items);
     } catch (error) {
       toast.error("Error while fetching data");
@@ -56,8 +59,8 @@ const DashboardTemplate = ({
   };
 
   useEffect(() => {
-    fetchingData();
-  }, []);
+    fetchingData(number, 5);
+  }, [number]);
 
   // Open modal
   const handleOpenModal = () => {
@@ -129,53 +132,7 @@ const DashboardTemplate = ({
       {/* Bảng dữ liệu */}
       <Table
         loading={loading}
-        // columns={[
-        //   ...columns.map((col) => ({
-        //     ...col,
-        //     width: col.width || 150, // Đặt width mặc định cho cột
-        //     ellipsis: true, // Rút gọn text
-        //     render: (value: any) => (
-        //       <Tooltip title={value}>
-        //         <div className="truncate-text">{value}</div>
-        //       </Tooltip>
-        //     ),
-        //   })),
-        //   {
-        //     title: "Action",
-        //     dataIndex: "id",
-        //     key: "id",
-        //     width: 150,
-        //     fixed: "right",
-        //     render: (id: string, record) => (
-        //       <div
-        //         style={{ display: "flex", gap: "20px" }}
-        //         className="action-buttons"
-        //       >
-        //         <Button
-        //           onClick={() => {
-        //             setOpen(true);
-        //             form.setFieldsValue(record);
-        //             setshowCorrectheadingTextInModal(true);
-        //           }}
-        //           size="large"
-        //           className="btn-update"
-        //         >
-        //           <EditOutlined /> Update
-        //         </Button>
-        //         <Button
-        //           onClick={() => {
-        //             handleOpenDeleteConfirm(id);
-        //           }}
-        //           danger
-        //           size="large"
-        //           className="btn-delete"
-        //         >
-        //           <DeleteOutlined /> Delete
-        //         </Button>
-        //       </div>
-        //     ),
-        //   },
-        // ]}
+        pagination={false}
         columns={[
           ...columns.map((col) => ({
             ...col,
@@ -184,22 +141,22 @@ const DashboardTemplate = ({
             render: col.render
               ? col.render
               : (value: any) => {
-                  // Nếu value là object, cố gắng lấy thuộc tính 'name'
-                  if (typeof value === "object" && value !== null) {
-                    return (
-                      <Tooltip title={value?.name || JSON.stringify(value)}>
-                        <div className="truncate-text">
-                          {value?.name || JSON.stringify(value)}
-                        </div>
-                      </Tooltip>
-                    );
-                  }
+                // Nếu value là object, cố gắng lấy thuộc tính 'name'
+                if (typeof value === "object" && value !== null) {
                   return (
-                    <Tooltip title={value}>
-                      <div className="truncate-text">{value}</div>
+                    <Tooltip title={value?.name || JSON.stringify(value)}>
+                      <div className="truncate-text">
+                        {value?.name || JSON.stringify(value)}
+                      </div>
                     </Tooltip>
                   );
-                },
+                }
+                return (
+                  <Tooltip title={value}>
+                    <div className="truncate-text">{value}</div>
+                  </Tooltip>
+                );
+              },
           })),
           {
             title: "Action",
@@ -251,6 +208,19 @@ const DashboardTemplate = ({
         ]}
         dataSource={data}
         scroll={{ x: "max-content" }} // Cho phép cuộn ngang nếu cần
+      />
+      <Pagination
+        current={number}
+        total={totalPage } // Assuming 10 items per page, adjust as necessary
+        pageSize={5} // Adjust based on your API's pagination
+        onChange={(page) => {
+          setNumber(page);
+        }}
+        style={{
+          marginTop: "16px",
+          display: "flex",
+          justifyContent: "flex-end",
+        }} // Adjust styling as needed
       />
       {/* modal Update */}
       <Modal

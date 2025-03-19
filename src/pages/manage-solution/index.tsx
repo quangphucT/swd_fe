@@ -16,7 +16,7 @@ const ManageSolution = () => {
     },
   ]
   const formItem = <>
-    <Form.Item label="Brand name" name={"name"} rules={[{
+    <Form.Item label="Solution name" name={"name"} rules={[{
       required: true,
       message: 'Name must not be blank!!'
     }]}>

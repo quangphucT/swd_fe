@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { Form, Input, Button, DatePicker, Card, Typography, Row, Col, Table, Image, Popconfirm, notification } from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
 import api from "../../config/api";
@@ -11,82 +11,7 @@ const { Title } = Typography;
 const ManageDoctor = () => {
     const [loading, setLoading] = useState(false);
     const [form] = useForm();
-    const [doctorData, setDoctorData] = useState([])
-    const fetchingData = async () => {
-        try {
-            const response = await api.get("Booking/GetAllDoctors")
-            setDoctorData(response.data)
-        } catch (error) {
-            toast.error("error")
-        }
-    }
-    useEffect(() => {
-        fetchingData();
-    }, [])
-    const columns = [
-        {
-            title: 'Id',
-            dataIndex: 'id',
-            key: 'id'
-        },
-        {
-            title: 'FirstName',
-            dataIndex: 'firstName',
-            key: 'firstName'
-        },
-        {
-            title: 'LastName',
-            dataIndex: 'lastName',
-            key: 'lastName'
-        },
-        {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email'
-        },
-        {
-            title: 'PhoneNumber',
-            dataIndex: 'phoneNumber',
-            key: 'phoneNumber'
-        },
-        {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email'
-        },
-        {
-            title: 'Avatar',
-            dataIndex: 'avatar',
-            key: 'avatar',
-            render: (value) => <Image src={value} width={120} />
-        },
-        {
-            title: 'Action',
-            dataIndex: 'id',
-            key: 'id',
-            render: (id) => {
-                return (
-                    <Popconfirm onConfirm={() => { handleDeleteDoctor(id) }} title="Bạn có chắc muốn xóa tài khoản này không?">
-                        <Button style={{ height: '45px', fontSize: '15px', fontWeight: '500' }} type="primary">Delete Doctor</Button>
-                    </Popconfirm>
-                )
-            }
-        },
 
-    ]
-    const handleDeleteDoctor = async (id) => {
-        try {
-            const response = await api.delete(`Staff/DeleteDoctor/${id}`)
-            notification.success({
-                message: "Thành công!",
-                description: "Bạn đã xóa thành công.",
-                duration: 5,
-            });
-            fetchingData();
-        } catch (error) {
-            toast.error("error")
-        }
-    }
     const onFinish = async (values) => {
         setLoading(true);
         try {
@@ -97,7 +22,7 @@ const ManageDoctor = () => {
             await api.post("Accounts/SignUpDoctor", formattedValues);
             toast.success("Tạo tài khoản bác sĩ thành công!");
             form.resetFields();
-            fetchingData();
+
         } catch (error) {
             toast.error(error.response.data.message);
         } finally {
@@ -110,7 +35,7 @@ const ManageDoctor = () => {
             <div className="manage-doctor-container">
                 <Card className="manage-doctor-card">
                     <Title level={2} className="title">
-                        <UserAddOutlined /> Tạo Tài Khoản Bác Sĩ
+                        <UserAddOutlined /> Tạo Tài Khoản Chuyên Viên ( MANAGER, STAFF)
                     </Title>
                     <Form form={form} layout="vertical" onFinish={onFinish}>
                         <Row gutter={16}>
@@ -183,7 +108,7 @@ const ManageDoctor = () => {
 
             </div>
 
-            <Table title={() => "Manage doctors"} columns={columns} dataSource={doctorData} />
+
         </div>
 
     );

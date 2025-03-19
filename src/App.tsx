@@ -49,6 +49,11 @@ import ManageConfirmedAppointments from "./pages/manage-confirmed-appointment";
 import ScheduleOfDoctor from "./pages/schedule-doctor-page";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
+import ShoppingPage from "./pages/shopping-page";
+import ManageListDoctor from "./pages/manage-list-doctor";
+import ManageStaffList from "./pages/manage-list-staff";
+import UpdateAccountProfle from "./pages/update-account-profile";
+import ManageRequestCancelOrder from "./pages/manage-requestCancelOrder";
 
 
 
@@ -60,11 +65,16 @@ const App = () => {
   const router = createBrowserRouter([
     {
       path: "/",
+
       element: role === "Staff" ? <Navigate to={"/dashboard"} replace /> : <Layout />,
       children: [
         {
           path: "/",
           element: <Home />,
+        },
+        {
+          path: "/shopping",
+          element: <ShoppingPage />,
         },
         {
           path: '/deposite',
@@ -149,11 +159,33 @@ const App = () => {
     },
     {
       path: "/dashboard",
-      element: role === "Customer" || role==="Doctor" ? <Navigate to={"/"} replace /> : <Dashboard />,
+      element: role === "Customer" || role === "Doctor" ? <Navigate to={"/"} replace /> : <Dashboard />,
       children: [
         {
           path: "brand-management",
           element: <ManageBrand />,
+        },
+        // new
+        {
+          path: "update-account-profile",
+          element: <UpdateAccountProfle />,
+        },
+
+        //new
+        {
+          path: "manage-request-cancelOrder",
+          element: <ManageRequestCancelOrder />,
+        },
+
+        // new 
+        {
+          path: "manage-list-doctor",
+          element: <ManageListDoctor />
+        },
+        // new
+        {
+          path: "manage-list-staff",
+          element: <ManageStaffList />
         },
         {
           path: "blog-management",

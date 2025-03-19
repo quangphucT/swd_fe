@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Table, Tag, Modal, Image, Rate, Input } from 'antd';
+import { Button, Table, Tag, Modal, Image, Rate, Input, Popconfirm } from 'antd';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
@@ -72,22 +72,38 @@ const YourOrderList = () => {
             },
         },
         {
-            title: 'Discount Code',
-            dataIndex: 'discount',
-            key: 'discount',
-            render: (discount) => (discount ? discount.code : 'N/A'),
+            title: 'Discount ID',
+            dataIndex: 'discountId',
+            key: 'discountId',
+            render: (discountId) => (discountId ? discountId : 'N/A'),
         },
         {
-            title: 'Action',
-            dataIndex: 'orderID',
-            key: 'orderID',
-            render: (orderID) => (
-                <div style={{ display: 'flex', gap: '20px' }}>
-                    <button className='cancel-btn'>Hủy đơn</button>
-                    <button onClick={() => handleDetailOrder(orderID)} className='detail-btn'>Xem chi tiết đơn</button>
+            title: "Action",
+            dataIndex: "orderID",
+            key: "orderID",
+            render: (orderID, record) => (
+                <div style={{ display: "flex", gap: "20px" }}>
+                    {/* Chỉ hiển thị nút "Hủy đơn" nếu trạng thái không phải "Confirmcanceled" */}
+                    {record.status === "Confirmcanceled" || record.status === "canceled" ? null : (
+                        <>
+                            <Popconfirm
+                                title="Bạn có chắc muốn yêu cầu hủy đơn này không?"
+                                onConfirm={() => handleRequestCancelOrder(orderID)}
+                            >
+                                <button className="cancel-btn">Hủy đơn</button>
+                            </Popconfirm>
+                            <button onClick={() => handleDetailOrder(orderID)} className="detail-btn">
+                                Xem chi tiết đơn
+                            </button>
+                            </>
+                    )}
+
+
+
                 </div>
             ),
         }
+
     ];
     const handleNavigateFeedback = (id) => {
         setVisible(true)
@@ -114,6 +130,15 @@ const YourOrderList = () => {
         setRating(null)
         setVisible(false)
         setIdOrderDetails(null)
+    }
+    const handleRequestCancelOrder = async (id) => {
+        try {
+            await api.put(`Order/CancelStatusOrder/${id}`)
+            toast.success("Yêu cầu hủy đơn đã được gửi đến nhân viên của chúng tôi!")
+            fetchingDataOrder();
+        } catch (error) {
+            toast.error(error.response.data)
+        }
     }
     return (
         <div className="order-list-container">

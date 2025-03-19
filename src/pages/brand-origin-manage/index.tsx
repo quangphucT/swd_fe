@@ -27,7 +27,7 @@ const ManageBrandOrigin = () => {
         </>
     return (
         <div>
-            <DashboardTemplate titleModalUpdate="Update brandOrigin information" titleModal="Add new brandOrigin" formItem={formItem} createName="Add new brandOrigin" titleTable="BrandOrigin Management" apiURI="BrandOrigins" columns={columns} />
+            <DashboardTemplate titleModalUpdate="Cập nhật brandOrigin" titleModal="Add new brandOrigin" formItem={formItem} createName="Tạo mới brandOrigin" titleTable="Quản lý BrandOrigin ( STAFF )" apiURI="BrandOrigins" columns={columns} />
         </div>
     )
 }
