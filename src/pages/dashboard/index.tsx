@@ -25,6 +25,8 @@ import { FaBlog } from "react-icons/fa";
 
 import { Layout, Menu, theme } from "antd";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const { Content, Sider } = Layout;
 function getItem(label, key, icon, children, onClick) {
@@ -43,6 +45,8 @@ function getItem(label, key, icon, children, onClick) {
 }
 
 const Dashboard = () => {
+
+
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
   const handleLogout = () => {
@@ -54,8 +58,12 @@ const Dashboard = () => {
     getItem("Dashboard", "", <DashboardOutlined style={{ fontSize: '30px' }} />),
     getItem("Manage Customer", "manage-customer", <MdManageAccounts size={33} />,
       [
-        getItem("Manage Doctor", "manage-doctor", <MdManageAccounts size={33}/>),
-        getItem("Manage Staff", "manage-staff", <MdManageAccounts size={33}/>)
+        getItem("Manage Doctor", "manage-doctor", <MdManageAccounts size={33}/>, [
+          getItem("List Doctor", "manage-list-doctor", <MdManageAccounts size={33}/>)
+        ]),
+        getItem("Manage Staff", "manage-staff", <MdManageAccounts size={33}/>,[
+          getItem("List Staff", "manage-list-staff", <MdManageAccounts size={33}/>)
+        ])
       ]
     ),
     getItem("Manage Order", "manage-order", <MdOutlineProductionQuantityLimits size={30} />),
@@ -95,6 +103,7 @@ const Dashboard = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const userRole = useSelector((store: RootState) => store?.user?.user?.roles[0])
   return (
     <Layout
       style={{
@@ -112,7 +121,7 @@ const Dashboard = () => {
         <div style={{ background: '#2968a7', color: '#fff' }} className="admin-section">
           <UserOutlined className="admin-icon" />
 
-          <span className="admin-text">{collapsed ? "" : "Admin"}</span>
+          <span className="admin-text">{collapsed ? "" : `Welcome ${userRole}`}</span>
         </div>
         <Menu
           theme="dard"

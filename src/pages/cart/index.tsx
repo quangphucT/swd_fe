@@ -92,7 +92,7 @@ const Cart = () => {
         } else {
             try {
                 const response = await api.post("Order", {
-                    discountId: seletedDiscount,
+                    discountId: seletedDiscount  || 1,
                 });
                 showSuccessToast(response.data.message);
                 dispatch(resetCart())

@@ -50,6 +50,8 @@ import ScheduleOfDoctor from "./pages/schedule-doctor-page";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
 import ShoppingPage from "./pages/shopping-page";
+import ManageListDoctor from "./pages/manage-list-doctor";
+import ManageStaffList from "./pages/manage-list-staff";
 
 
 
@@ -61,6 +63,7 @@ const App = () => {
   const router = createBrowserRouter([
     {
       path: "/",
+
       element: role === "Staff" ? <Navigate to={"/dashboard"} replace /> : <Layout />,
       children: [
         {
@@ -154,11 +157,22 @@ const App = () => {
     },
     {
       path: "/dashboard",
-      element: role === "Customer" || role==="Doctor" ? <Navigate to={"/"} replace /> : <Dashboard />,
+      element: role === "Customer" || role === "Doctor" ? <Navigate to={"/"} replace /> : <Dashboard />,
       children: [
         {
           path: "brand-management",
           element: <ManageBrand />,
+        },
+
+        // new 
+        {
+          path: "manage-list-doctor",
+          element: <ManageListDoctor />
+        },
+        // new
+        {
+          path: "manage-list-staff",
+          element: <ManageStaffList />
         },
         {
           path: "blog-management",

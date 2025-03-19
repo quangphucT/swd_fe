@@ -31,7 +31,7 @@ const ManageBrand = () => {
 
   return (
     <div>
-      <DashboardTemplate  titleModalUpdate="Update brand" createName="Create New Brand" titleTable="Brand Management" formItem={formItem} titleModal="Add new brand" apiURI="Brands" columns={columns} />
+      <DashboardTemplate  titleModalUpdate="Cập nhật brand" createName="Tạo mới brand" titleTable="Danh sách brands ( STAFF )" formItem={formItem} titleModal="Add new brand" apiURI="Brands" columns={columns} />
     </div>
   )
 }

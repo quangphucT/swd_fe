@@ -11,8 +11,8 @@ const ManageCustomer = () => {
 
     const fetchingDataAccount = async () => {
         try {
-            const response = await api.get("Accounts/getAllCustomer");
-            setData(response.data.customers);
+            const response = await api.get("Manager/GetAllCustomers");
+            setData(response.data);
         } catch (error) {
             toast.error("Error while fetching data");
         }
@@ -117,7 +117,7 @@ const ManageCustomer = () => {
     }
     return <div className="manage-account">
         <div className="table-container">
-            <Table title={() => "Manage Customer"} columns={columns} dataSource={data} scroll={{ x: "max-content" }} />
+            <Table title={() => "Danh sách khách hàng ( MANAGER )"} columns={columns} dataSource={data} scroll={{ x: "max-content" }} />
         </div>
     </div>;
 };
