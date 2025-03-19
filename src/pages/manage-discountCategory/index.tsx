@@ -84,7 +84,7 @@ const ManageDiscountCategory = () => {
                 fetchingData();
             } else {
                 await api.post("DiscountCategory", {
-                
+                        id: 0,
                         name: values.name
                   
                 })
