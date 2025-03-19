@@ -25,11 +25,18 @@ const BookingPage = () => {
         if (!selectedDoctor) return;
         try {
             const response = await api.get(`Booking/GetAvailableBookings/${selectedDoctor}`);
-            setSlotList(response.data);
+            
+            // Lọc các slot có thời gian không ở quá khứ
+            const validSlots = response.data.filter(slot => 
+                dayjs(slot.timeSlot).isAfter(dayjs()) // Kiểm tra nếu thời gian slot > hiện tại
+            );
+    
+            setSlotList(validSlots);
         } catch (error) {
             toast.error("Không thể tải danh sách lịch trống.");
         }
     };
+    
 
     const handleOk = async () => {
         try {
@@ -54,20 +61,10 @@ const BookingPage = () => {
     useEffect(() => {
         fetchSlotfromDoctorId();
     }, [selectedDoctor]);
-    const carouselImages = [
-       {src:  "https://o2skin.vn/wp-content/uploads/2024/05/background-ly-do-o2skin-ra-doi-update.png"}
 
-    ];
     return (
         <div className="booking-container">
-             {/* <Carousel autoplay className="doctor-carousel">
-                            {carouselImages.map((image, index) => (
-                                <div key={index} className="carousel-item">
-                                    <Image preview={false} src={image.src} alt={`doctor-${index + 1}`} style={{width: '80vw', height: '350px'}} />
-                                    <p>Thấu hiểu những lo lắng trên, O2 SKIN đã ra đời với dịch vụ điều trị mụn chuẩn Y khoa, cung cấp những giải pháp thiết thực, giúp khách hàng giải quyết những khó khăn khi điều trị mụn.</p>
-                                </div>
-                            ))}
-                        </Carousel> */}
+        
             <Row gutter={24}>
                 {/* DANH SÁCH BÁC SĨ */}
                 <Col span={6}>

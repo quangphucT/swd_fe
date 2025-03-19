@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { Button, Popconfirm, Table, Tag } from "antd";
 import { Column } from "../../components/dashboard-template";
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
@@ -13,8 +13,8 @@ const ManageOrder = () => {
 
     const fetchingData = async () => {
         try {
-            const response = await api.get("Order");
-            setData(response.data.items);
+            const response = await api.get("Order/GetAllOrdersByPendingStatus");
+            setData(response.data);
         } catch (error) {
             toast.error("Error while fetching data");
         }
@@ -53,22 +53,52 @@ const ManageOrder = () => {
             title: "Status",
             dataIndex: "status",
             key: "status",
-
+            render: (status: string) => {
+              const statusColors: Record<string, string> = {
+                pending: "warning",
+                confirmed: "success",
+              };
+                
+              return <Tag color={statusColors[status] || "default"}>{status.toUpperCase()}</Tag>;
+            },
         },
         {
             title: "CartId",
             dataIndex: "cartId",
             key: "cartId",
-
+        },
+        {
+            title: "Action",
+            dataIndex: 'orderID',
+            key: "orderID",
+            render: (orderID, record) => {
+                return record.status !== "successful" ? (
+                    <Popconfirm
+                        title="Confirm đơn hàng?"
+                        onConfirm={() => handleConfirmOrder(record.orderID)}
+                    >
+                        <Button type="primary">Confirm Order</Button>
+                    </Popconfirm>
+                ) : <p style={{padding: '10px 20px', background: '#ccc', fontWeight: '500'}}>Already confirmed</p>;
+            }
         },
 
     ];
+    const handleConfirmOrder = async(id)=>{
+        try {
+            await api.put(`Order/ConfirmOrderStatusOrder/${id}`)
+            toast.success("Confirm success!")
+            fetchingData();
 
+        } catch (error) {
+            toast.error(error.response.data)
+        }
+    }
 
     return <div className="manage-account">
         <div className="table-container">
 
-            <Table title={() => "Manage Orders"} columns={columns} dataSource={data} scroll={{ x: "max-content" }} />
+            <Table title={() => "Các đơn hàng đang đợi duyệt ( STAFF )"} columns={columns} dataSource={data} scroll={{ x: "max-content" }} />
         </div>
 
 

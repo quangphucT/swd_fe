@@ -55,6 +55,7 @@ const Dashboard = () => {
 
   };
   const items = [
+    getItem("Update Profile", "update-account-profile", <DashboardOutlined style={{ fontSize: '30px' }} />),
     getItem("Dashboard", "", <DashboardOutlined style={{ fontSize: '30px' }} />),
     getItem("Manage Customer", "manage-customer", <MdManageAccounts size={33} />,
       [
@@ -66,7 +67,11 @@ const Dashboard = () => {
         ])
       ]
     ),
-    getItem("Manage Order", "manage-order", <MdOutlineProductionQuantityLimits size={30} />),
+    getItem("Manage pending order", "manage-order", <MdOutlineProductionQuantityLimits size={30} />,
+      [
+        getItem("Manage request cancel", "manage-request-cancelOrder", <MdOutlineProductionQuantityLimits size={30} />)
+      ]
+    ),
     getItem("Manage pending appointments", "manage-pending-appointment", <TbBrandBooking size={30} />,
       [
         getItem("Manage confirmed appointments", "manage-confirmed-appointment", <TbBrandBooking size={30} />)

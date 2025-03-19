@@ -52,6 +52,8 @@ import { RootState } from "./redux/store";
 import ShoppingPage from "./pages/shopping-page";
 import ManageListDoctor from "./pages/manage-list-doctor";
 import ManageStaffList from "./pages/manage-list-staff";
+import UpdateAccountProfle from "./pages/update-account-profile";
+import ManageRequestCancelOrder from "./pages/manage-requestCancelOrder";
 
 
 
@@ -162,6 +164,17 @@ const App = () => {
         {
           path: "brand-management",
           element: <ManageBrand />,
+        },
+        // new
+        {
+          path: "update-account-profile",
+          element: <UpdateAccountProfle />,
+        },
+
+        //new
+        {
+          path: "manage-request-cancelOrder",
+          element: <ManageRequestCancelOrder />,
         },
 
         // new 
