@@ -5,8 +5,9 @@ import "./index.scss";
 import RoutineSteps from "../RoutineDisplay";
 import { useDispatch } from "react-redux";
 import { saveResultQuizId } from "../../redux/feature/resultquizSlice";
+import { Link } from "react-router-dom";
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 const QuizModal = ({ questions, visible, onClose }) => {
   const [userAnswers, setUserAnswers] = useState({});
@@ -14,12 +15,12 @@ const QuizModal = ({ questions, visible, onClose }) => {
   const [resultData, setResultData] = useState(null);
   const [resultModalVisible, setResultModalVisible] = useState(false);
   const [resultQuiz, setResultQuiz] = useState(0);
-  const [routineStepsData, setRoutineStepsData] = useState(null); // Lưu dữ liệu routine steps
-  const [showRoutineSteps, setShowRoutineSteps] = useState(false); // Điều khiển hiển thị routine steps
   const [stepsData, setStepsData] = useState([]);
+  const [showRoutineSteps, setShowRoutineSteps] = useState(false);
   const currentQuestion = questions[currentIndex];
+  const [message1, setMessage1] = useState();
   const dispatch = useDispatch();
-  // Xử lý thay đổi đáp án
+  
   const handleAnswerChange = (e) => {
     setUserAnswers({
       ...userAnswers,
@@ -27,25 +28,18 @@ const QuizModal = ({ questions, visible, onClose }) => {
     });
   };
 
-  // Chuyển câu hỏi tiếp theo
   const handleNext = () => {
     if (!(`quiz${currentIndex + 1}` in userAnswers)) {
       message.warning("Vui lòng chọn một đáp án!");
       return;
     }
-    if (currentIndex < questions.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    }
+    setCurrentIndex((prev) => prev + 1);
   };
 
-  // Quay lại câu hỏi trước
   const handlePrev = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
+    setCurrentIndex((prev) => Math.max(prev - 1, 0));
   };
 
-  // Gửi bài quiz và lấy kết quả
   const handleSubmit = async () => {
     if (Object.keys(userAnswers).length < questions.length) {
       message.warning("Bạn chưa trả lời hết các câu hỏi!");
@@ -54,35 +48,37 @@ const QuizModal = ({ questions, visible, onClose }) => {
     try {
       const response = await api.post("/ResultQuiz", userAnswers);
       setResultQuiz(response.data.data.resultQuizId);
-      console.log(response.data.data.resultQuizId);
-      dispatch(saveResultQuizId(response.data.data.resultQuizId)); 
+      dispatch(saveResultQuizId(response.data.data.resultQuizId));
+      console.log(typeof  response.data.message,response.data.message);
+      console.log(response)
       if (response.status === 200 && response.data?.data) {
         const { skinStatus, anceStatus } = response.data.data;
-        let skinMessage = skinStatus === 0 ? "Da khô" : skinStatus === 1 ? "Da dầu" : skinStatus === 2 ? "Da hỗn hợp" : "Da nhạy cảm";
-        let acneMessage = anceStatus === 0 ? "Có mụn" : "Không có mụn";
+        
+        const skinMessages = ["Da thường", "Da dầu", "Da khô", "Da hỗn hợp", "Không xác định"];
+        const acneMessages = ["Có mụn", "Không có mụn"];
+
         setResultData({
-          skinStatus: skinMessage,
-          anceStatus: acneMessage,
-          
+          skinStatus: skinMessages[skinStatus] || "Không xác định",
+          anceStatus: acneMessages[anceStatus] || "Không rõ",  
         });
+        setMessage1(response.data.message);
+        
         setResultModalVisible(true);
-        message.success(`Tình trạng da của bạn: ${skinMessage}`);
+        message.success(`Tình trạng da của bạn: ${skinMessages[skinStatus]}`);
       }
+      
     } catch (error) {
       message.error("Gửi thất bại, vui lòng thử lại!");
       console.error("Lỗi API:", error);
     }
   };
 
-  // Xử lý hiển thị routine steps
   const handleResult = async () => {
     try {
       const response = await api.get(`RoutineStep/GetRouteStepsByUserIDAsync/${resultQuiz}`);
-      console.log(response);
-      setStepsData(response.data);
       if (response.data) {
-        setRoutineStepsData(response.data); // Lưu dữ liệu routine steps
-        setShowRoutineSteps(true); // Hiển thị routine steps ngay trong modal
+        setStepsData(response.data);
+        setShowRoutineSteps(true);
       } else {
         message.warning("Không có dữ liệu routine steps.");
       }
@@ -91,76 +87,59 @@ const QuizModal = ({ questions, visible, onClose }) => {
       console.error(error);
     }
   };
-
-
-
+  const handleModalClose = () => {
+    setUserAnswers({});
+    setCurrentIndex(0);
+    setResultData(null);
+    setResultModalVisible(false);
+    setShowRoutineSteps(false);
+    onClose();
+  };
   return (
     <>
-      {/* Modal Quiz */}
-      <Modal
-        title="Bài Quiz"
-        open={visible}
-        onCancel={onClose}
-        footer={null}
-        width="80vw"
-      >
-        <Text strong>{`Câu hỏi ${currentIndex + 1}/${questions.length}`}</Text>
-        <p>{currentQuestion.question}</p>
-        <Radio.Group
-          onChange={handleAnswerChange}
-          value={userAnswers[`quiz${currentIndex + 1}`]}
-        >
-          <Space direction="vertical">
+      <Modal title="Bài Quiz" open={visible} onCancel={()=>onClose()} footer={null} width="70vw" centered>
+        <Title level={5} style={{ textAlign: "start", marginBottom: 10 }}>{`Câu hỏi ${currentIndex + 1}/${questions.length}`}</Title>
+        <Text strong>{currentQuestion.question}</Text>
+        <Radio.Group onChange={handleAnswerChange} value={userAnswers[`quiz${currentIndex + 1}`]} style={{ width: "100%", marginTop: 10 }}>
+          <Space direction="vertical" style={{ width: "100%" }}>
             {currentQuestion.options.map((option, index) => (
-              <Radio key={index} value={option.value}>
+              <Radio key={index} value={option.value} style={{ display: "block", padding: "8px", borderRadius: "5px" }}>
                 {option.label}
               </Radio>
             ))}
           </Space>
         </Radio.Group>
-        <div style={{ marginTop: 15, display: "flex", justifyContent: "space-between" }}>
-          <Button disabled={currentIndex === 0} onClick={handlePrev}>
-            Quay lại
-          </Button>
+        <div style={{ marginTop: 20, display: "flex", justifyContent: "space-between" }}>
+          <Button disabled={currentIndex === 0} onClick={handlePrev} size="large">Quay lại</Button>
           {currentIndex < questions.length - 1 ? (
-            <Button type="primary" onClick={handleNext}>
-              Tiếp tục
-            </Button>
+            <Button type="primary" onClick={handleNext} size="large">Tiếp tục</Button>
           ) : (
-            <Button type="primary" onClick={handleSubmit}>
-              Gửi bài làm
-            </Button>
+            <Button type="primary" onClick={handleSubmit} size="large">Gửi bài làm</Button>
           )}
         </div>
       </Modal>
 
-      {/* Modal Kết Quả */}
-      <Modal
-        title="Kết Quả Kiểm Tra"
-        open={resultModalVisible}
-        onCancel={() => setResultModalVisible(false)}
-        footer={null}
-        width="50vw"
-      >
+      <Modal title="Kết Quả Kiểm Tra" open={resultModalVisible} onCancel={handleModalClose} footer={null} width="50vw" centered>
         {resultData && (
           <>
-            <Text strong>Tình trạng da của bạn: </Text>
-            <Text style={{ color: "#1890ff" }}>
+            <Text strong>Tình trạng da của bạn:</Text>
+            <Text style={{ color: "#1890ff", fontSize: "16px" }}>
               {resultData.skinStatus}, {resultData.anceStatus}
             </Text>
-
-            <br/>
-
-            {/* Nút để xem routine steps */}
-            <Button type="primary" onClick={handleResult} style={{ marginTop: 20 }}>
+            <br />
+            {(message1?.trim().toLowerCase() === "success"? (
+            <Button type="primary" onClick={handleResult} style={{ marginTop: 20 }} block>
               Xem Routine Steps
             </Button>
-
-            {/* Hiển thị routine steps ngay bên dưới */}
-            {showRoutineSteps && routineStepsData && (
+          ) : (
+            <Button type="default" style={{ marginTop: 20 }} block>
+              <Link to="/booking-page">Đặt lịch hẹn bác sĩ</Link>
+            </Button>
+          ))}
+            {showRoutineSteps && (
               <div style={{ marginTop: 20 }}>
                 <Text strong>Routine Steps:</Text>
-                <RoutineSteps data={stepsData} />;
+                <RoutineSteps data={stepsData} />
               </div>
             )}
           </>
