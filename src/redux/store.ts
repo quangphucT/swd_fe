@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import userSlice from '../redux/feature/userSlice';
 import balanceSlice from '../redux/feature/balanceSlice';
 import cartSlice from '../redux/feature/cartSlice';
+import resultquizSlice from '../redux/feature/resultquizSlice';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import { combineReducers } from 'redux';
@@ -10,14 +11,15 @@ import { combineReducers } from 'redux';
 const persistConfig = {
   key: 'root',
   storage, 
-  whitelist: ['user', 'balance', 'cart'], // ✅ Lưu cả user và balance
+  whitelist: ['user', 'balance', 'cart','resultquiz'], // ✅ Lưu cả user và balance
 };
 
 // ✅ Kết hợp reducers
 const rootReducer = combineReducers({
   user: userSlice,
   balance: balanceSlice,
-  cart: cartSlice
+  cart: cartSlice,
+  resultquiz : resultquizSlice
 });
 
 // ✅ Bọc rootReducer bằng persistReducer

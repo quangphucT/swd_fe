@@ -1,0 +1,17 @@
+
+  .custom-modal .ant-modal-content {
+    border-radius: 12px; /* Bo góc modal */
+    padding: 20px;
+    max-height: 80vh; /* Giới hạn chiều cao modal */
+    overflow-y: auto; /* Cuộn nếu nội dung dài */
+  }
+  .blur-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(8px); /* Làm mờ toàn bộ nền */
+    //background: rgba(0, 0, 0, 0.3); /* Thêm lớp phủ tối */
+    z-index: 999; /* Đảm bảo ở trên cùng */
+  }
