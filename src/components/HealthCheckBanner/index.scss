@@ -1,0 +1,32 @@
+.health-banner {
+    margin: 3vh 3vw;
+    background: linear-gradient(90deg, #1e90ff, #3b82f6);
+    padding: 20px;
+    border-radius: 12px;
+    color: white;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .quiz-list {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-top: 10px;
+  }
+  
+  .quiz-card {
+    min-width: 250px;
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+  }
+  
+  .custom-modal .ant-modal-content {
+    border-radius: 12px;
+    padding: 20px;
+  }
+  

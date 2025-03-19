@@ -1,0 +1,16 @@
+.RoutineSteps_container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    ul{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        li{
+            margin-bottom: 10px;
+        }
+    }
+}

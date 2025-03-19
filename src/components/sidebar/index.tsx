@@ -40,15 +40,6 @@ const Sidebar: React.FC = () => {
       {role !== 'Doctor' && (
         <>
           <Menu.Item
-            key="/transaction-payment"
-            onClick={() => navigate("/my-account/transaction-payment")}
-          >
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <IconTransaction />
-              <span style={{ marginLeft: "6px" }}>Transaction Payment</span>
-            </div>
-          </Menu.Item>
-          <Menu.Item
             key="/your-order"
             onClick={() => navigate("/my-account/your-order")}
           >

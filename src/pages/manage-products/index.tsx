@@ -40,6 +40,7 @@ interface Product {
   brand: Entity;
   productDetail: ProductDetail;
   category: Category;
+  skinType:number;
 }
 const ManageProduct = () => {
   const [dataProduct, setDataProduct] = useState<Product[]>([]);
@@ -146,7 +147,17 @@ const ManageProduct = () => {
   useEffect(() => {
     fetchProduct();
   }, []);
-
+  const skinTypeOptions = [
+    { value: 0, label: "Da Thường" },
+    { value: 1, label: "Da Dầu" },
+    { value: 2, label: "Da Khô" },
+    { value: 3, label: "Da Hỗn Hợp" },
+  ];
+  // Hàm chuyển đổi giá trị `skinType` thành dạng chữ
+  const getSkinTypeLabel = (value: number) => {
+    const skinType = skinTypeOptions.find((item) => item.value === value);
+    return skinType ? skinType.label : "Không xác định";
+  };
   const columns: Column[] = [
     {
       title: "Id",
@@ -220,6 +231,12 @@ const ManageProduct = () => {
       dataIndex: "productDetail",
       key: "productDetail",
       render: (productDetail) => productDetail?.productDescription || "N/A",
+    },
+    {
+      title: "Skin Type",
+      dataIndex: "skinType",
+      key: "skinType",
+      render: (skinType) => getSkinTypeLabel(skinType),
     },
   ];
   const formItem = (
@@ -413,6 +430,22 @@ const ManageProduct = () => {
           ))}
         </Select>
       </Form.Item>
+            
+        {/* skinType */}
+        <Form.Item
+        label="Loại da"
+        name="skinType"
+        rules={[{ required: true, message: "Vui lòng chọn loại da!!" }]}
+      >
+        <Select placeholder="Chọn loại da">
+          {skinTypeOptions.map((item) => (
+            <Select.Option key={item.value} value={item.value}>
+              {item.label}
+            </Select.Option>
+          ))}
+        </Select>
+      </Form.Item>
+      
     </>
 
         )
