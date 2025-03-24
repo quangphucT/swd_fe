@@ -53,15 +53,21 @@ function Footer() {
         <h3>Tổng Đài</h3>
         <h3>Tư Vấn Mua Hàng</h3>
         <p>1900 633 633 (Nhánh 1)</p>
-        <h2> Hỗ trỡ Thanh Toán</h2>
-        <img src="/img/vnpay.png" />
+        <h2> Hỗ Trợ Thanh Toán</h2>
+        <img src="/img/vnpay.png" alt="VNPay" />
       </div>
       <div className="footer_column">
-        <h3>Kết Nối Với Chúng Tôi </h3>
+        <h3>Kết Nối Với Chúng Tôi</h3>
         <div className="links">
-          <img src="/img/facebook.png" />
-          <img src="/img/zalo.png" />
+          <img src="/img/facebook.png" alt="Facebook" />
+          <img src="/img/zalo.png" alt="Zalo" />
         </div>
+      </div>
+      <div className="footer_column">
+        <h3>Trung Tâm Chăm Sóc Da Chuyên Sâu</h3>
+        <p>Địa chỉ: 123 Đường Lý Thường Kiệt, Quận 10, TP. Hồ Chí Minh</p>
+        <p>Hotline: 0909 123 456</p>
+        <p>Email: cskh@chamsocda.com</p>
       </div>
     </footer>
   );

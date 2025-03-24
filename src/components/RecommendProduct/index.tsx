@@ -12,6 +12,7 @@ import { formatMoneyToVND } from "../../currency/currency";
 import { useNavigate } from "react-router-dom";
 import { showSuccessToast } from "../../config/configToast";
 import "./index.scss";
+import api from "../../config/api";
 
 type Product = {
   id: number;

@@ -93,5 +93,14 @@
       text-align: center;
     }
   }
+  .status-valid {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .status-expired {
+    color: red;
+    font-weight: bold;
+  }
   
   

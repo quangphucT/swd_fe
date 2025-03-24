@@ -80,14 +80,14 @@ const ScheduleCustomerBooking = () => {
             align: "center",
         },
         {
-            title: "Avatar bác sĩ",
+            title: "Avatar chuyên viên",
             dataIndex: "doctorAvatar",
             key: "doctorAvatar",
             render: (doctorAvatar) => <Image src={doctorAvatar} alt="avatar-doctor" width={100} />,
             align: "center",
         },
         {
-            title: "Tên bác sĩ",
+            title: "Tên chuyên viên",
             dataIndex: "fullName",
             key: "fullName",
             render: (_, record) => `${record.doctorFirstName} ${record.doctorLastName}`,
@@ -131,7 +131,7 @@ const ScheduleCustomerBooking = () => {
 
     return (
         <div className="schedule-container">
-            <h2>Lịch Đặt Khám Của Bạn</h2>
+            <h2>Lịch Tư Vấn Cùng Chuyên Viên</h2>
            
           
             <Table

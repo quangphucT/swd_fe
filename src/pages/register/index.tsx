@@ -18,7 +18,7 @@ function Register() {
       toast.success("Đăng ký thành công!");
       navigate("/login");
     } catch (error: any) {
-      toast.error("Đăng ký thất bại!");
+      toast.error(error.response.data.message);
       form.resetFields();
     }
   };
