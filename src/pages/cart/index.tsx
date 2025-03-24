@@ -37,7 +37,9 @@ const Cart = () => {
     const fetchDiscountList = async () => {
         try {
             const response = await api.get("Discount");
-            setListDiscount(response.data.items);
+            const discounts = response.data.items
+            const filterDiscount = discounts.filter((item) => item.id !== 1)
+            setListDiscount(filterDiscount);
         } catch (error) {
             toast.error("Error while fetching data!!");
         }
@@ -92,7 +94,7 @@ const Cart = () => {
         } else {
             try {
                 const response = await api.post("Order", {
-                    discountId: seletedDiscount  || 1,
+                    discountId: seletedDiscount || 1,
                 });
                 showSuccessToast(response.data.message);
                 dispatch(resetCart())
@@ -219,12 +221,14 @@ const Cart = () => {
                                 setSelectedDiscountPercentage(option?.data_percentage || 0);
                             }}
                         >
+                            <Option value={null}>KHÔNG ÁP DỤNG MÃ</Option>
                             {listDiscount.map(discount => (
                                 <Option key={discount.id} value={discount.id} data_percentage={discount.percentage}>
                                     {`${discount.code} - Giảm ${discount.percentage}%`}
                                 </Option>
                             ))}
                         </Select>
+
 
 
                         <Button onClick={confirmOrder} type="primary" block className="checkout-btn" style={{ marginTop: 10 }}>

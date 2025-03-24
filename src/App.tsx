@@ -55,6 +55,13 @@ import ManageStaffList from "./pages/manage-list-staff";
 import UpdateAccountProfle from "./pages/update-account-profile";
 import ManageRequestCancelOrder from "./pages/manage-requestCancelOrder";
 
+import BookingTakeCare from "./pages/booking-takecare";
+import ManagePackaging from "./pages/manage-packaging";
+import ManageAdvanceBooking from "./pages/manage-advance-booking";
+import ManageDetailsPackage from "./pages/manage-details-package";
+
+
+
 
 
 
@@ -100,6 +107,11 @@ const App = () => {
         {
           path: "/booking-schedule-customer",
           element: <ScheduleCustomerBooking />,
+        },
+
+        {
+          path: "/booking-takecare",
+          element: <BookingTakeCare />,
         },
 
         {
@@ -165,6 +177,11 @@ const App = () => {
           path: "brand-management",
           element: <ManageBrand />,
         },
+      
+        {
+          path: "manage-advance-booking",
+          element: <ManageAdvanceBooking />,
+        },
         // new
         {
           path: "update-account-profile",
@@ -175,6 +192,18 @@ const App = () => {
         {
           path: "manage-request-cancelOrder",
           element: <ManageRequestCancelOrder />,
+        },
+
+         //new
+         {
+          path: "manage-detail-package",
+          element: <ManageDetailsPackage />,
+        },
+       
+        // create packaging
+        {
+          path: "manage-packaging",
+          element: <ManagePackaging />,
         },
 
         // new 

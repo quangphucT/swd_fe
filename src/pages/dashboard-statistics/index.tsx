@@ -16,6 +16,7 @@ const DashboardStatistic = () => {
   const [dateRange, setDateRange] = useState([null, null]);
   const [year, setYear] = useState(new Date().getFullYear());
   const [revenueData, setRevenueData] = useState([]);
+  const [profitOrder, setProfitOrder] = useState([])
   const fetchRevenueData = async () => {
     try {
       const response = await api.get(`BookingStatistics/ConfirmedBookingFrequencyByMonth?year=${year}`);
@@ -31,6 +32,23 @@ const DashboardStatistic = () => {
   useEffect(() => {
     fetchRevenueData();
   }, [year])
+  const fetchProfit = async () => {
+    try {
+      const response = await api.get("Order/getProfit");
+      const formattedData = response.data.map((item) => ({
+        month: `Tháng ${item.month}`, // Định dạng lại tháng
+        revenue: item.revenuePortal,  // Đặt đúng key dữ liệu doanh thu
+      }));
+      setProfitOrder(formattedData);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Error fetching profit data");
+    }
+  };
+  
+  useEffect(() => {
+    fetchProfit();
+  }, []);
+  
   const fetchAllCustomer = async () => {
     try {
       const response = await api.get("Accounts/getAllCustomer");
@@ -89,35 +107,35 @@ const DashboardStatistic = () => {
 
   return (
     <div className="dashboard-statistic">
-     <Row gutter={16} className="summary-cards">
-  <Col span={6}>
-    <Card className="stat-card customer-card">
-      <UserOutlined className="icon" />
-      <div>
-        <h3>Total Customer</h3>
-        <p>{totalCustomer}</p>
-      </div>
-    </Card>
-  </Col>
-  <Col span={6}>
-    <Card className="stat-card doctor-card">
-      <UserOutlined className="icon" />
-      <div>
-        <h3>Total Doctor</h3>
-        <p>{totalDoctor}</p>
-      </div>
-    </Card>
-  </Col>
-  <Col span={6}>
-    <Card className="stat-card staff-card">
-      <UserOutlined className="icon" />
-      <div>
-        <h3>Total Staff</h3>
-        <p>{totalStaff}</p>
-      </div>
-    </Card>
-  </Col>
-</Row>
+      <Row gutter={16} className="summary-cards">
+        <Col span={6}>
+          <Card className="stat-card customer-card">
+            <UserOutlined className="icon" />
+            <div>
+              <h3>Total Customer</h3>
+              <p>{totalCustomer}</p>
+            </div>
+          </Card>
+        </Col>
+        <Col span={6}>
+          <Card className="stat-card doctor-card">
+            <UserOutlined className="icon" />
+            <div>
+              <h3>Total Doctor</h3>
+              <p>{totalDoctor}</p>
+            </div>
+          </Card>
+        </Col>
+        <Col span={6}>
+          <Card className="stat-card staff-card">
+            <UserOutlined className="icon" />
+            <div>
+              <h3>Total Staff</h3>
+              <p>{totalStaff}</p>
+            </div>
+          </Card>
+        </Col>
+      </Row>
 
 
       <Row gutter={16} className="charts">
@@ -164,7 +182,26 @@ const DashboardStatistic = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar  dataKey="revenue" fill="#52c41a" name={"Total bookings"} />
+                <Bar dataKey="revenue" fill="#52c41a" name={"Total bookings"} />
+              </BarChart>
+            </ResponsiveContainer>
+          </Card>
+        </Col>
+
+
+        <Col span={12}>
+
+          <Card style={{margin: '20px 0'}} title="Order revenue" className="chart-card">
+
+            <ResponsiveContainer width="100%" height={300}>
+              
+              <BarChart data={profitOrder}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="revenue" fill="#ff4500" name={"Tổng doanh thu theo tháng"} />
               </BarChart>
             </ResponsiveContainer>
           </Card>

@@ -6,6 +6,9 @@
       flex-direction: column;
       gap: 10px;
       align-items: center;
+      position: sticky;
+  top: 10px;
+  height: fit-content;
   
       .shopping-filter-button {
         display: flex;

@@ -20,13 +20,20 @@ const ShoppingPage = () => {
     try {
       setLoading(true);
       let response;
-      
+
       // Apply filter conditionally
       if (filterPrice === 100000) {
         response = await api.get(`Products/price-under-100000?pageNumber=${pageNumber}&pageSize=3`);
       } else if (filterPrice === 200000) {
         response = await api.get(`Products/price-over-200000?pageNumber=${pageNumber}&pageSize=3`);
-      } else {
+      }
+      else if (filterPrice === 400000) {
+        response = await api.get(`Products/price-over-400000?pageNumber=${pageNumber}&pageSize=3`);
+      }
+      else if (filterPrice === 500000) {
+        response = await api.get(`Products/price-over-500000?pageNumber=${pageNumber}&pageSize=3`);
+      }
+      else {
         response = await api.get(`Products?pageNumber=${pageNumber}&pageSize=3`);
       }
 
@@ -92,6 +99,20 @@ const ShoppingPage = () => {
           >
             Trên {formatMoneyToVND(200000)}
           </Button>
+
+          <Button
+            onClick={() => handleFilterChange(400000)}
+            className={`shopping-price-filter ${filterPrice === 400000 ? "active" : ""}`}
+          >
+            Trên {formatMoneyToVND(400000)}
+          </Button>
+          <Button
+            onClick={() => handleFilterChange(500000)}
+            className={`shopping-price-filter ${filterPrice === 500000 ? "active" : ""}`}
+          >
+            Trên {formatMoneyToVND(500000)}
+          </Button>
+
           {/* <Button
             onClick={() => handleFilterChange(0)}
             className={`shopping-price-filter ${filterPrice === 0 ? "active" : ""}`}
@@ -101,7 +122,7 @@ const ShoppingPage = () => {
         </Col>
         <Col span={16} className="shopping-product-section">
           <h2>Sản phẩm của chúng tôi</h2>
-          // nút search 
+
           {loading && products.length === 0 ? (
             <Flex justify="center" align="center" className="shopping-loading-container">
               <Spin spinning={loading} tip="Loading products..." size="large" />

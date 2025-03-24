@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Select, Card, Button, Modal, notification, Col, Row, Avatar, Carousel, Image } from 'antd';
+import Carousels from '../../components/carousel-chuyen-sau';
 import { toast } from 'react-toastify';
 import api from '../../config/api';
 import dayjs from 'dayjs';
@@ -25,18 +26,18 @@ const BookingPage = () => {
         if (!selectedDoctor) return;
         try {
             const response = await api.get(`Booking/GetAvailableBookings/${selectedDoctor}`);
-            
+
             // Lọc các slot có thời gian không ở quá khứ
-            const validSlots = response.data.filter(slot => 
+            const validSlots = response.data.filter(slot =>
                 dayjs(slot.timeSlot).isAfter(dayjs()) // Kiểm tra nếu thời gian slot > hiện tại
             );
-    
+
             setSlotList(validSlots);
         } catch (error) {
             toast.error("Không thể tải danh sách lịch trống.");
         }
     };
-    
+
 
     const handleOk = async () => {
         try {
@@ -64,11 +65,13 @@ const BookingPage = () => {
 
     return (
         <div className="booking-container">
-        
+           <div style={{width: '1200px', margin: '0px auto', paddingBottom: '50px'}}>
+           <Carousels  />
+           </div>
             <Row gutter={24}>
                 {/* DANH SÁCH BÁC SĨ */}
-                <Col span={6}>
-                    <h3>Chọn bác sĩ</h3>
+                <Col span={5}>
+                    <h3>🩺 Chọn bác sĩ</h3>
 
                     <div className="doctor-list">
                         {dataDoctor.map((doctor) => (
@@ -92,35 +95,44 @@ const BookingPage = () => {
                 </Col>
 
                 {/* DANH SÁCH LỊCH TRỐNG */}
-                <Col span={18}>
+                <Col span={19}>
                     <div >
-                        <h2>Đặt lịch khám</h2>
+                        <h2>📅 Đặt lịch khám</h2>
                         {/* NÚT XÁC NHẬN */}
-                    
+
                         {selectedSlot && (
                             <Button onClick={() => setIsModalOpen(true)} type="primary" className="confirm-button">
-                                Xác nhận lịch hẹn
+                                ✅ Xác nhận lịch hẹn
                             </Button>
                         )}
                     </div>
                     {selectedDoctor ? (
                         <div className="slots-container">
+                            
                             <h3>Danh sách lịch trống</h3>
                             <div className="slots">
                                 {slotList.length > 0 ? (
-                                    slotList.map((slot) => (
-                                        <Card
-                                            key={slot.bookingId}
-                                            className={`slot-card ${selectedSlot === slot.bookingId ? 'selected' : ''}`}
-                                            onClick={() => setSelectedSlot(slot.bookingId)}
-                                        >
-                                            {dayjs(slot.timeSlot).format("DD-MM-YYYY HH:mm")}
-                                        </Card>
-                                    ))
+                                    slotList.map((slot) => {
+                                        const startTime = dayjs(slot.timeSlot);
+                                        const endTime = startTime.add(1, 'hour'); // Thêm 1 giờ
+
+                                        return (
+                                            <Card
+                                                key={slot.bookingId}
+                                                className={`slot-card ${selectedSlot === slot.bookingId ? 'selected' : ''}`}
+                                                onClick={() => setSelectedSlot(slot.bookingId)}
+                                            >
+                                                {startTime.format("📅 DD-MM-YYYY ⏰ hh:mm A")} - {endTime.format("hh:mm A")}
+                                                {/* Giữ lại ngày và hiển thị giờ bắt đầu - kết thúc */}
+                                            </Card>
+                                        );
+                                    })
                                 ) : (
                                     <p>Không có lịch trống.</p>
                                 )}
                             </div>
+
+
                         </div>
                     ) : (
                         <p>Vui lòng chọn bác sĩ để xem lịch trống.</p>
@@ -130,14 +142,14 @@ const BookingPage = () => {
 
                     {/* MODAL XÁC NHẬN */}
                     <Modal
-                        title="Xác nhận đặt lịch"
+                        title="🔔 Xác nhận đặt lịch"
                         open={isModalOpen}
                         onOk={handleOk}
                         onCancel={() => setIsModalOpen(false)}
-                        okText="Xác nhận đặt lịch"
-                        cancelText="Hủy"
+                        okText="✅ Xác nhận đặt lịch"
+                        cancelText="❌ Hủy"
                     >
-                        <p style={{ fontSize: '16px' }}>Bạn có chắc chắn muốn đặt lịch hẹn với khung giờ này không?</p>
+                        <p style={{ fontSize: '16px' }}>📌 Bạn có chắc chắn muốn đặt lịch hẹn với khung giờ này không?</p>
                     </Modal>
                 </Col>
             </Row>
