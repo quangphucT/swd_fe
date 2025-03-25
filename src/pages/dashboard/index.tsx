@@ -67,7 +67,7 @@ const Dashboard = () => {
         ])
       ]
     ),
-    getItem("Quản lý combo chuyên sâu", "manage-packaging", <MdOutlineProductionQuantityLimits size={30} />,[
+    getItem("Quản lý combo chuyên sâu", "manage-packaging", <MdOutlineProductionQuantityLimits size={30} />, [
       getItem("Quản lý chi tiết combo", "manage-detail-package", <MdOutlineProductionQuantityLimits size={30} />)
     ]),
     getItem("Đơn hàng đợi duyệt", "manage-order", <MdOutlineProductionQuantityLimits size={30} />,
@@ -75,7 +75,10 @@ const Dashboard = () => {
         getItem("Quản lý đơn yêu cầu hủy", "manage-request-cancelOrder", <MdOutlineProductionQuantityLimits size={30} />)
       ]
     ),
-    getItem("Quản lý đặt lịch chuyên sâu", "manage-advance-booking", <TbBrandBooking size={30} />),
+    getItem("Quản lý đặt lịch chuyên sâu", "manage-advance-booking", <TbBrandBooking size={30} />, [
+      getItem("Danh sách đã được xác nhận", "manage-advanceBookingConfirmed", <TbBrandBooking size={30} />),
+      getItem("Check tiến độ điều trị", "check-complete-treatmentSession", <TbBrandBooking size={30} />)
+    ]),
     getItem("Cuộc hẹn đang chờ xử lý", "manage-pending-appointment", <TbBrandBooking size={30} />,
       [
         getItem("Cuộc hẹn đã được duyệt", "manage-confirmed-appointment", <TbBrandBooking size={30} />)
