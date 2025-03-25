@@ -95,7 +95,7 @@ const Dashboard = () => {
       getItem("Quản lý đơn vị", "manage-unit", <TeamOutlined />),
 
     ]),
-    getItem("Manage packaging", "manage-packaging", <UserOutlined />),
+    getItem("Manage packaging", "manage-packaging-product", <UserOutlined />),
     getItem("Manage solution", "manage-solution", <TeamOutlined />),
     getItem("Quản lý thể loại", "manage-category", <FileOutlined />),
 

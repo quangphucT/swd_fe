@@ -1,20 +1,36 @@
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .deposit-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-color: #ebf1e8;
   padding: 20px 0;
+  background: linear-gradient(-45deg, #fff, #fff, #acd6f8, #ebedf0);
+  background-size: 300% 300%;
+  animation: gradientAnimation 8s ease infinite;
 }
+
 .deposit-content{
   display: flex;
   gap: 20px;
 }
 .deposit-card {
-  width: 950px;
+  width: 550px;
   padding: 24px;
     
   background: #fff;
+  border: 1px solid #ccc;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
   text-align: center;
 }

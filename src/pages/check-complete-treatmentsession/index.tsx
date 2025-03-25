@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 import './index.scss';
 import { useEffect, useState } from 'react';
 import api from '../../config/api';
-import { Input, Table, Button, Avatar, Row, Popconfirm, Modal, Form } from 'antd';
+import { Input, Table, Button, Avatar, Row, Popconfirm, Modal, Form, Tooltip } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import TextArea from 'antd/es/input/TextArea';
 
@@ -64,13 +64,38 @@ const CheckCompleteTreatmentSection = () => {
             key: 'description',
         },
         {
+            title: 'Ghi chú của bác sĩ',
+            dataIndex: 'descriptionNote',
+            key: 'descriptionNote',
+            render: (descriptionNote) => {
+                if (!descriptionNote) return 'Chưa có ghi chú nào của buổi này';
+        
+                const truncatedText = descriptionNote.length > 50 
+                    ? `${descriptionNote.slice(0, 5)}...` 
+                    : descriptionNote;
+        
+                return (
+                    <Tooltip title={descriptionNote}>
+                        {truncatedText}
+                    </Tooltip>
+                );
+            },
+        },
+        
+        {
             title: 'Cập nhật',
             dataIndex: 'id',
             key: 'id',
             render: (id, record) => {
                 return (
                     <div>
-                        {record.status === "Done" ? <>DONE</> : <Button onClick={() => handleOpenModel(id)} style={{ background: '#2968a7', height: '45px' }} type='primary'>Cập nhật tiến độ</Button>}
+                        {record.status === "Completed" ? <Button 
+                             
+                                style={{ marginLeft: 10, background: '#f39c12', height: '45px' }} 
+                                type='primary'
+                            >
+                             DONE
+                            </Button> : <Button onClick={() => handleOpenModel(id)} style={{ background: '#2968a7', height: '45px' }} type='primary'>Cập nhật tiến độ</Button>}
                     </div>
                 )
             }
@@ -86,7 +111,7 @@ const CheckCompleteTreatmentSection = () => {
     }
     const handleSubmit = async (values) => {
         try {
-            await api.put(`Appointment/CheckinTreatment/${id}`, values)
+            await api.put(`Appointment/Update/${id}`, values)
             toast.success("Cập nhật thành công!");
             setOpen(false);
             fetchData(phoneNumber);
