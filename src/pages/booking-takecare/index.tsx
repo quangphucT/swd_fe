@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Table, Button, Space, Typography, Card, Modal, Col, Row } from 'antd';
+import { Table, Button, Space, Typography, Card, Modal, Col, Row, Image } from 'antd';
 import { toast } from 'react-toastify';
 import api from '../../config/api';
 import './index.scss';
@@ -17,11 +17,12 @@ const BookingTakeCare = () => {
     const [mySchedule, setMySchedule] = useState([]);
     const [visible, setVisible] = useState(false);
     const [comboDetails, setComboDetails] = useState(null);
-
+    const [scheduleInfo, setScheduleInfo] = useState(null);
     const fetchMySchedule = async () => {
         try {
             const response = await api.get("Appointment/GetMyTracking");
-            setMySchedule(response.data);
+            setScheduleInfo(response.data);
+            setMySchedule(response.data.packageTracking);
         } catch (error) {
             console.log(error.response.data.message);
         }
@@ -88,6 +89,22 @@ const BookingTakeCare = () => {
             key: 'sessions',
         },
         {
+            title: 'Số slot còn lại',
+            dataIndex: 'packageCount',
+            key: 'packageCount',
+            render: (count) => (
+                <span style={{ color: count === 0 ? 'red' : 'inherit' }}>
+                    {count === 0 ? 'Hết slot' : count}
+                </span>
+            ),
+        },
+        {
+            title: 'Bác sĩ phụ trách',
+            dataIndex: 'doctorName',
+            key: 'doctorName',
+        },
+
+        {
             title: 'Trạng Thái',
             dataIndex: 'status',
             key: 'status',
@@ -114,11 +131,7 @@ const BookingTakeCare = () => {
     ];
 
     const scheduleColumns = [
-        {
-            title: 'Tên combo',
-            dataIndex: 'packageName',
-            key: 'packageName'
-        },
+      
         {
             title: 'Ngày',
             dataIndex: 'date',
@@ -144,6 +157,13 @@ const BookingTakeCare = () => {
             title: 'Mô Tả',
             dataIndex: 'description',
             key: 'description',
+            render: (description) => {
+                return (
+                    <div>
+                        {description === null ? <p>Chưa có đánh giá buổi này</p> : <p>{description}</p>}
+                    </div>
+                )
+            }
         },
     ];
 
@@ -151,13 +171,13 @@ const BookingTakeCare = () => {
         <Card className="booking-take-care">
             <Carousel />
             <Row gutter={30}>
-                <Col span={17}>
+                <Col span={18}>
                     <Title style={{ margin: '30px 0' }} level={2} className="title">Danh Sách Combo Chăm Sóc Da Chuyên Sâu</Title>
                     <Table columns={columns} dataSource={combos} rowKey="id" pagination={{ pageSize: 5 }} />
                 </Col>
-                <Col span={7}>
-                    <Card style={{display: 'flex', alignItems: 'center', height: '100%'}} className="contact-info">
-                        <Title style={{fontSize: '20px'}}>🏥 Trung tâm chăm sóc da</Title>
+                <Col span={6}>
+                    <Card style={{ display: 'flex', alignItems: 'center', height: '100%' }} className="contact-info">
+                        <Title style={{ fontSize: '20px' }}>🏥 Trung tâm chăm sóc da</Title>
                         <p><strong>Địa chỉ:</strong> 123 Đường ABC, Quận 1, TP. Hồ Chí Minh</p>
                         <p><strong>Hotline:</strong> 0335 784 107</p>
                     </Card>
@@ -180,7 +200,25 @@ const BookingTakeCare = () => {
                 </p>
 
             )}
-            <Table columns={scheduleColumns} dataSource={mySchedule} />
+            <Row>
+                <Col  span={7}>
+                {scheduleInfo && (
+                <Card style={{ marginBottom: 20 }}>
+                    <Title level={3}>{scheduleInfo.packageName}</Title>
+                    <p><strong>Tên combo đã chọn:</strong> {scheduleInfo.packageName}</p>
+                    <p><strong>Bác sĩ phụ trách:</strong> {scheduleInfo.doctorName}</p>
+                    <p><strong>Điện thoại:</strong> {scheduleInfo.doctorPhone}</p>
+                    
+                    <Image style={{width: '200px', height: '200px', objectFit: 'contain'}} src={scheduleInfo.doctorAvatar} alt='image'/>
+                </Card>
+            )}
+                </Col>
+                <Col span={17}>
+                <Table columns={scheduleColumns} dataSource={mySchedule} />
+                </Col>
+            </Row>
+            
+           
 
             {/* Modal Xác Nhận Đặt Lịch */}
             <Modal

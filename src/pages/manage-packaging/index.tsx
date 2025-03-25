@@ -13,12 +13,22 @@ const ManagePackaging = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPackage, setSelectedPackage] = useState(null);
 
+    // const fetchAllDoctors = async () => {
+    //     try {
+    //         const response = await api.get('Booking/GetAllDoctors');
+    //         setListDoctor(response.data);
+    //     } catch (error) {
+    //         toast.error(error.response?.data?.message || 'Lỗi khi lấy danh sách bác sĩ');
+    //     }
+    // };
     const fetchAllDoctors = async () => {
         try {
-            const response = await api.get('Booking/GetAllDoctors');
-            setListDoctor(response.data);
+            const response = await api.get("Booking/GetAllDoctors");
+            // Lọc danh sách chỉ lấy chuyên viên có email chứa "chuyenvien"
+            const filteredDoctors = response.data.filter(doctor => doctor.email.includes("bacsi"));
+            setListDoctor(filteredDoctors);
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Lỗi khi lấy danh sách bác sĩ');
+            toast.error(error.response.data.message);
         }
     };
 

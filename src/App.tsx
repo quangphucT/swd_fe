@@ -270,7 +270,7 @@ const App = () => {
           element: <DashboardStatistic />,
         },
         {
-          path: "manage-packaging",
+          path: "manage-packaging-product",
           element: <PackagingManage />,
         },
         {

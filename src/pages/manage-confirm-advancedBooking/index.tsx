@@ -51,12 +51,12 @@ const ManageConfirmAdvanceBooking = () => {
         },
         {
             title: 'Lịch trình',
-            dataIndex: 'trackings',
-            key: 'trackings',
-            render: (trackings) => (
+            dataIndex: 'packageTracking',
+            key: 'packageTracking',
+            render: (packageTracking) => (
                 <Table
                     columns={trackingColumns}
-                    dataSource={trackings.map((t, index) => ({ ...t, key: index }))}
+                    dataSource={packageTracking.map((t, index) => ({ ...t, key: index }))}
                     pagination={false}
                     size="small"
                 />
@@ -97,13 +97,17 @@ const ManageConfirmAdvanceBooking = () => {
             key: 'description',
             render: (text, record) => (
                 <>
-                    {text.length > 10 ? (
-                        <>
-                            {text.slice(0, 10)}...
-                            <Button type="link" onClick={() => setVisibleDescription(record)}>Xem thêm</Button>
-                        </>
+                    {text ? (
+                        text.length > 10 ? (
+                            <>
+                                {text.slice(0, 10)}...
+                                <Button type="link" onClick={() => setVisibleDescription(record)}>Xem thêm</Button>
+                            </>
+                        ) : (
+                            text
+                        )
                     ) : (
-                        text
+                        <i>CHưa có mô tả</i>
                     )}
                 </>
             ),
