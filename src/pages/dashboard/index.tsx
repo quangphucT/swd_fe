@@ -67,6 +67,8 @@ const Dashboard = () => {
         ])
       ]
     ),
+    getItem("Quản lý phòng", "manage-room", <MdManageAccounts size={33} />),
+    getItem("Check in", "manage-check-in-room", <MdManageAccounts size={33} />),
     getItem("Quản lý combo chuyên sâu", "manage-packaging", <MdOutlineProductionQuantityLimits size={30} />, [
       getItem("Quản lý chi tiết combo", "manage-detail-package", <MdOutlineProductionQuantityLimits size={30} />)
     ]),

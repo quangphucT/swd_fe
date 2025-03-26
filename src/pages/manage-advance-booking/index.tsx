@@ -29,15 +29,15 @@ const ManageAdvanceBooking = () => {
         }
     };
 
-    const handleCancel = async (id: number) => {
-        try {
-            await api.put(`Appointment/CancelAppointment/${id}`);
-            message.success('Đã hủy lịch hẹn!');
-            fetchAppointments();
-        } catch (error) {
-            message.error(error.response?.data || 'Lỗi khi hủy lịch hẹn');
-        }
-    };
+    // const handleCancel = async (id: number) => {
+    //     try {
+    //         await api.put(`Appointment/CancelAppointment/${id}`);
+    //         message.success('Đã hủy lịch hẹn!');
+    //         fetchAppointments();
+    //     } catch (error) {
+    //         message.error(error.response?.data || 'Lỗi khi hủy lịch hẹn');
+    //     }
+    // };
 
     const statusColors: Record<string, string> = {
         Pending: 'orange',
@@ -88,7 +88,7 @@ const ManageAdvanceBooking = () => {
                             <Button type="primary">Xác nhận</Button>
                         </Popconfirm>
                     )}
-                    {record.status !== 'Cancelled' && record.status !== 'Pending' && (
+                    {/* {record.status !== 'Cancelled' && record.status !== 'Pending' && (
                         <Popconfirm
                             title="Bạn có chắc muốn hủy lịch hẹn này không?"
                             onConfirm={() => handleCancel(record.id)}
@@ -97,7 +97,7 @@ const ManageAdvanceBooking = () => {
                         >
                             <Button danger>Hủy</Button>
                         </Popconfirm>
-                    )}
+                    )} */}
                 </div>
             ),
         },
