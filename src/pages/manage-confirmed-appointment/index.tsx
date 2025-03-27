@@ -46,6 +46,18 @@ const ManageConfirmedAppointments = () => {
             key: "customerId",
         },
         {
+            title: "Customer Name",
+            dataIndex: "customerName",
+            key: "customerName",
+        },
+
+        {
+            title: "Customer Phone",
+            dataIndex: "customerPhone",
+            key: "customerPhone",
+        },
+
+        {
             title: "DoctorAvatar",
             dataIndex: "doctorAvatar",
             key: "doctorAvatar",
@@ -68,9 +80,9 @@ const ManageConfirmedAppointments = () => {
 
 
                         <Popconfirm onConfirm={() => { handleCancelBooking(bookingId) }} title="Bạn có chắc xác nhận lịch booking của customer?">
-                            <button className="confirm-btn" >
+                            <Button className="confirm-btn" >
                                 Cancel Booking
-                            </button>
+                            </Button>
                         </Popconfirm>
 
                     </div>
@@ -92,9 +104,9 @@ const ManageConfirmedAppointments = () => {
             toast.error(error.response.data.message)
         }
     }
-    return <div className="manage-account">
+    return <div className="manage-account22">
         <div className="table-container">
-            <Table title={() => "Manage confirmedAppointments"} columns={columns} dataSource={data} scroll={{ x: "max-content" }} />
+            <Table  title={() => "Quản lý lịch tư vấn"} columns={columns} dataSource={data} scroll={{ x: "max-content" }} />
         </div>
     </div>;
 };

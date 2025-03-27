@@ -62,6 +62,9 @@ import ManageDetailsPackage from "./pages/manage-details-package";
 import ManageConfirmAdvanceBooking from "./pages/manage-confirm-advancedBooking";
 import CheckCompleteTreatmentSection from "./pages/check-complete-treatmentsession";
 import GoogleMap from "./components/ggmap";
+import ManageRoom from "./pages/manage-room";
+import ManageCheckInRoom from "./pages/check-in-room";
+import CheckInTuVan from "./pages/check-in-tu-van";
 
 
 
@@ -184,11 +187,37 @@ const App = () => {
           path: "brand-management",
           element: <ManageBrand />,
         },
-      
+
         {
           path: "manage-advance-booking",
           element: <ManageAdvanceBooking />,
         },
+        // new 
+
+        {
+          path: "manage-room",
+          element: <ManageRoom />,
+        },
+
+
+        // new 
+
+        {
+          path: "manage-check-in-room",
+          element: <ManageCheckInRoom />,
+        },
+
+
+        // check in tu van 
+        
+        // new 
+
+        {
+          path: "manage-check-in-tuvan",
+          element: <CheckInTuVan />,
+        },
+
+
         // new
         {
           path: "update-account-profile",
@@ -201,12 +230,12 @@ const App = () => {
           element: <ManageRequestCancelOrder />,
         },
 
-         //new
-         {
+        //new
+        {
           path: "manage-detail-package",
           element: <ManageDetailsPackage />,
         },
-       
+
         // create packaging
         {
           path: "manage-packaging",

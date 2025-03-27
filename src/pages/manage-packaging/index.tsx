@@ -95,6 +95,11 @@ const ManagePackaging = () => {
             key: 'doctorId',
         },
         {
+            title: 'Tên bác sĩ',
+            dataIndex: 'doctorName',
+            key: 'doctorName',
+        },
+        {
             title: 'Giá (VND)',
             dataIndex: 'price',
             key: 'price',

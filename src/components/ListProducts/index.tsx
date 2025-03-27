@@ -46,12 +46,22 @@ const ListProducts = () => {
         }
     };
 
+    // const fetchingAllDoctor = async () => {
+    //     try {
+    //         const response = await api.get("Booking/GetAllDoctors");
+    //         setDataDoctor(response.data);
+    //     } catch (error) {
+    //         toast.error("Error while fetching doctors!");
+    //     }
+    // };
     const fetchingAllDoctor = async () => {
         try {
             const response = await api.get("Booking/GetAllDoctors");
-            setDataDoctor(response.data);
+            // Lọc danh sách chỉ lấy chuyên viên có email chứa "chuyenvien"
+            const filteredDoctors = response.data.filter(doctor => doctor.email.includes("chuyenvien"));
+            setDataDoctor(filteredDoctors);
         } catch (error) {
-            toast.error("Error while fetching doctors!");
+            toast.error(error.response.data.mesage);
         }
     };
 
