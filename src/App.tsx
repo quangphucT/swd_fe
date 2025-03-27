@@ -63,6 +63,7 @@ import ManageConfirmAdvanceBooking from "./pages/manage-confirm-advancedBooking"
 import CheckCompleteTreatmentSection from "./pages/check-complete-treatmentsession";
 import ManageRoom from "./pages/manage-room";
 import ManageCheckInRoom from "./pages/check-in-room";
+import CheckInTuVan from "./pages/check-in-tu-van";
 
 
 
@@ -199,6 +200,16 @@ const App = () => {
         {
           path: "manage-check-in-room",
           element: <ManageCheckInRoom />,
+        },
+
+
+        // check in tu van 
+        
+        // new 
+
+        {
+          path: "manage-check-in-tuvan",
+          element: <CheckInTuVan />,
         },
 
 

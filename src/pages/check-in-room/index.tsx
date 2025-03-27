@@ -202,7 +202,7 @@ const ManageCheckInRoom = () => {
                     dataSource={data ? data.treatmentSessions.map(session => ({ ...session, key: session.id })) : []}
                 />
                 <Modal onOk={() => { form.submit() }} open={open} onCancel={handleCloseModal} title="Cập nhật tiến độ">
-                    <Form form={form} onFinish={handleSubmit}>
+                    <Form  form={form} onFinish={handleSubmit}>
                         <Form.Item label="Mô tả tình trạng da" name={"description"} rules={[{
                             required: true,
                             message: "Mô tả là bắt buộc!"
@@ -214,18 +214,21 @@ const ManageCheckInRoom = () => {
 
                 {/* modal check in */}
                 <Modal onOk={() =>{formCheckIn.submit()}} onCancel={handleCloseModalCheckIn} title="Check-in" open={openCheckIn}>
-                    <Form form={formCheckIn} onFinish={handleSubmitCheckIn}>
+                    <Form labelCol={{span: 24}} form={formCheckIn} onFinish={handleSubmitCheckIn}>
                         <Form.Item name="appointmentId" label="Appointment ID">
                             <Input />
                         </Form.Item>
                         <Form.Item name="roomId" label="Room">
-                            <Select placeholder="Chọn phòng">
-                                {rooms.map(room => (
-                                    <Select.Option key={room.roomId} value={room.roomId}>
-                                        {room.roomName} - {room.packageName} - {room.timeSlot} -{room.doctorName}
-                                    </Select.Option>
-                                ))}
-                            </Select>
+                        <Select placeholder="Chọn phòng">
+    {rooms.map(room => (
+        <Select.Option key={room.roomId} value={room.roomId}>
+            {room.roomName} <br />
+            {room.packageName} <br />
+            {room.timeSlot} <br />
+            {room.doctorName}
+        </Select.Option>
+    ))}
+</Select>
                         </Form.Item>
                     </Form>
                 </Modal>

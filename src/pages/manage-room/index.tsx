@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 import './index.scss';
 import { useEffect, useState } from 'react';
 import api from '../../config/api';
-import { Button, Form, Input, Modal, Select, Table } from 'antd';
+import { Button, Form, Input, Modal, Popconfirm, Select, Table } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 
 const ManageRoom = () => {
@@ -24,12 +24,18 @@ const ManageRoom = () => {
     const fetchAllDoctors = async () => {
         try {
             const response = await api.get("Booking/GetAllDoctors");
-            const filteredDoctors = response.data.filter(doctor => doctor.email.includes("bacsi"));
-            setDoctors(filteredDoctors);
+            const formattedDoctors = response.data.map(doctor => ({
+                ...doctor,
+                displayName: doctor.email.includes("bacsi")
+                    ? `DR. ${doctor.firstName} ${doctor.lastName}`
+                    : `CV. ${doctor.firstName} ${doctor.lastName}`
+            }));
+            setDoctors(formattedDoctors);
         } catch (error) {
             toast.error(error.response?.data?.message || "Failed to fetch doctors");
         }
     };
+
 
     const fetchAllRooms = async () => {
         try {
@@ -81,27 +87,71 @@ const ManageRoom = () => {
             title: 'Doctor',
             dataIndex: 'doctorName',
             key: 'doctorName',
+            render: (text, record) => doctors.find(doc => doc.id === record.doctorId)?.displayName || text
         },
         {
             title: 'Combo Package',
             dataIndex: 'packageName',
             key: 'packageName',
-        }
-    ];
+        },
+        {
+            title: 'Action',
+            dataIndex: 'roomId',
+            key: 'roomId',
+            render: (roomId, record) => {
+                return (
+                    <div>
+                        <Popconfirm title="Bạn có chắc muốn xóa phòng này?" onConfirm={() => {
+                            handleConfirmDelete(roomId)
+                        }}>  <Button>Delete</Button></Popconfirm>
+                        <Button onClick={() => {
+                            setIsModalOpen(true);
+                            form.setFieldsValue({
+                                ...record,
+                                doctorId: doctors.find(doc => (doc.firstName + " " + doc.lastName) === record.doctorName)?.id,
+                                packageId: combos.find(combo => combo.name === record.packageName)?.id
+                            });
+                        }}>
+                            Cập nhật phòng
+                        </Button>
+                    </div>
+                )
+            }
+        },
 
+    ];
+    const handleConfirmDelete = async (id) => {
+        try {
+            await api.delete(`Room/Delete/${id}`)
+            toast.success("Delete success!");
+            fetchAllRooms();
+
+        } catch (error) {
+            toast.error("Error when delete")
+        }
+    }
     const handleCreateRoom = async (values) => {
         try {
-            // Truyền trực tiếp values, bao gồm roomName, slotMax, doctorId và packageId
-            await api.post("Room/Create", values);
-            toast.success("Room created successfully");
-            fetchAllRooms();
-            setIsModalOpen(false);
-            form.resetFields();
+            if (values.roomId) {
+                await api.put(`Room/Update/${values.roomId}`, values);
+                toast.success("Room updated successfully");
+                fetchAllRooms();
+                setIsModalOpen(false);
+                form.resetFields();
+            } else {
+                // Truyền trực tiếp values, bao gồm roomName, slotMax, doctorId và packageId
+                await api.post("Room/Create", values);
+                toast.success("Room created successfully");
+                fetchAllRooms();
+                setIsModalOpen(false);
+                form.resetFields();
+            }
+
         } catch (error) {
             toast.error(error.response?.data || "Failed to create room");
         }
     };
-    
+
 
     return (
         <div className="manage-room">
@@ -109,36 +159,41 @@ const ManageRoom = () => {
             <Button style={{ margin: '20px', height: '45px', background: '#1e88e5', fontWeight: '700', fontSize: '16px', color: '#fff' }} onClick={() => { setIsModalOpen(true); }}>Tạo phòng</Button>
             <Table columns={columns} dataSource={rooms} rowKey="roomId" />
             <Modal
-                title="Tạo phòng"
+                title="Thông tin phòng"
                 open={isModalOpen}
-                onCancel={() => setIsModalOpen(false)}
+                onCancel={() => { setIsModalOpen(false); form.resetFields() }}
                 footer={null}
             >
                 <Form form={form} layout="vertical" onFinish={handleCreateRoom}>
-                    <Form.Item name="roomName" label="Room Name" rules={[{ required: true, message: 'Please enter room name' }]}> 
+                    <Form.Item name={"roomId"} hidden>
                         <Input />
                     </Form.Item>
-                    <Form.Item name="slotMax" label="Max Slots" rules={[{ required: true, message: 'Please enter max slots' }]}> 
+                    <Form.Item name="roomName" label="Room Name" rules={[{ required: true, message: 'Please enter room name' }]}>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item name="slotMax" label="Max Slots" rules={[{ required: true, message: 'Please enter max slots' }]}>
                         <Input type="number" />
                     </Form.Item>
-                    <Form.Item name="timeSlot" label="Time Slot" rules={[{ required: true, message: 'Please enter time slot' }]}> 
-                        <Input  />
+                    <Form.Item name="timeSlot" label="Time Slot" rules={[{ required: true, message: 'Please enter time slot' }]}>
+                        <Input />
                     </Form.Item>
-                    <Form.Item name="doctorId" label="Doctor" rules={[{ required: true, message: 'Please select a doctor' }]}> 
+                    <Form.Item name="doctorId" label="Doctor" rules={[{ required: true, message: 'Please select a doctor' }]}>
                         <Select>
                             {doctors.map(doctor => (
-                                <Select.Option key={doctor.id} value={doctor.id}>{doctor.firstName + " " + doctor.lastName}</Select.Option>
+                                <Select.Option key={doctor.id} value={doctor.id}>
+                                    {doctor.displayName}
+                                </Select.Option>
                             ))}
                         </Select>
                     </Form.Item>
-                    <Form.Item name="packageId" label="Combo Package" rules={[{ required: true, message: 'Please select a combo package' }]}> 
+                    <Form.Item name="packageId" label="Combo Package" rules={[{ required: true, message: 'Please select a combo package' }]}>
                         <Select>
                             {combos.map(combo => (
                                 <Select.Option key={combo.id} value={combo.id}>{combo.name}</Select.Option>
                             ))}
                         </Select>
                     </Form.Item>
-                    <Button type="primary" htmlType="submit">Create</Button>
+                    <Button type="primary" htmlType="submit">Ok</Button>
                 </Form>
             </Modal>
         </div>
