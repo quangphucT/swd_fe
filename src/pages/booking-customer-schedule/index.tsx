@@ -15,11 +15,23 @@ const ScheduleCustomerBooking = () => {
     const fetchDataScheduleBookingCustomer = async () => {
         try {
             const response = await api.get("Booking/GetCustomerAppointments");
-            setDataSchedule(response.data);
+    
+            // Kiểm tra nếu có ghi chú từ bác sĩ
+            const updatedData = await Promise.all(response.data.map(async (item) => {
+                try {
+                    const noteResponse = await api.get(`Booking/GetResultBooking/${item.bookingId}`);
+                    return { ...item, hasNote: !!noteResponse.data.note };
+                } catch {
+                    return { ...item, hasNote: false };
+                }
+            }));
+    
+            setDataSchedule(updatedData);
         } catch (error) {
             toast.error(error.response.data.message);
         }
     };
+    
 
     useEffect(() => {
         fetchDataScheduleBookingCustomer();
@@ -80,14 +92,14 @@ const ScheduleCustomerBooking = () => {
             align: "center",
         },
         {
-            title: "Avatar bác sĩ",
+            title: "Avatar chuyên viên",
             dataIndex: "doctorAvatar",
             key: "doctorAvatar",
             render: (doctorAvatar) => <Image src={doctorAvatar} alt="avatar-doctor" width={100} />,
             align: "center",
         },
         {
-            title: "Tên bác sĩ",
+            title: "Tên chuyên viên",
             dataIndex: "fullName",
             key: "fullName",
             render: (_, record) => `${record.doctorFirstName} ${record.doctorLastName}`,
@@ -110,13 +122,16 @@ const ScheduleCustomerBooking = () => {
             align: "center",
             render: (id, record) => (
                 <div style={{ display: "flex", gap: "20px" }}>
-                    <Button
-                        onClick={() => handleCancelBookingSchedule(id)}
-                        className="button-cancel-schedule"
-                        disabled={record.status === "Cancelled"}
-                    >
-                        Hủy lịch hẹn
-                    </Button>
+                    {/* Ẩn nút nếu đã có ghi chú từ bác sĩ */}
+                    {!record.hasNote && (
+                        <Button
+                            onClick={() => handleCancelBookingSchedule(id)}
+                            className="button-cancel-schedule"
+                            disabled={record.status === "Cancelled"}
+                        >
+                            Hủy lịch hẹn
+                        </Button>
+                    )}
                     <Button
                         onClick={() => handleOpenModalDanhGia(id)}
                         className="button-cancel-schedule"
@@ -127,11 +142,12 @@ const ScheduleCustomerBooking = () => {
                 </div>
             ),
         },
+        
     ];
 
     return (
         <div className="schedule-container">
-            <h2>Lịch Đặt Khám Của Bạn</h2>
+            <h2>Lịch Tư Vấn Cùng Chuyên Viên</h2>
            
           
             <Table

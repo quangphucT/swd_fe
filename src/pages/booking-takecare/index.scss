@@ -1,0 +1,98 @@
+.booking-take-care {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 24px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    .title {
+        text-align: center;
+        color: #1e88e5;
+        margin-bottom: 24px;
+        font-weight: 600;
+    }
+
+    .ant-table {
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .ant-table-thead > tr > th {
+        background-color: #1e88e5;
+        color: white;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .ant-table-tbody > tr > td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .ant-btn-primary {
+        background-color: #1e88e5;
+        border: none;
+        font-weight: bold;
+        transition: all 0.3s;
+
+        &:hover {
+            background-color: #1565c0;
+            transform: scale(1.05);
+        }
+    }
+
+    .status-active {
+        color: #28a745;
+        font-weight: bold;
+    }
+
+    .status-inactive {
+        color: #dc3545;
+        font-weight: bold;
+    }
+}
+.combo-card {
+    background: #f9f9f9;
+    padding: 16px;
+    border-radius: 8px;
+
+    .session-container {
+        display: flex; // Hiển thị ngang
+        gap: 12px;
+        flex-wrap: wrap; // Nếu không đủ chỗ thì tự động xuống dòng
+        justify-content: center;
+    }
+
+    .session-item {
+        flex: 1;
+        min-width: 200px;
+        max-width: 220px;
+        padding: 12px;
+        border-radius: 6px;
+        background: #ffffff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+
+        .session-header {
+            font-size: 16px;
+            font-weight: bold;
+          
+            color: #1e88e5;
+        }
+
+        .session-info {
+            font-size: 14px;
+            color: #333;
+            margin-top: 6px;
+        }
+
+        .session-time {
+            font-size: 13px;
+            color: #ff5722;
+            font-style: italic;
+            margin-top: 4px;
+        }
+    }
+}

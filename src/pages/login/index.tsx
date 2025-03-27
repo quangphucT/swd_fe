@@ -79,39 +79,39 @@ function LoginPopup() {
 
   // Xử lý đăng nhập bằng Google
   const handleLoginGoogle = () => {
-    window.location.href = "https://localhost:7004/api/Accounts/login-google";
+    window.location.href = "";
   };
 
   // Lấy token từ URL sau khi Google xác thực thành công
-  useEffect(() => {
-    const fetchToken = async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const code = urlParams.get("code");
+  // useEffect(() => {
+  //   const fetchToken = async () => {
+  //     const urlParams = new URLSearchParams(window.location.search);
+  //     const code = urlParams.get("code");
 
-      if (code) {
-        try {
-          const response = await api.get("/Accounts/signin-google");
-          console.log(response);
-          if (response.data.token) {
-            const token = response.data.token;
+  //     if (code) {
+  //       try {
+  //         const response = await api.get("/Accounts/signin-google");
+  //         console.log(response);
+  //         if (response.data.token) {
+  //           const token = response.data.token;
 
-            localStorage.setItem("token", token);
-            dispatch(saveInformation(response.data));
-            navigate("/home");
+  //           localStorage.setItem("token", token);
+  //           dispatch(saveInformation(response.data));
+  //           navigate("/home");
 
-            showSuccessToast("Đăng nhập Google thành công");
-          } else {
-            toast.error("Không nhận được token từ server");
-          }
-        } catch (error) {
-          console.error("Lỗi khi lấy token:", error);
-          toast.error("Lỗi khi xác thực Google");
-        }
-      }
-    };
+  //           showSuccessToast("Đăng nhập Google thành công");
+  //         } else {
+  //           toast.error("Không nhận được token từ server");
+  //         }
+  //       } catch (error) {
+  //         console.error("Lỗi khi lấy token:", error);
+  //         toast.error("Lỗi khi xác thực Google");
+  //       }
+  //     }
+  //   };
 
-    fetchToken();
-  }, [dispatch, navigate]);
+  //   fetchToken();
+  // }, [dispatch, navigate]);
 
   return (
     <div className="loginPage">

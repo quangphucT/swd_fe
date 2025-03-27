@@ -259,15 +259,15 @@ const ManageDiscount = () => {
             label="Percentage"
             rules={[
               {
-                pattern: /^[1-9]\d*$/,
+                pattern: /^[0-9]\d*$/,
                 message: "Max usage phải là số nguyên dương",
               },
               {
                 type: "number",
                 max: 100,
-                min: 1,
+                min: 0,
                 transform: (value) => Number(value), // chuyển sang number
-                message: "Percentage phải nằm trong khoảng 1 - 100",
+                message: "Percentage phải nằm trong khoảng 0 - 100",
               },
               { required: true, message: "Please enter percentage" },
             ]}

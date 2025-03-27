@@ -111,13 +111,14 @@ const Header = () => {
         {/* Logo & Blog */}
         <div className="header__left">
           <div className="logo" onClick={() => navigate("/")}>CosmeCare</div>
-          <div className="blog" onClick={() => navigate("/blog")}>Bài viết làm đẹp</div>
-          {token ? <div className="blog" onClick={() => navigate("/shopping")}>Shopping</div> : <div className="blog" onClick={() => navigate("/login")}>Shopping</div>}
+  
+          {token ? <div className="blog" onClick={() => navigate("/shopping")}>Mua sắm</div> : <div className="blog" onClick={() => navigate("/login")}>Shopping</div>}
 
           {user && (
             <>
               {role !== "Doctor" && (<>
-                <div className="blog" onClick={() => navigate("/booking-page")}>Đặt lịch khám</div>
+                <div className="blog" onClick={() => navigate("/booking-page")}>Đặt lịch tư vấn</div>
+                <div className="blog" onClick={() => navigate("/booking-takecare")}>Điều trị chuyên sâu</div>
                 <div className="blog" onClick={() => navigate("/booking-schedule-customer")}>Lịch hẹn của bạn</div>
               </>)}
               {role !== "Customer" && (

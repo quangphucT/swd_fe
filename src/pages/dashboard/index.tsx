@@ -55,54 +55,61 @@ const Dashboard = () => {
 
   };
   const items = [
-    getItem("Update Profile", "update-account-profile", <DashboardOutlined style={{ fontSize: '30px' }} />),
+    getItem("Cập nhật Profile", "update-account-profile", <DashboardOutlined style={{ fontSize: '30px' }} />),
     getItem("Dashboard", "", <DashboardOutlined style={{ fontSize: '30px' }} />),
-    getItem("Manage Customer", "manage-customer", <MdManageAccounts size={33} />,
+    getItem("Quản lý khách hàng", "manage-customer", <MdManageAccounts size={33} />,
       [
-        getItem("Manage Doctor", "manage-doctor", <MdManageAccounts size={33}/>, [
-          getItem("List Doctor", "manage-list-doctor", <MdManageAccounts size={33}/>)
+        getItem("Quản lý bác sĩ", "manage-doctor", <MdManageAccounts size={33} />, [
+          getItem("Danh sách bác sĩ", "manage-list-doctor", <MdManageAccounts size={33} />)
         ]),
-        getItem("Manage Staff", "manage-staff", <MdManageAccounts size={33}/>,[
-          getItem("List Staff", "manage-list-staff", <MdManageAccounts size={33}/>)
+        getItem("Quản lý nhân viên", "manage-staff", <MdManageAccounts size={33} />, [
+          getItem("Danh sách nhân viên", "manage-list-staff", <MdManageAccounts size={33} />)
         ])
       ]
     ),
-    getItem("Manage pending order", "manage-order", <MdOutlineProductionQuantityLimits size={30} />,
+    getItem("Quản lý combo chuyên sâu", "manage-packaging", <MdOutlineProductionQuantityLimits size={30} />, [
+      getItem("Quản lý chi tiết combo", "manage-detail-package", <MdOutlineProductionQuantityLimits size={30} />)
+    ]),
+    getItem("Đơn hàng đợi duyệt", "manage-order", <MdOutlineProductionQuantityLimits size={30} />,
       [
-        getItem("Manage request cancel", "manage-request-cancelOrder", <MdOutlineProductionQuantityLimits size={30} />)
+        getItem("Quản lý đơn yêu cầu hủy", "manage-request-cancelOrder", <MdOutlineProductionQuantityLimits size={30} />)
       ]
     ),
-    getItem("Manage pending appointments", "manage-pending-appointment", <TbBrandBooking size={30} />,
+    getItem("Quản lý đặt lịch chuyên sâu", "manage-advance-booking", <TbBrandBooking size={30} />, [
+      getItem("Danh sách đã được xác nhận", "manage-advanceBookingConfirmed", <TbBrandBooking size={30} />),
+      getItem("Check tiến độ điều trị", "check-complete-treatmentSession", <TbBrandBooking size={30} />)
+    ]),
+    getItem("Cuộc hẹn đang chờ xử lý", "manage-pending-appointment", <TbBrandBooking size={30} />,
       [
-        getItem("Manage confirmed appointments", "manage-confirmed-appointment", <TbBrandBooking size={30} />)
+        getItem("Cuộc hẹn đã được duyệt", "manage-confirmed-appointment", <TbBrandBooking size={30} />)
       ]
     ),
-    getItem("Manage Discount", "manage-discount", <MdDiscount size={30} />, [
-      getItem("Manage DiscountCategory", "manage-discount-category", <MdOutlineDiscount size={30} />),
+    getItem("Quản lý mã giảm giá", "manage-discount", <MdDiscount size={30} />, [
+      getItem("Quản lý thể loại giảm giá", "manage-discount-category", <MdOutlineDiscount size={30} />),
 
     ]),
-    getItem("Manage Blog", "blog-management", <FaBlog size={30} />),
-    getItem("Manage brand", "brand-management", <DesktopOutlined />, [
-      getItem("Manage images", "manage-images", <TeamOutlined />),
-      getItem("Manage brandOrigin", "manage-brandOrigin", <PieChartOutlined />),
-      getItem("Manage unit", "manage-unit", <TeamOutlined />),
+    getItem("Quản lý blog", "blog-management", <FaBlog size={30} />),
+    getItem("Quản lý thương hiện", "brand-management", <DesktopOutlined />, [
+      getItem("Quản lý hình ảnh", "manage-images", <TeamOutlined />),
+      getItem("Quản lý nguồn gốc thương hiệu", "manage-brandOrigin", <PieChartOutlined />),
+      getItem("Quản lý đơn vị", "manage-unit", <TeamOutlined />),
 
     ]),
-    getItem("Manage packaging", "manage-packaging", <UserOutlined />),
+    getItem("Manage packaging", "manage-packaging-product", <UserOutlined />),
     getItem("Manage solution", "manage-solution", <TeamOutlined />),
-    getItem("Manage category", "manage-category", <FileOutlined />),
+    getItem("Quản lý thể loại", "manage-category", <FileOutlined />),
 
     getItem("Manage manufacturer", "manage-manufacturer", <DesktopOutlined />),
     getItem("Manage manufacturedCountry", "manage-manufacturedCountry", <UserOutlined />),
 
-    getItem("Manage products", "manage-products", <TeamOutlined />, [
-      getItem("Manage productDetails", "manage-productDetails", <TeamOutlined />),
+    getItem("Quản lý sản phẩm", "manage-products", <TeamOutlined />, [
+      getItem("Quản lý chi tiết sản phẩm", "manage-productDetails", <TeamOutlined />),
     ]),
 
     {
       key: "logout",
       icon: <LogoutOutlined />,
-      label: <div onClick={handleLogout}><span>Logout</span></div>,
+      label: <div onClick={handleLogout}><span>Đăng xuất</span></div>,
     },
   ];
   const {

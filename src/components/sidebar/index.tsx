@@ -37,6 +37,14 @@ const Sidebar: React.FC = () => {
       >
         Change Password
       </Menu.Item>
+      <Menu.Item
+        key="/ggmap"
+        icon={<LockOutlined />}
+        onClick={() => navigate("/my-account/ggmap")}
+        style={{ marginLeft: 6 }}
+      >
+        Google Map
+      </Menu.Item>
       {role !== 'Doctor' && (
         <>
           <Menu.Item

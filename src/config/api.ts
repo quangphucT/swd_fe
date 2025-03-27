@@ -23,3 +23,4 @@ api.interceptors.request.use(function (config) {
   return Promise.reject(error);
 });
 export default api;
+  export const GOOGLE_MAPS_API_KEY = "AlzaSyogxx_23O6-3-aOd9ZLmR_5xXAkQh8j8Gi"

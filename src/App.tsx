@@ -55,6 +55,16 @@ import ManageStaffList from "./pages/manage-list-staff";
 import UpdateAccountProfle from "./pages/update-account-profile";
 import ManageRequestCancelOrder from "./pages/manage-requestCancelOrder";
 
+import BookingTakeCare from "./pages/booking-takecare";
+import ManagePackaging from "./pages/manage-packaging";
+import ManageAdvanceBooking from "./pages/manage-advance-booking";
+import ManageDetailsPackage from "./pages/manage-details-package";
+import ManageConfirmAdvanceBooking from "./pages/manage-confirm-advancedBooking";
+import CheckCompleteTreatmentSection from "./pages/check-complete-treatmentsession";
+import GoogleMap from "./components/ggmap";
+
+
+
 
 
 
@@ -103,6 +113,11 @@ const App = () => {
         },
 
         {
+          path: "/booking-takecare",
+          element: <BookingTakeCare />,
+        },
+
+        {
           path: "/blog-details/:id",
           element: <BlogDetails />,
         },
@@ -144,11 +159,15 @@ const App = () => {
               path: "transaction-payment",
               element: <WalletPage />,
             },
+            {
+              path: "ggmap",
+              element: <GoogleMap />,
+            },
           ],
         },
       ],
     },
-
+   
     {
       path: "/login",
       element: <Login />,
@@ -165,6 +184,11 @@ const App = () => {
           path: "brand-management",
           element: <ManageBrand />,
         },
+      
+        {
+          path: "manage-advance-booking",
+          element: <ManageAdvanceBooking />,
+        },
         // new
         {
           path: "update-account-profile",
@@ -177,6 +201,18 @@ const App = () => {
           element: <ManageRequestCancelOrder />,
         },
 
+         //new
+         {
+          path: "manage-detail-package",
+          element: <ManageDetailsPackage />,
+        },
+       
+        // create packaging
+        {
+          path: "manage-packaging",
+          element: <ManagePackaging />,
+        },
+
         // new 
         {
           path: "manage-list-doctor",
@@ -186,6 +222,17 @@ const App = () => {
         {
           path: "manage-list-staff",
           element: <ManageStaffList />
+        },
+
+        // new
+        {
+          path: "manage-advanceBookingConfirmed",
+          element: <ManageConfirmAdvanceBooking />
+        },
+        // new
+        {
+          path: "check-complete-treatmentSession",
+          element: <CheckCompleteTreatmentSection />
         },
         {
           path: "blog-management",
@@ -228,7 +275,7 @@ const App = () => {
           element: <DashboardStatistic />,
         },
         {
-          path: "manage-packaging",
+          path: "manage-packaging-product",
           element: <PackagingManage />,
         },
         {
