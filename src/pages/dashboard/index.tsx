@@ -83,7 +83,8 @@ const Dashboard = () => {
     ]),
     getItem("Cuộc hẹn đang chờ xử lý", "manage-pending-appointment", <TbBrandBooking size={30} />,
       [
-        getItem("Cuộc hẹn đã được duyệt", "manage-confirmed-appointment", <TbBrandBooking size={30} />)
+        getItem("Cuộc hẹn đã được duyệt", "manage-confirmed-appointment", <TbBrandBooking size={30} />),
+        getItem("Check-in tư vấn", "manage-check-in-tuvan", <TbBrandBooking size={30} />)
       ]
     ),
     getItem("Quản lý mã giảm giá", "manage-discount", <MdDiscount size={30} />, [

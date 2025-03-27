@@ -35,7 +35,7 @@ const ManageDoctor = () => {
             <div className="manage-doctor-container">
                 <Card className="manage-doctor-card">
                     <Title level={2} className="title">
-                        <UserAddOutlined /> Tạo Tài Khoản Chuyên Viên ( MANAGER, STAFF)
+                        <UserAddOutlined /> Tạo Tài Khoản Chuyên Viên, Bác sĩ ( MANAGER, STAFF)
                     </Title>
                     <Form form={form} layout="vertical" onFinish={onFinish}>
                         <Row gutter={16}>
