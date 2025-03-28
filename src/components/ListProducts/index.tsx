@@ -74,6 +74,20 @@ const ListProducts = () => {
       toast.error(error.response.data.mesage);
     }
   };
+    const fetchImages = async () => {
+        try {
+            const response = await api.get(`Images?pageNumber=1&pageSize=376`);
+            const imagesMap = {};
+            response.data.items.forEach((item) => {
+                if (!imagesMap[item.productId]) {
+                    imagesMap[item.productId] = item.imageUrl;
+                }
+            });
+            setImages(imagesMap);
+        } catch (error) {
+            toast.error("Error while fetching data!!");
+        }
+    };
 
   useEffect(() => {
     fetchingData();
