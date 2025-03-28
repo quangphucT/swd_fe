@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { GOOGLE_MAPS_API_KEY } from "../../config/api";
 
-interface DirectionsLeg {
+interface DirectionsLeg {// Mô tả một chặng đường (leg) trong tuyến đường.
   distance: { text: string; value: number };
   duration: { text: string; value: number };
   end_location: { lat: number; lng: number };
@@ -16,7 +16,7 @@ interface DirectionsLeg {
   }>;
 }
 
-interface DirectionsRoute {
+interface DirectionsRoute {//Mô tả một tuyến đường đầy đủ.
   bounds: {
     northeast: { lat: number; lng: number };
     southwest: { lat: number; lng: number };
@@ -49,6 +49,7 @@ const GoogleMap: React.FC = () => {
   const markersRef = useRef<google.maps.Marker[]>([]);
   const polylineRef = useRef<google.maps.Polyline | null>(null);
   const destination = "Truong+Dai+Hoc+FPT+TP+HCM,Thu+Duc,Ho+Chi+Minh,Vietnam";
+  const destination1 = "Trường Đại Học FPT TP.HCM,Thủ Đức,Hồ Chíí Minh, Vietnam";
   const watchIdRef = useRef<number | null>(null);
   const [currentAddress, setCurrentAddress] = useState<string>("");
   const [searchAddress, setSearchAddress] = useState<string>("");
@@ -162,8 +163,19 @@ const GoogleMap: React.FC = () => {
       }
 
       const text = await response.text();
-      const fixedText = text.replace(/\bOK\s*$/, 'OK"}');
-      const data: DirectionsResponse = JSON.parse(fixedText);
+      let data: DirectionsResponse;
+
+      try {
+        // First try parsing the response as is
+        data = JSON.parse(text);
+      } catch (parseError) {
+        // If that fails, try to fix common JSON issues
+        const fixedText = text
+          .replace(/\bOK\s*$/, 'OK"}') // Fix missing closing brace
+          .replace(/,\s*}/g, "}") // Remove trailing commas
+          .replace(/,\s*]/g, "]"); // Remove trailing commas in arrays
+        data = JSON.parse(fixedText);
+      }
 
       if (data.status === "OK" && data.routes?.[0]) {
         const route = data.routes[0];
@@ -339,7 +351,7 @@ const GoogleMap: React.FC = () => {
         />
       </div>
       <p>Vị trí hiện tại: {currentAddress}</p>
-      <p>Điểm đến: {destination}</p>
+      <p>Điểm đến: {destination1}</p>
       {routeInfo && (
         <div
           style={{
