@@ -57,7 +57,7 @@ const ShoppingPage = () => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await api.get("Images");
+        const response = await api.get(`Images?pageNumber=1&pageSize=376`);
         const imagesMap = {};
         response.data.items.forEach((item) => {
           if (!imagesMap[item.productId]) {

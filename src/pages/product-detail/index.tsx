@@ -52,7 +52,7 @@ const ProductDetail = () => {
           const response = await api.get(`reviews/product/${id}`)
           setReviews(response.data.data)
         } catch (error) {
-          toast.error("Error while fetching data")
+          console.log("error while fetching review")
         }
       } else {
         notification.warning({
