@@ -48,6 +48,18 @@ const Sidebar: React.FC = () => {
               <span style={{ marginLeft: "6px" }}>Đơn hàng của bạn</span>
             </div>
           </Menu.Item>
+            
+
+
+          <Menu.Item
+          icon={<LockOutlined/>}
+            key="/ggmap"
+            onClick={() => navigate("/my-account/ggmap")}
+          >
+            Google Map
+          </Menu.Item>
+
+
           <Menu.Item
             key="/history-deposite"
             onClick={() => navigate("/my-account/history-deposite")}

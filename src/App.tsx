@@ -64,6 +64,7 @@ import CheckCompleteTreatmentSection from "./pages/check-complete-treatmentsessi
 import ManageRoom from "./pages/manage-room";
 import ManageCheckInRoom from "./pages/check-in-room";
 import CheckInTuVan from "./pages/check-in-tu-van";
+import GoogleMap from "./components/gg-map";
 
 
 
@@ -144,6 +145,12 @@ const App = () => {
             {
               path: "profile",
               element: <Profile />,
+            },
+
+            // gg map 
+            {
+              path: 'ggmap',
+              element: <GoogleMap/>
             },
             {
               path: "change-password",

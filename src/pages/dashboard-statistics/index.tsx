@@ -10,6 +10,7 @@ const { RangePicker } = DatePicker;
 
 const DashboardStatistic = () => {
   const [totalCustomer, setTotalCustomer] = useState(0);
+  const [countUserByRole, setCountUserByRole] = useState({})
   const [totalDoctor, setTotalDoctor] = useState(0);
   const [totalStaff, setTotalStaff] = useState(0);
   const [bookingStats, setBookingStats] = useState([]);
@@ -44,11 +45,21 @@ const DashboardStatistic = () => {
       toast.error(error.response?.data?.message || "Error fetching profit data");
     }
   };
-  
+
   useEffect(() => {
     fetchProfit();
   }, []);
-  
+  const fetchCountUserByRole = async() => {
+    try {
+      const response = await api.get("Accounts/GetUserCountsByRoles")
+      setCountUserByRole(response.data)
+    } catch (error) {
+      toast.error(error.response.data.message)
+    }
+  }
+  useEffect(() =>{
+    fetchCountUserByRole();
+  },[])
   const fetchAllCustomer = async () => {
     try {
       const response = await api.get("Accounts/getAllCustomer");
@@ -75,8 +86,8 @@ const DashboardStatistic = () => {
       toast.error("Error fetching staff");
     }
   };
-  
-    
+
+
 
 
   const fetchBookingStats = async () => {
@@ -115,7 +126,7 @@ const DashboardStatistic = () => {
             <UserOutlined className="icon" />
             <div>
               <h3>Total Customer</h3>
-              <p>{totalCustomer}</p>
+              <p>{countUserByRole.totalCustomer}</p>
             </div>
           </Card>
         </Col>
@@ -124,7 +135,7 @@ const DashboardStatistic = () => {
             <UserOutlined className="icon" />
             <div>
               <h3>Total Doctor</h3>
-              <p>{totalDoctor}</p>
+              <p>{countUserByRole.totalDoctor}</p>
             </div>
           </Card>
         </Col>
@@ -133,7 +144,7 @@ const DashboardStatistic = () => {
             <UserOutlined className="icon" />
             <div>
               <h3>Total Staff</h3>
-              <p>{totalStaff}</p>
+              <p>{countUserByRole.totalStaff}</p>
             </div>
           </Card>
         </Col>
@@ -193,10 +204,10 @@ const DashboardStatistic = () => {
 
         <Col span={12}>
 
-          <Card style={{margin: '20px 0'}} title="Order revenue" className="chart-card">
+          <Card style={{ margin: '20px 0' }} title="Order revenue" className="chart-card">
 
             <ResponsiveContainer width="100%" height={300}>
-              
+
               <BarChart data={profitOrder}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
